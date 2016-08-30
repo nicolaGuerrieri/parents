@@ -57,26 +57,36 @@ router.get('/leggi', function(req, res) {
 		console.log("entro" + pic_id);
 
 		var listaImmagini;
-		gfs.files.find({
-			_id : pic_id
-		}).toArray(function(err, files) {
-			if (err) {
-				res.json(err);
-			}
-			if (files) {
-				for (i = 0; i < files.length; i++) {
-					console.log("ia" + files[i]._id);
-				}
-				var mime = 'image/jpeg';
-				res.set('Content-Type', mime);
-				var read_stream = gfs.createReadStream({
-					filename : pic_id
-				});
-				read_stream.pipe(res);
-			} else {
-				res.json('File Not Found');
-			}
+		
+		
+		gfs.files.find({ filename: 'keep-calm-and-java-lang-exception.png' }).toArray(function (err, files) {
+
+		if(files.length===0){
+			return res.status(400).send({
+				message: 'File not found'
+			});
+		}
+
+		//res.writeHead(200, {'Content-Type': files[0].contentType});
+		res.writeHead(200, {'Content-Type': 'image/png'});
+		console.log(files[0].contentType)
+		var readstream = gfs.createReadStream({
+			  filename: files[0].filename
 		});
+
+		readstream.on('data', function(chunk) {
+			res.write(chunk);
+		});
+
+		readstream.on('end', function() {
+			res.end();        
+		});
+
+		readstream.on('error', function (err) {
+		  console.log('An error occurred!', err);
+		  throw err;
+		});
+	  });
 	} catch (err) {
 		console.log(err);
 	}
