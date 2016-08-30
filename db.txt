@@ -1,0 +1,47 @@
+db.test.luogo_evento;
+
+1 primo test
+db.luogo_evento.insert (
+   {
+      "id": 2,
+      "nazione" : "italia",
+      "provincia" : "bologna",
+      "citta" : "bologna",
+      "via" : "zanotti 3",
+	  "cap": 40126,
+	  "orario": "7:30 - 21:30",
+      "nome": "giardini lunetta gamberini", 
+      "descrizione" :"Il parco è molto grande bla bla bello bla bla",
+      "punto_risotro" : "", 
+      "attrezzature": "Sbarre, scivoli, cazz",
+      "longitudine" : 11.37386289999995,
+      "latitudine" : 44.4792261,
+      "momentaneo" : false,
+      "temporaneo" : true,
+      "valido_da" : ISODate("2014-10-01T00:00:00Z"),
+      "valido_a" : ISODate("2014-10-01T00:00:00Z"),
+      "foto": null
+   }
+)
+db.luogo_evento.insert (
+   {
+      "id": 2,
+      "nazione" : "italia",
+      "provincia" : "bologna",
+      "citta" : "bologna",
+      "via" : "piazza porta santo stefano",
+	  "cap": 40138,
+	  "orario": "7:30 - 21:30",
+      "nome": "giardini margherita", 
+      "descrizione" :"Il parco è molto grande bla bla bello bla bla",
+      "punto_risotro" : "Si due bar", 
+      "attrezzature": "Sbarre, scivoli, cazz",
+      "longitudine" : 11.37386289999995,
+      "latitudine" : 44.4792261,
+      "momentaneo" : false,
+      "temporaneo" : true,
+      "valido_da" : ISODate("2014-10-01T00:00:00Z"),
+      "valido_a" : ISODate("2014-10-01T00:00:00Z"),
+      "foto": null
+   }
+)
