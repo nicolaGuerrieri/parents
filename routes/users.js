@@ -23,22 +23,21 @@ var Grid = require('gridfs-stream');
 Grid.mongo = mongoose.mongo;
 
 var gfs = Grid(conn.db);
-
-router.post('/upload', upload.single('immagine'), function(req, res) {
+var testNameFile = "";
+router.post('/upload', upload.single('file'), function(req, res) {
 	try {
-
-		console.log(req.file);
-
+		console.log(req.body);
 		var dirname = require('path').dirname(__dirname);
 		var filename = req.file.originalname;
 		var path = req.file.path;
 		var type = req.file.mimetype;
-
+		
 		var read_stream = fs.createReadStream(dirname + '/' + path);
-
+		
 		var writestream = gfs.createWriteStream({
 			filename : filename
 		});
+		testNameFile = filename;
 		read_stream.pipe(writestream);
 		writestream.on('close', function(file) {
 			id = file._id;
@@ -50,16 +49,16 @@ router.post('/upload', upload.single('immagine'), function(req, res) {
 	}
 });
 
+
 router.get('/leggi', function(req, res) {
 	try {
-		console.log("entro");
-		var pic_id = '57a0af85738141f018d1249d';
-		console.log("entro" + pic_id);
+		
+		console.log("entro" + testNameFile);
 
 		var listaImmagini;
 		
 		
-		gfs.files.find({ filename: 'keep-calm-and-java-lang-exception.png' }).toArray(function (err, files) {
+		gfs.files.find({ filename: testNameFile}).toArray(function (err, files) {
 
 		if(files.length===0){
 			return res.status(400).send({

@@ -18,9 +18,9 @@ app.use(bodyParser.urlencoded({
 	extended : false
 }));
 
-app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', routes);
 app.use('/users', users);
+app.use(express.static(__dirname + '/public'));
 
 app.use(function(req, res, next) {
 	var err = new Error('Not Found');

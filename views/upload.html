@@ -1,11 +1,164 @@
-<html>
-<body>
+<html ng-app="helpParents">
+<head>
 
+<title>Help Parents</title>
+<meta charset="utf-8">
+<meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
+<meta content="width=device-width,initial-scale=1,maximum-scale=1"
+	name="viewport">
+
+<meta name="author" content="Nicola Guerrieri">
+<meta name="description"
+	content="Guerrieri Nicola Sito personale di Nicola Guerrieri heroku java node.js programmatore bologna">
+<meta name="keywords" content=" Nicola Guerrieri">
+
+
+<meta HTTP-EQUIV="CONTENT-LANGUAGE" CONTENT="Italian">
+
+<script src="../bower_components/jquery.min.js"></script>
+
+<link href="../css/jquery-ui.min.css" rel="stylesheet">
+<link href="../css/bootstrap.css" rel="stylesheet">
+<link href="../css/style.css" rel="stylesheet">
+
+<link rel="stylesheet"
+	href="../fonts/font-awesome-4.6.3/css/font-awesome.min.css">
+
+<script types="text/javascript"
+	src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script
+	src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+ <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script
+	src="https://maps.googleapis.com/maps/api/js?&key=AIzaSyATlH8FPWYGZEORYiLPoOSvtgrOzF8-690&libraries=places" />
+<script src="../js/bootstrap.min.js">
+	
+</script>
+<script src="../js/util.js"></script>
+<script src="../js/HomeController.js"></script>
+<script src="../bower_components/angular-translate/angular-translate.js"></script>
+
+
+<style type="text/css">
+input.ng-valid {
+    background-color: lightblue;
+}
+</style>
+
+
+<script type="text/javascript">
+	$(document).ready(
+			function() {
+				$('#file').change(function() {
+					$('#nameFile').text($('#file').val());
+				});
+				
+				$( "#datepickerDa" ).datepicker({
+					format: 'dd.mm.yyyy',
+				    language: 'ru',
+				    autoclose: true,
+				    todayHighlight: true,
+				    orientation: "bottom auto"
+				});
+				$( "#datepickerA" ).datepicker({
+					format: 'dd.mm.yyyy',
+				    language: 'ru',
+				    autoclose: true,
+				    todayHighlight: true,
+				    orientation: "bottom auto"
+				});
+				var placeSearch, autocomplete;
+
+				autocomplete = new google.maps.places.Autocomplete((document
+						.getElementById('autocomplete')), {
+					types : [ 'geocode' ]
+				});
+				
+				
+				autocomplete.addListener('citta', fillInAddress);
+			});
+</script>
+</head>
+
+<body ng-controller="luogoCtrl" ng-init="cercaLuogo('Roma')">
+
+	<div class="contentPreFooter">
+
+		<nav class="navbar navbar-inverse coloreGradiente">
+			<div class="container-fluid">
+				<div class="navbar-header">
+					<a class="navbar-brand" href="/">WebSiteName</a>
+				</div>
+				<ul class="nav navbar-nav navbar-right">
+					<li><a href="#"><span class="glyphicon glyphicon-log-in"></span>
+							Login</a></li>
+				</ul>
+			</div>
+		</nav>
+		<div id="map_container"></div>
+		<br />
+		<div class="row text-center">
+			<div class="col-sm-2"></div>
+			<div class="col-sm-8">
+			<form name="myForm">
+			
+				<div class="input-group">
+					<input type="text" placeholder="{{'place' | translate }}"
+						id="autocomplete" ng-model="luogo.cercaPostoNew" ng-required="true"
+						class="form-control" name="citta" my-enter="cercaLuogo()"/> <span
+						class="input-group-btn">
+						<button type="button" ng-click="cercaLuogo()"
+							class="btn btn-info btn-secondary">{{ 'cerca' |
+							translate }}</button>
+					</span>
+				</div>
+				<br /> <input type="text" placeholder="{{'nome' | translate }}" ng-required="true"
+					ng-model="luogo.nome" name="uName" class="form-control" /><br />
+					
+				<div ng-show="myForm.uName.$error.required" class="errorMessage">
+			      <div ng-show="myForm.uName.$error.required">Inserire nome</div>
+			    </div>
+				<textarea style="resize: none;" type="text" placeholder="{{'descrizione' | translate }}"
+					ng-model="luogo.descrizione" class="form-control"></textarea>
+				<br />
+				<div class="row text-center">
+					<div class="col-sm-3" >
+						<input type="text" placeholder="{{'orario' | translate }}" ng-required="true" ng-required="true"
+						ng-model="luogo.orari" class="form-control" /> 
+					</div>
+					<div class="col-sm-3" >
+						<input type="text" ng-disabled="luogo.fisso" placeholder="{{'dal' | translate }}" ng-required="true"
+						ng-model="luogo.dal" class="form-control" id="datepickerDa"/>
+					</div>
+					<div class="col-sm-3" >
+						<input type="text" ng-disabled="luogo.fisso" id="datepickerA" placeholder="{{'al' | translate }}" ng-required="true"
+						ng-model="luogo.al" class="form-control" />
+					</div>
+					<div class="col-sm-3">
+						<label for="fisso">{{'fisso' | translate }}</label>
+						<input type="checkbox" id="fisso" ng-model="luogo.fisso" class="" />
+					</div>
+				</div>
+				<br />
+				<input type="text" placeholder="{{'ristoro' | translate }}" ng-required="true"
+					ng-model="luogo.ristoro" class="form-control" /><br />
+				<input type="text" placeholder="{{'attrezzature' | translate }}" ng-required="true"
+					ng-model="luogo.attrezzatura" class="form-control" /><br />
+				 <br />
+				<label class="btn btn-default btn-file">
+				    Browse <input  type="file" id="file" file-model="luogo.file" ng-model="bo" style="display: none" /><br />
+				</label><br/>
+			     <span id="nameFile"></span><br/>
+				<button type="button" ng-click="myForm.$valid && salva()"
+					class="btn btn-info">{{ 'salva' | translate }}</button>
+			</form>
+			</div>
+			<div class="col-sm-2"></div>
+
+		</div>
+	</div>
+	<br />
+	<br />
+	<div ng-include="'pagineSoloClient/footer.html'"></div>
 </body>
-
-
-<form id="uploadForm" enctype="multipart/form-data" action="/users/upload" method="post">
-	<input type="file" name="immagine" /> 
-	<input type="submit" value="Upload Image" name="submit">
-</form>
 </html>

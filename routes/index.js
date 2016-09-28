@@ -44,7 +44,7 @@ router.get('/getListaForCity', function(req, res) {
 	if (req.query.citta) {
 		// ce la citta dobbiamo cercare du db
 		city = req.query.citta;
-		console.log(city);
+		console.log("getListaForCity >>> " +city);
 	}else{
 		console.log("Na " + city);
 	}
