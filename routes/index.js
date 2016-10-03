@@ -44,7 +44,7 @@ router.get('/getListaForCity', function(req, res) {
 	if (req.query.citta) {
 		// ce la citta dobbiamo cercare du db
 		city = req.query.citta;
-		console.log("getListaForCity >>> " +city);
+		console.log("getListaForCity >>>" +city+ "<<<");
 	}else{
 		console.log("Na " + city);
 	}
@@ -54,7 +54,7 @@ router.get('/getListaForCity', function(req, res) {
 	});
 	var lista = [];
 	db.collection("luogo_evento").find({
-		'citta': city.toLowerCase()
+		$or: [ { "citta": city.toLowerCase() }, { "citta": city } ]
 	}, function(err, docs) {
 		
 		if (err) {

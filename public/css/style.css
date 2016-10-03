@@ -145,3 +145,25 @@ input.radio:checked ~ label {
 		padding-left: 60px;
 	}
 }
+
+input.ng-valid {
+	
+}
+
+input.ng-invalid {
+}
+
+.errore {
+	border: 1px solid red;
+	color: red;
+	font-weight: bold;
+	border-radius: 25px;
+	width: 200px;
+}
+.erroreLittle {
+	border: 1px solid red;
+	color: red;
+	font-weight: bold;
+	border-radius: 25px;
+	width: 150px;
+}

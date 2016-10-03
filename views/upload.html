@@ -31,19 +31,11 @@
  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <script
 	src="https://maps.googleapis.com/maps/api/js?&key=AIzaSyATlH8FPWYGZEORYiLPoOSvtgrOzF8-690&libraries=places" />
-<script src="../js/bootstrap.min.js">
-	
-</script>
+<script src="../js/bootstrap.min.js"> </script>
 <script src="../js/util.js"></script>
 <script src="../js/HomeController.js"></script>
 <script src="../bower_components/angular-translate/angular-translate.js"></script>
 
-
-<style type="text/css">
-input.ng-valid {
-    background-color: lightblue;
-}
-</style>
 
 
 <script type="text/javascript">
@@ -100,7 +92,7 @@ input.ng-valid {
 		<div class="row text-center">
 			<div class="col-sm-2"></div>
 			<div class="col-sm-8">
-			<form name="myForm">
+			<form name="myForm" ng-submit="salva()" novalidate>
 			
 				<div class="input-group">
 					<input type="text" placeholder="{{'place' | translate }}"
@@ -112,27 +104,45 @@ input.ng-valid {
 							translate }}</button>
 					</span>
 				</div>
-				<br /> <input type="text" placeholder="{{'nome' | translate }}" ng-required="true"
-					ng-model="luogo.nome" name="uName" class="form-control" /><br />
-					
-				<div ng-show="myForm.uName.$error.required" class="errorMessage">
-			      <div ng-show="myForm.uName.$error.required">Inserire nome</div>
+				<div ng-show="submitted  && myForm.citta.$invalid" class="errore" >
+			      <div ng-show="myForm.citta.$invalid">{{'errorCitta' | translate }}</div>
 			    </div>
-				<textarea style="resize: none;" type="text" placeholder="{{'descrizione' | translate }}"
-					ng-model="luogo.descrizione" class="form-control"></textarea>
+				<br /> <input type="text" placeholder="{{'nome' | translate }}"   ng-required="true"
+					ng-model="luogo.nome" name="uName" class="form-control" />
+					
+				<div ng-show="submitted  && myForm.uName.$invalid" class="errore" >
+			      <div ng-show="myForm.uName.$invalid">{{'errorNome' | translate }}</div>
+			    </div>
+			    <br />
+				<textarea style="resize: none;" type="text" placeholder="{{'descrizione' | translate }}"    ng-required="true"  
+					ng-model="luogo.descrizione" class="form-control" name="desc"></textarea>
+				<div ng-show="submitted  && myForm.desc.$invalid" class="errore" >
+			      <div ng-show="myForm.desc.$invalid">{{'errorDesc' | translate }}</div>
+			    </div>
 				<br />
 				<div class="row text-center">
 					<div class="col-sm-3" >
-						<input type="text" placeholder="{{'orario' | translate }}" ng-required="true" ng-required="true"
-						ng-model="luogo.orari" class="form-control" /> 
+						<input type="text" placeholder="{{'orario' | translate }}" ng-required="true"
+						ng-model="luogo.orari" class="form-control"  name="orario"/> 
+						<div ng-show="submitted  && myForm.orario.$invalid" class="erroreLittle" >
+					      <div ng-show="myForm.orario.$invalid">{{'errorOrario' | translate }}</div>
+					    </div>
 					</div>
 					<div class="col-sm-3" >
-						<input type="text" ng-disabled="luogo.fisso" placeholder="{{'dal' | translate }}" ng-required="true"
+						<input type="text" ng-disabled="luogo.fisso" placeholder="{{'dal' | translate }}" 
+						 ng-required="!luogo.fisso"  name="datepickerDa"
 						ng-model="luogo.dal" class="form-control" id="datepickerDa"/>
+						<div ng-show="submitted  && myForm.datepickerDa.$invalid" class="erroreLittle" >
+					      <div ng-show="myForm.datepickerDa.$invalid">{{'errorDal' | translate }}</div>
+					    </div>
 					</div>
 					<div class="col-sm-3" >
-						<input type="text" ng-disabled="luogo.fisso" id="datepickerA" placeholder="{{'al' | translate }}" ng-required="true"
+						<input type="text" ng-disabled="luogo.fisso" id="datepickerA" placeholder="{{'al' | translate }}" 
+						  ng-required="!luogo.fisso"  name="datepickerA"
 						ng-model="luogo.al" class="form-control" />
+						<div ng-show="submitted  && myForm.datepickerA.$invalid" class="erroreLittle" >
+					      <div ng-show="myForm.datepickerA.$invalid">{{'errorAl' | translate }}</div>
+					    </div>
 					</div>
 					<div class="col-sm-3">
 						<label for="fisso">{{'fisso' | translate }}</label>
@@ -140,16 +150,22 @@ input.ng-valid {
 					</div>
 				</div>
 				<br />
-				<input type="text" placeholder="{{'ristoro' | translate }}" ng-required="true"
-					ng-model="luogo.ristoro" class="form-control" /><br />
-				<input type="text" placeholder="{{'attrezzature' | translate }}" ng-required="true"
+				<input type="text" placeholder="{{'ristoro' | translate }}"  name="ristoro"  ng-required="true"
+					ng-model="luogo.ristoro" class="form-control" />
+				<div ng-show="submitted  && myForm.ristoro.$invalid" class="errore" >
+			      <div ng-show="myForm.ristoro.$invalid">{{'errorRistoro' | translate }}</div>
+			    </div><br />
+				<input type="text" placeholder="{{'attrezzature' | translate }}"   name="attrezzature"  ng-required="true"
 					ng-model="luogo.attrezzatura" class="form-control" /><br />
-				 <br />
+				<div ng-show="submitted  && myForm.attrezzature.$invalid" class="errore" >
+					      <div ng-show="myForm.attrezzature.$invalid">{{'errorAttrezzatura' | translate }}</div>
+			    </div>
+				<br />
 				<label class="btn btn-default btn-file">
 				    Browse <input  type="file" id="file" file-model="luogo.file" ng-model="bo" style="display: none" /><br />
 				</label><br/>
 			     <span id="nameFile"></span><br/>
-				<button type="button" ng-click="myForm.$valid && salva()"
+				<button type="submit"
 					class="btn btn-info">{{ 'salva' | translate }}</button>
 			</form>
 			</div>
@@ -157,7 +173,6 @@ input.ng-valid {
 
 		</div>
 	</div>
-	<br />
 	<br />
 	<div ng-include="'pagineSoloClient/footer.html'"></div>
 </body>

@@ -28,33 +28,26 @@
 			            }
 			        });
 			    };
-			}).directive('valida', function() {
-	    	  return {
-	    	    require: 'ngModel',
-	    	    link: function(scope, element, attr, mCtrl) {
-	    	      function myValidation(value) {
-	    	        if (value.indexOf("e") > -1) {
-	    	          mCtrl.$setValidity('charE', true);
-	    	        } else {
-	    	          mCtrl.$setValidity('charE', false);
-	    	        }
-	    	        return value;
-	    	      }
-	    	      mCtrl.$parsers.push(myValidation);
-	    	    }
-	    	  };
 			}).service('multipartForm', ['$http', function($http) {
 				this.post = function(uploadUrl, data){
 					var formData = new FormData();
-					console.log(data);
 					for(var key in data){
-						console.log(key);
+						
+						console.log(data);
+						if(key == "luogoCercato"){
+							for(var key in data.luogoCercato){
+								//non usando application/json per l'immagine
+								//snocciolo l'oggetto
+								formData.append(key, data.luogoCercato[key]);
+								console.log(data.luogoCercato[key])
+							}
+						}
 						formData.append(key, data[key]);
 					}
-//					$http.post(uploadUrl, formData, {
-//						transformRequest: angular.indentity,
-//						headers: {'Content-Type': undefined}
-//					});
+					$http.post(uploadUrl, formData, {
+						transformRequest: angular.indentity,
+						headers: {'Content-Type': undefined}
+					});
 				}
 
 			}]).config(function($translateProvider) {
@@ -68,11 +61,19 @@
 					temporanei : "Temporanei",
 					inserisci: "Inserisci nuovo luogo d'interesse",
 					orario: "Orario",
-					ristoro: "Punto ristoro es. bar, pizzeria",
-					attrezzature: "Attrezzature  es. giochi, scivoli",
+					ristoro: "Punto ristoro es. bar, pizzeria, nessuno",
+					attrezzature: "Attrezzature  es. giochi, scivoli, nessuna",
 					dal: "dal",
 					al: "al",
 					fisso: "Fisso",
+					errorNome: "Inserire nome",
+					errorDesc: "Inserire descrizione",
+					errorCitta: "Inserire citta'",
+					errorOrario: "Inserire orario",
+					errorDal: "Inserire data da",
+					errorAl: "Inserire data a",
+					errorAttrezzatura: "Inserire attrezzature",
+					errorRistoro: "Inserire punto ristoro",
 					salva: "Salva"
 
 				}).translations('en', {
@@ -90,6 +91,14 @@
 					dal:"from",
 					al:"to",
 					fisso: "Stable",
+					errorNome: "Insert name",
+					errorCitta: "Insert city'",
+					errorDesc: "Insert description",
+					errorOrario: "Insert time",
+					errorDal: "Insert date from",
+					errorAl: "Insert date at",
+					errorAttrezzatura: "Insert equipments",
+					errorRistoro: "Insert snack areas",
 					salva:"Save"
 				});
 				$translateProvider.preferredLanguage('it');
@@ -229,21 +238,20 @@
 												
 												var i;
 												$.getJSON('/getListaForCity?citta='+ $scope.result.luogoCercato.localita, function(data) {
-													$scope.result.listaLuoghi = data.listaLuoghi;
+													$scope.result.luogoCercato.listaLuoghi = data.listaLuoghi;
 													$scope.$apply()
 													if ($scope.result.luogoCercato.listaLuoghi) {
-														console.log("size " + $scope.result.listaLuoghi.length);
-														for (i = 0; i < $scope.result.listaLuoghi.length; i++) {
+														for (i = 0; i < $scope.result.luogoCercato.listaLuoghi.length; i++) {
 															var position = {
-																lat : $scope.result.listaLuoghi[i].latitudine,
-																lng : $scope.result.listaLuoghi[i].longitudine
+																lat : $scope.result.luogoCercato.listaLuoghi[i].latitudine,
+																lng : $scope.result.luogoCercato.listaLuoghi[i].longitudine
 															};
 															marker.push(new google.maps.Marker(
 															{
 																position : position,
 																map : map,
 																animation : google.maps.Animation.DROP,
-																title : $scope.result.listaLuoghi[i].nome
+																title : $scope.result.luogoCercato.listaLuoghi[i].nome
 															}));
 														}
 													}
@@ -274,6 +282,11 @@
 							$scope.lingua = langKey;
 						};
 						$scope.salva = function() {
+						 if (!$scope.myForm.$valid  && false) {
+							console.log("rotto");
+						    $scope.submitted = true;
+						    return;
+						  }
 							var uploadUrl = "/users/upload";
 							multipartForm.post(uploadUrl, $scope.luogo)
 						};
