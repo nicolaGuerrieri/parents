@@ -64,7 +64,7 @@ router.get('/getListaForCity', function(req, res) {
 		docs.each(function(err, doc) {
 			if (doc) {
 				lista.push(doc);
-				console.log(doc.citta);
+				console.log(doc);
 			} else {
 				var json = JSON.stringify({
 					listaLuoghi : lista

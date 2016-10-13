@@ -32,17 +32,16 @@
 				this.post = function(uploadUrl, data){
 					var formData = new FormData();
 					for(var key in data){
-						
-						console.log(data);
 						if(key == "luogoCercato"){
 							for(var key in data.luogoCercato){
 								//non usando application/json per l'immagine
 								//snocciolo l'oggetto
 								formData.append(key, data.luogoCercato[key]);
-								console.log(data.luogoCercato[key])
 							}
 						}
-						formData.append(key, data[key]);
+						if(key != "lat"){
+							formData.append(key, data[key]);
+						}
 					}
 					$http.post(uploadUrl, formData, {
 						transformRequest: angular.indentity,
@@ -155,7 +154,6 @@
 
 													locations.push(markerIs);
 
-													console.log(locations.length);
 													var divResult = $('<div class=\"col-lg-12\"></div> ');
 													$('#datiResult').append(divResult);
 													var stampa = "";
@@ -232,7 +230,6 @@
 												$scope.luogo.luogoCercato= localitaFind;
 											}else{
 												$scope.result.luogoCercato = localitaFind;
-											
 												$scope.result.luogoCercato.listaLuoghi = [];
 	
 												
@@ -242,9 +239,12 @@
 													$scope.$apply()
 													if ($scope.result.luogoCercato.listaLuoghi) {
 														for (i = 0; i < $scope.result.luogoCercato.listaLuoghi.length; i++) {
+															var latiParse = parseFloat($scope.result.luogoCercato.listaLuoghi[i].latitudine);
+															var longitudineParse = parseFloat($scope.result.luogoCercato.listaLuoghi[i].longitudine);
+															
 															var position = {
-																lat : $scope.result.luogoCercato.listaLuoghi[i].latitudine,
-																lng : $scope.result.luogoCercato.listaLuoghi[i].longitudine
+																lat : latiParse,
+																lng : longitudineParse
 															};
 															marker.push(new google.maps.Marker(
 															{

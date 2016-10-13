@@ -99,11 +99,13 @@
 						style="border: 1px solid #0fb8ad; border-radius: 10px; padding: 5px; width: 96%; margin: 5px; margin-left: 10px"
 						class="row">
 						<div class="col-sm-3" style="">
-							<img src="images/cinquetedrre.jpg" class="img-circle"
+							<img ng-show="{{poste.foto != null}}" src="/users/leggi/{{poste.foto}}" class="img-circle"
+								style="width: 60px; height: 60px;" alt="logo">
+							<img ng-show="{{!poste.foto}}" src="images/logo.png" class="img-circle"
 								style="width: 60px; height: 60px;" alt="logo">
 						</div>
 						<div class="col-sm-6" style="">
-							{{poste.nome}} {{poste.via}} {{poste.citta}} <br />
+							{{poste.foto}} {{poste.nome}} {{poste.via}} {{poste.citta}} <br />
 							{{poste.descrizione}}
 						</div>
 						<div class="col-sm-2" style="">
