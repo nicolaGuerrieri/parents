@@ -24,17 +24,22 @@ router.get('/cerca', function(req, res) {
 	res.render('index.html', {});
 });
 
-router.post('/cerca', function(req, res, next) {
+router.all('/cerca', function(req, res, next) {
 	var city = "";
+	var tipoLuogoEvento = "";
+	console.log();
 	if (req.body.citta) {
-		// cela citta dobbiamo cercare du db
+		// citta dobbiamo cercare du db
 		city = req.body.citta;
+		tipoLuogoEvento =req.body.tipoLuogoEvento;
 	} else {
 		// passiamo un default
 		city = "Roma";
+		 tipoLuogoEvento = 3;
 	}
 	res.render('index.html', {
-		citta : city
+		citta : city,
+		tipoLuogoEvento: tipoLuogoEvento
 	});
 });
 

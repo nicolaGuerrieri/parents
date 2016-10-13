@@ -40,6 +40,7 @@
 
 <script type="text/javascript">
 	var cittaMia = '<%= citta %>';
+	var tipoLuogoEvento = '<%= tipoLuogoEvento %>';
 
 	$(document).ready(
 			function() {
@@ -78,11 +79,11 @@
 					id="autocomplete" ng-model="result.cercaPostoNew" class="form-control"
 					name="citta" value="<%= citta %>" my-enter="getLuogoMap()" /><br />
 				<div class="text-center">
-					<input type="radio" name="tipoLuogoEvento" id="mobili" value="2" />
+					<input type="radio" ng-model="result.tipo"  name="tipoLuogoEvento" id="mobili" value="2" />
 					<label for="mobili">{{ 'temporanei' | translate }}</label> <br />
-					<input type="radio" name="tipoLuogoEvento" id="fissi" value="1" />
+					<input type="radio" ng-model="result.tipo" name="tipoLuogoEvento" id="fissi" value="1" />
 					<label for="fissi">{{ 'fissi' | translate }}</label> <br /> <input
-						type="radio" name="tipoLuogoEvento" id="tutti" value="3"
+						type="radio" name="tipoLuogoEvento" id="tutti" value="3" ng-model="result.tipo"
 						checked="checked" /> <label for="tutti">{{ 'tutti' |
 						translate }}</label> <br /> <br />
 
@@ -107,6 +108,8 @@
 						<div class="col-sm-6" style="">
 							{{poste.foto}} {{poste.nome}} {{poste.via}} {{poste.citta}} <br />
 							{{poste.descrizione}}
+							{{poste.punto_ristoro }}
+							{{poste.attrezzature }}
 						</div>
 						<div class="col-sm-2" style="">
 							<!-- 							icone -->

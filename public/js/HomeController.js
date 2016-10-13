@@ -121,14 +121,14 @@
 							$scope.result.cercaPostoNew  = $('#autocomplete').val();
 
 							//$scope.result.cercaPostoNew = address;
-							cercami.cerca($scope, $window, $scope.result.cercaPostoNew, false);
+							cercami.cerca($scope, $window, $scope.result.cercaPostoNew, false, $scope.result.tipo);
 						};
 						
 						$scope.lingua = $translate.use();
 					}]).factory('cercami', function() {
 						 var factory = {};
-						factory.cerca = function($scope, $window, address, nuovo) {
-
+						factory.cerca = function($scope, $window, address, nuovo, tipo) {
+							console.log(tipo);
 							if (address == null) {
 								address = $window.cittaMia;
 
@@ -288,7 +288,8 @@
 						    return;
 						  }
 							var uploadUrl = "/users/upload";
-							multipartForm.post(uploadUrl, $scope.luogo)
+							multipartForm.post(uploadUrl, $scope.luogo);
+							$scope.luogo = {};
 						};
 						$scope.cercaLuogo = function(address) {
 							if(address){
@@ -296,7 +297,7 @@
 							}else{
 								$scope.luogo.cercaPostoNew  = $('#autocomplete').val();
 							}
-							cercami.cerca($scope, $window, $scope.luogo.cercaPostoNew, true);
+							cercami.cerca($scope, $window, $scope.luogo.cercaPostoNew, true, null);
 						};
 						$scope.lingua = $translate.use();
 					}]);

@@ -64,7 +64,7 @@ router.post('/upload', upload.single('file'), function(req, res) {
 			"orario" : nuovoEvento.orari,
 			"nome" : nuovoEvento.nome,
 			"descrizione" : nuovoEvento.descrizione,
-			"punto_risotro" : nuovoEvento.risotro,
+			"punto_risotro" : nuovoEvento.ristoro,
 			"attrezzature" : nuovoEvento.attrezzatura,
 			"longitudine" : nuovoEvento.longi,
 			"latitudine" : nuovoEvento.lat,
