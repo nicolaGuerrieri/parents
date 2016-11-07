@@ -3,19 +3,56 @@ var router = express.Router();
 var mongoose = require('mongoose');
 var fs = require('fs');
 var multer = require('multer')
+var passport = require('passport');
+var Grid = require('gridfs-stream');
+var passport = require('passport');
+
+
 var upload = multer({
 	dest : 'uploads/'
 })
 var Schema = mongoose.Schema;
-
 mongoose.connect('mongodb://127.0.0.1/test');
 var conn = mongoose.connection;
-var Grid = require('gridfs-stream');
 Grid.mongo = mongoose.mongo;
 
-router.all('/', function(req, res) {
-	res.render('upload.html', {});
+//router.all('/', passport.authenticate('facebook', {
+//	failureRedirect : '/'
+//}), function(req, res) {
+//	var logged = req.param.logged;
+//	var utente = req.param.utente;
+//	res.render('upload.html', {
+//		aut : logged,
+//		utente : utente
+//	});
+//});
+router.all('/logout', function(req, res) {
+	req.session.destroy();
+	 res.redirect('/');
 });
+
+
+router.all('/', function(req, res) {
+	if (!req.isAuthenticated()) {
+		res.redirect('/');
+	}else{
+		res.render('upload.html', {});
+	}
+});
+
+	
+router.all('/loggated', function(req, res, next) {
+	var logged = false;
+	if (req.isAuthenticated()) {
+		logged = true;
+	}
+	var json = JSON.stringify({
+		loggato : logged
+	});
+	res.end(json);
+});
+
+
 var id;
 
 var Grid = require('gridfs-stream');
@@ -71,6 +108,7 @@ router.post('/upload', upload.single('file'), function(req, res) {
 			"momentaneo" : momentaneo,
 			"valido_da" : nuovoEvento.dal,
 			"valido_a" : nuovoEvento.al,
+			"utente" : req.user,
 			"foto" : nomeImmagine
 		}, function(err, result) {
 			console.log(err);
@@ -106,7 +144,7 @@ router.post('/upload', upload.single('file'), function(req, res) {
 router.get('/leggi/:nome', function(req, res) {
 	try {
 
-		var nomeFile= req.params.nome;
+		var nomeFile = req.params.nome;
 		console.log("entro" + nomeFile);
 		var listaImmagini;
 
@@ -124,7 +162,7 @@ router.get('/leggi/:nome', function(req, res) {
 			res.writeHead(200, {
 				'Content-Type' : 'image/png'
 			});
-//			console.log(files[0].contentType)
+			// console.log(files[0].contentType)
 			var readstream = gfs.createReadStream({
 				filename : files[0].filename
 			});

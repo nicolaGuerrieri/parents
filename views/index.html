@@ -15,7 +15,7 @@
 
 <meta HTTP-EQUIV="CONTENT-LANGUAGE" CONTENT="Italian">
 
-<script src="bower_components/jquery.min.js"></script>
+<!-- <script src="bower_components/jquery.min.js"></script> -->
 
 <link href="css/bootstrap.css" rel="stylesheet">
 <link href="css/style.css" rel="stylesheet">
@@ -52,6 +52,10 @@
 				});
 				autocomplete.addListener('citta', fillInAddress);
 			});
+	function apri(){
+		$("#myModal").modal('show');
+		$(".modell").modal('show');
+	}
 </script>
 </head>
 
@@ -65,12 +69,12 @@
 					<a class="navbar-brand" href="/">WebSiteName</a>
 				</div>
 				<ul class="nav navbar-nav navbar-right">
-					<li><a href="#"><span class="glyphicon glyphicon-log-in"></span>
+					<li><a href="/login"><span class="glyphicon glyphicon-log-in"></span>
+<!-- 					<li><a onclick="apri()"><span class="glyphicon glyphicon-log-in"></span> -->
 							Login</a></li>
 				</ul>
 			</div>
 		</nav>
-		
 <!-- 		MAPPA -->
 		<div id="map_container"></div>
 		<div style="width: 100%;">
@@ -100,13 +104,17 @@
 						style="border: 1px solid #0fb8ad; border-radius: 10px; padding: 5px; width: 96%; margin: 5px; margin-left: 10px"
 						class="row">
 						<div class="col-sm-3" style="">
-							<img ng-show="{{poste.foto != null}}" src="/users/leggi/{{poste.foto}}" class="img-circle"
-								style="width: 60px; height: 60px;" alt="logo">
-							<img ng-show="{{!poste.foto}}" src="images/logo.png" class="img-circle"
-								style="width: 60px; height: 60px;" alt="logo">
+							<div ng-if="poste.foto != null">
+								<img  src="/users/leggi/{{poste.foto}}" class="img-circle"
+									style="width: 60px; height: 60px;" alt="logo">
+							</div>
+							<div ng-if="poste.foto == null">
+								<img ng-show="{{!poste.foto}}" src="images/logo.png" class="img-circle"
+									style="width: 60px; height: 60px;" alt="logo">
+							</div>
 						</div>
 						<div class="col-sm-6" style="">
-							{{poste.foto}} {{poste.nome}} {{poste.via}} {{poste.citta}} <br />
+							 {{poste.nome}} {{poste.via}} {{poste.citta}} <br />
 							{{poste.descrizione}}
 							{{poste.punto_ristoro }}
 							{{poste.attrezzature }}

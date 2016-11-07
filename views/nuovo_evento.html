@@ -41,7 +41,10 @@
 <script type="text/javascript">
 	var cittaMia = '<%= citta %>';
 
+
 	$(document).ready(
+			
+			console.log('<%= citta %>');
 			function() {
 				var placeSearch, autocomplete;
 
@@ -64,6 +67,6 @@
 				value="Upload Image" name="submit">
 		</form>
 	</div>
-	<div ng-include="'pagineSoloClient/footer.html'"></div>
+	<div ng-include="'../pagineSoloClient/footer.html'"></div>
 </body>
 </html>

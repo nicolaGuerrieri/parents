@@ -104,8 +104,8 @@
 				$translateProvider.useSanitizeValueStrategy('escape');
 
 			}).controller(
-					'genericCtrl', ['$scope', '$window', '$translate', 'multipartForm', 'cercami',
-					function($scope, $window, $translate, multipartForm, cercami) {
+					'genericCtrl', ['$scope', '$window', '$translate', '$http', 'multipartForm', 'cercami',
+					function($scope, $window, $translate, $http, multipartForm, cercami) {
 						$scope.result = {};
 						$scope.changeLanguage = function(langKey) {
 							$translate.use(langKey);
@@ -291,6 +291,7 @@
 							multipartForm.post(uploadUrl, $scope.luogo);
 							$scope.luogo = {};
 						};
+
 						$scope.cercaLuogo = function(address) {
 							if(address){
 								$scope.luogo.cercaPostoNew  = address;
@@ -299,6 +300,16 @@
 							}
 							cercami.cerca($scope, $window, $scope.luogo.cercaPostoNew, true, null);
 						};
+						$scope.verificaLogin = function() {
+							$.getJSON('/users/loggated', function(data) {
+								console.log(data);
+								$scope.loggato = data;
+							});
+						};
+						$scope.inizia = function(address){
+							$scope.cercaLuogo(address);
+							$scope.verificaLogin();
+						}
 						$scope.lingua = $translate.use();
 					}]);
 

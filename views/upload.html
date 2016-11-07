@@ -72,7 +72,7 @@
 </script>
 </head>
 
-<body ng-controller="luogoCtrl" ng-init="cercaLuogo('Roma')">
+<body ng-controller="luogoCtrl" ng-init="inizia('Roma')">
 
 	<div class="contentPreFooter">
 
@@ -82,8 +82,10 @@
 					<a class="navbar-brand" href="/">WebSiteName</a>
 				</div>
 				<ul class="nav navbar-nav navbar-right">
-					<li><a href="#"><span class="glyphicon glyphicon-log-in"></span>
+					<li ng-show="!loggato.loggato"><a href="#"><span class="glyphicon glyphicon-log-in"></span>
 							Login</a></li>
+					<li ng-show="loggato.loggato"><a href="/users/logout"><span class="glyphicon glyphicon-log-in"></span>
+							Logout</a></li>
 				</ul>
 			</div>
 		</nav>
@@ -173,7 +175,6 @@
 
 		</div>
 	</div>
-	<br />
-	<div ng-include="'pagineSoloClient/footer.html'"></div>
+	<div ng-include="'../pagineSoloClient/footer.html'"></div>
 </body>
 </html>
