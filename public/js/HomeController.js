@@ -115,17 +115,6 @@
 							$translate.use(langKey);
 							$scope.lingua = langKey;
 						};
-						$scope.getLuogoById =  function(idLuogo) {
-							if(!idLuogo){
-								alert("id luogo non presente");
-								return;
-							}
-							$.getJSON('/getLuogoById?idLuogo='+ idLuogo, function(data) {
-								$scope.luogoInserito = data;
-								$scope.$apply();
-								cercami.cerca($scope, $window, $scope.luogoInserito.luogo.nome, true, null);
-							});
-						};
 						$scope.getLuogoMap=  function(address) {
 							if(address){
 								$scope.result.cercaPostoNew  = address;
@@ -151,7 +140,7 @@
 							var stampa = "";
 							var cercaComune = false;
 							var locations = [];
-
+							$scope.luogo = {};
 							// pulisco oggetto a ogni ricerca
 							localitaFind = {}
 							$.getJSON('https://maps.googleapis.com/maps/api/geocode/json?address=' + address + '&key=AIzaSyATlH8FPWYGZEORYiLPoOSvtgrOzF8-690',
@@ -303,7 +292,17 @@
 							multipartForm.post(uploadUrl, $scope.luogo);
 							$scope.luogo = {};
 						};
-
+						$scope.getLuogoById =  function(idLuogo) {
+							if(!idLuogo){
+								alert("id luogo non presente");
+								return;
+							}
+							$.getJSON('/getLuogoById?idLuogo='+ idLuogo, function(data) {
+								$scope.luogoInserito = data;
+								$scope.$apply();
+								cercami.cerca($scope, $window, $scope.luogoInserito.luogo.ricerca, true, null);
+							});
+						};
 						$scope.cercaLuogo = function(address) {
 							console.log(address);
 							if(address){
