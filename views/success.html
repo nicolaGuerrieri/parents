@@ -1,0 +1,117 @@
+<html ng-app="helpParents">
+<head>
+
+<title>Help Parents</title>
+<meta charset="utf-8">
+<meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
+<meta content="width=device-width,initial-scale=1,maximum-scale=1"
+	name="viewport">
+
+<meta name="author" content="Nicola Guerrieri">
+<meta name="description"
+	content="Guerrieri Nicola Sito personale di Nicola Guerrieri heroku java node.js programmatore bologna">
+<meta name="keywords" content=" Nicola Guerrieri">
+
+
+<meta HTTP-EQUIV="CONTENT-LANGUAGE" CONTENT="Italian">
+
+<script src="../bower_components/jquery.min.js"></script>
+
+<link href="../css/jquery-ui.min.css" rel="stylesheet">
+<link href="../css/bootstrap.css" rel="stylesheet">
+<link href="../css/style.css" rel="stylesheet">
+
+<link rel="stylesheet"
+	href="../fonts/font-awesome-4.6.3/css/font-awesome.min.css">
+
+<script types="text/javascript"
+	src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script
+	src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+ <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script
+	src="https://maps.googleapis.com/maps/api/js?&key=AIzaSyATlH8FPWYGZEORYiLPoOSvtgrOzF8-690&libraries=places" />
+<script src="../js/bootstrap.min.js"> </script>
+<script src="../js/util.js"></script>
+<script src="../js/HomeController.js"></script>
+<script src="../bower_components/angular-translate/angular-translate.js"></script>
+
+
+<script type="text/javascript">
+		var idLuogo = '<%= idLuogo %>';
+		alert(idLuogo)
+</script>
+</head>
+
+<body ng-controller="genericCtrl"  ng-init="getLuogoById('<%= idLuogo %>')">
+
+	<div class="contentPreFooter">
+
+		<nav class="navbar navbar-inverse coloreGradiente">
+			<div class="container-fluid">
+				<div class="navbar-header">
+					<a class="navbar-brand" href="/">WebSiteName</a>
+				</div>
+				<ul class="nav navbar-nav navbar-right">
+					<li ng-show="!loggato.loggato"><a href="#"><span class="glyphicon glyphicon-log-in"></span>
+							Login</a></li>
+					<li ng-show="loggato.loggato"><a href="/users/logout"><span class="glyphicon glyphicon-log-in"></span>
+							Logout</a></li>
+				</ul>
+			</div>
+		</nav>
+		
+		<div id="map_container"></div>
+		<br />
+		<div class="row text-center">
+			<div class="col-sm-2"></div>
+			<div class="col-sm-8">
+			<form name="myForm" novalidate>
+					<input type="text" placeholder="{{'place' | translate }}"
+						 ng-model="luogoInserito.luogo.ricerca" id="autocomplete" 
+						class="form-control" name="citta"/> <br />
+					<input type="text" placeholder="{{'place' | translate }}"
+						 ng-model="luogoInserito.luogo.citta"
+						class="form-control" name="citta"/> 
+				<br /> <input type="text" placeholder="{{'nome' | translate }}"   
+					ng-model="luogoInserito.luogo.nome" name="uName" class="form-control" />
+			    <br />
+				<textarea style="resize: none;" type="text" placeholder="{{'descrizione' | translate }}"      
+					ng-model="luogoInserito.luogo.descrizione" class="form-control" name="desc"></textarea>
+				<br />
+				<div class="row text-center">
+					<div class="col-sm-3" >
+						<input type="text" placeholder="{{'orario' | translate }}" 
+						ng-model="luogoInserito.luogo.orari" class="form-control"  name="orario"/> 
+					</div>
+					<div class="col-sm-3" >
+						<input type="text" ng-disabled="luogoInserito.luogo.fisso" placeholder="{{'dal' | translate }}" 
+						 ng-required="!luogoInserito.luogo.fisso"  name="datepickerDa"
+						ng-model="luogoInserito.luogo.dal" class="form-control" id="datepickerDa"/>
+					</div>
+					<div class="col-sm-3" >
+						<input type="text" ng-disabled="luogoInserito.luogo.fisso" id="datepickerA" placeholder="{{'al' | translate }}" 
+						  ng-required="!luogoInserito.luogo.fisso"  name="datepickerA"
+						ng-model="luogoInserito.luogo.al" class="form-control" />
+					</div>
+					<div class="col-sm-3">
+						<label for="fisso">{{'fisso' | translate }}</label>
+						<input type="checkbox" id="fisso" ng-model="luogoInserito.luogo.fisso" class="" />
+					</div>
+				</div>
+				<br />
+				<input type="text" placeholder="{{'ristoro' | translate }}"  name="ristoro"  
+					ng-model="luogoInserito.luogo.ristoro" class="form-control" />
+				<input type="text" placeholder="{{'attrezzature' | translate }}"   name="attrezzature"  
+					ng-model="luogoInserito.luogo.attrezzatura" class="form-control" /><br />
+			</form>
+			</div>
+			<div class="col-sm-2"></div>
+
+		</div>
+	</div>
+	<div ng-include="'../pagineSoloClient/footer.html'"></div>
+</body>
+</body>
+
+</html>

@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-var MongoClient = require('mongodb').MongoClient;
+var mongo = require('mongodb');
 var assert = require('assert');
 var url = require('url');
 var passport = require('passport');
@@ -11,14 +11,18 @@ var db;
 router.use(passport.initialize());
 router.use(passport.session());
 
-MongoClient.connect(url, function(err, data) {
+mongo.MongoClient.connect(url, function(err, data) {
 	if (err)
 		throw err;
 	db = data;
 });
 
 router.all('/login', function(req, res) {
-	res.render('login.html', {});
+	if (!req.isAuthenticated()) {
+		res.render('login.html', {});
+	} else {
+		res.redirect('/users');
+	}
 });
 
 /* GET home page. */
@@ -31,7 +35,7 @@ router.get('/auth/google/login', passport.authenticate('google', {
 router.get('/successo', passport.authenticate('facebook', {
 	failureRedirect : '/'
 }), function(req, res) {
-	
+
 	if (req.isAuthenticated()) {
 		req.param.logged = true;
 		req.param.utente = req.user;
@@ -99,11 +103,47 @@ router.all('/cerca', function(req, res, next) {
 	});
 });
 
+router.get('/getLuogoById', function(req, res) {
+	try {
+		console.log("/getLuogoById");
+	
+	var idLuogo;
+	if (req.query.idLuogo) {
+		idLuogo = req.query.idLuogo;
+		console.log("getLuogoById >>>" + idLuogo + "<<<");
+	} else {
+		console.log("Na " + city);
+	}
+	
+	var o_id = new mongo.ObjectID(idLuogo);
+	console.log(o_id);
+	
+	db.collection("luogo_evento").findOne({
+		_id : o_id
+	},
+	function(err, docs) {
+		if (err) {
+			console.log("ERRORE >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>")
+			res.end(null);
+			console.log("ERRORE >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>")
+			}
+			console.log(docs);
+			console.log(docs);
+			var json = JSON.stringify({
+				luogo : docs
+			});
+			res.end(json);
+		});
+	} catch (err) {
+		console.log()
+}
+});
+
 router.get('/getListaForCity', function(req, res) {
 
 	var city = "";
 	if (req.query.citta) {
-		// ce la citta dobbiamo cercare du db
+		// dobbiamo cercare du db
 		city = req.query.citta;
 		console.log("getListaForCity >>>" + city + "<<<");
 	} else {

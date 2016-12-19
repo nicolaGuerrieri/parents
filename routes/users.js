@@ -16,23 +16,24 @@ mongoose.connect('mongodb://127.0.0.1/test');
 var conn = mongoose.connection;
 Grid.mongo = mongoose.mongo;
 
-//router.all('/', passport.authenticate('facebook', {
-//	failureRedirect : '/'
-//}), function(req, res) {
-//	var logged = req.param.logged;
-//	var utente = req.param.utente;
-//	res.render('upload.html', {
-//		aut : logged,
-//		utente : utente
-//	});
-//});
+// router.all('/', passport.authenticate('facebook', {
+// failureRedirect : '/'
+// }), function(req, res) {
+// var logged = req.param.logged;
+// var utente = req.param.utente;
+// res.render('upload.html', {
+// aut : logged,
+// utente : utente
+// });
+// });
 router.all('/logout', function(req, res) {
 	req.session.destroy();
-	 res.redirect('/');
+	res.redirect('/');
 });
 
 
 router.all('/', function(req, res) {
+	console.log("/ " + req.isAuthenticated());
 	if (!req.isAuthenticated()) {
 		res.redirect('/');
 	}else{
@@ -72,27 +73,33 @@ var testNameFile = "";
  ******************************************************************************/
 
 router.post('/upload', upload.single('file'), function(req, res) {
+	console.log("/upload");
+
 	try {
 
+		
 		var fileImmagine = req.file;
-
-		conn.db.collection('luogo_evento').count(function(err, count) {
-			console.dir(count);
-		});
-
+		var nomeImmagine;
 		var nuovoEvento = req.body;
-		console.log(nuovoEvento);
-
 		var momentaneo = true;
+
+//		conn.db.collection('luogo_evento').count(function(err, count) {
+//			console.dir(count);
+//		});
+		console.log(nuovoEvento);
+console.log("<<<<<<<<<<<<<<<<<<<<<<<");
 		if (nuovoEvento.fisso == 'true') {
 			momentaneo = false;
 		}
-		var nomeImmagine;
 		if (fileImmagine) {
 			nomeImmagine = fileImmagine.originalname;
 		}
-
-		conn.db.collection('luogo_evento').insertOne({
+		if(nuovoEvento.localita == undefined){
+			console.log("problema localita");
+			return;
+		}
+		var luogoEvento = {
+			"ricerca" : nuovoEvento.cercaPostoNew,
 			"nazione" : nuovoEvento.nazione,
 			"provincia" : nuovoEvento.provincia,
 			"citta" : nuovoEvento.localita.toLowerCase(),
@@ -110,38 +117,64 @@ router.post('/upload', upload.single('file'), function(req, res) {
 			"valido_a" : nuovoEvento.al,
 			"utente" : req.user,
 			"foto" : nomeImmagine
-		}, function(err, result) {
-			console.log(err);
-			console.log(result);
-
+		}
+		console.log(luogoEvento);
+		conn.db.collection('luogo_evento').insertOne(luogoEvento, function(err, result) {
+			if(err){
+				console.log("err " + err);
+				res.redirect("/");
+			}
+//			var ogget =  luogoEvento.get( "_id" );
+			console.log("result >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
+			console.log(luogoEvento._id);
 		});
+		if(req.file){
+			console.log("presente immagine");
 
-		var dirname = require('path').dirname(__dirname);
-		var filename = req.file.originalname;
-		var path = req.file.path;
-		var type = req.file.mimetype;
-
-		var read_stream = fs.createReadStream(dirname + '/' + path);
-
-		var writestream = gfs.createWriteStream({
-			filename : filename
-		});
-		testNameFile = filename;
-		read_stream.pipe(writestream);
-		writestream.on('close', function(file) {
-			id = file._id;
-			console.log(file._id + 'Written To DB');
-		});
-		res.end();
+			var dirname = require('path').dirname(__dirname);
+			var filename = "";
+			filename = req.file.originalname;
+		
+			var path = req.file.path;
+			var type = req.file.mimetype;
+	
+			var read_stream = fs.createReadStream(dirname + '/' + path);
+	
+			var writestream = gfs.createWriteStream({
+				filename : filename
+			});
+			testNameFile = filename;
+			read_stream.pipe(writestream);
+			writestream.on('close', function(file) {
+				id = file._id;
+				console.log(file._id + 'Written To DB');
+			});
+		}
+		 res.end(""+luogoEvento._id);
 
 	} catch (err) {
-		console.log(err);
+		console.log("errore >>> " + err);
+		throw err;
 	}
-
-	res.end();
 });
 
+router.get('/success', function(req, res) {
+	var idLuogo;
+	console.log(req.isAuthenticated());
+	if(!req.isAuthenticated()){
+		res.redirect("/");
+	}
+	if (req.query.id_luogo) {
+		console.log("id_luogo >> " + req.query.id_luogo);
+	}
+	res.render('success.html', {
+		idLuogo: req.query.id_luogo
+	});
+});
+
+
 router.get('/leggi/:nome', function(req, res) {
+	console.log("/leggi/:nome");
 	try {
 
 		var nomeFile = req.params.nome;

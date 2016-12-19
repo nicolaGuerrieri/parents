@@ -28,7 +28,7 @@
 			            }
 			        });
 			    };
-			}).service('multipartForm', ['$http', function($http) {
+			}).service('multipartForm', ['$http','$window', function($http, $window) {
 				this.post = function(uploadUrl, data){
 					var formData = new FormData();
 					for(var key in data){
@@ -46,6 +46,8 @@
 					$http.post(uploadUrl, formData, {
 						transformRequest: angular.indentity,
 						headers: {'Content-Type': undefined}
+					}).success(function (data) {
+						$window.location.href = '/users/success?id_luogo='+ data;
 					});
 				}
 
@@ -73,8 +75,8 @@
 					errorAl: "Inserire data a",
 					errorAttrezzatura: "Inserire attrezzature",
 					errorRistoro: "Inserire punto ristoro",
-					salva: "Salva"
-
+					salva: "Salva",
+					grazie: "Grazie per il tuo contributo, altri utenti lo troveranno utilissimo"
 				}).translations('en', {
 					cerca : 'Search',
 					place : 'Place',
@@ -98,7 +100,9 @@
 					errorAl: "Insert date at",
 					errorAttrezzatura: "Insert equipments",
 					errorRistoro: "Insert snack areas",
-					salva:"Save"
+					salva:"Save",
+					grazie: "Thank you for your contribution, others will find it useful users"
+
 				});
 				$translateProvider.preferredLanguage('it');
 				$translateProvider.useSanitizeValueStrategy('escape');
@@ -111,8 +115,18 @@
 							$translate.use(langKey);
 							$scope.lingua = langKey;
 						};
+						$scope.getLuogoById =  function(idLuogo) {
+							if(!idLuogo){
+								alert("id luogo non presente");
+								return;
+							}
+							$.getJSON('/getLuogoById?idLuogo='+ idLuogo, function(data) {
+								$scope.luogoInserito = data;
+								$scope.$apply();
+								cercami.cerca($scope, $window, $scope.luogoInserito.luogo.nome, true, null);
+							});
+						};
 						$scope.getLuogoMap=  function(address) {
-							
 							if(address){
 								$scope.result.cercaPostoNew  = address;
 							}else{
@@ -128,7 +142,7 @@
 					}]).factory('cercami', function() {
 						 var factory = {};
 						factory.cerca = function($scope, $window, address, nuovo, tipo) {
-							console.log(tipo);
+							console.log(address);
 							if (address == null) {
 								address = $window.cittaMia;
 
@@ -140,9 +154,7 @@
 
 							// pulisco oggetto a ogni ricerca
 							localitaFind = {}
-							$.getJSON('https://maps.googleapis.com/maps/api/geocode/json?address='
-											+ address
-											+ '&key=AIzaSyATlH8FPWYGZEORYiLPoOSvtgrOzF8-690',
+							$.getJSON('https://maps.googleapis.com/maps/api/geocode/json?address=' + address + '&key=AIzaSyATlH8FPWYGZEORYiLPoOSvtgrOzF8-690',
 									function(data) {
 										if (data.status == 'OK') {
 											$('#datiResult').html("");
@@ -236,7 +248,7 @@
 												var i;
 												$.getJSON('/getListaForCity?citta='+ $scope.result.luogoCercato.localita, function(data) {
 													$scope.result.luogoCercato.listaLuoghi = data.listaLuoghi;
-													$scope.$apply()
+													$scope.$apply(); 
 													if ($scope.result.luogoCercato.listaLuoghi) {
 														for (i = 0; i < $scope.result.luogoCercato.listaLuoghi.length; i++) {
 															var latiParse = parseFloat($scope.result.luogoCercato.listaLuoghi[i].latitudine);
@@ -293,11 +305,14 @@
 						};
 
 						$scope.cercaLuogo = function(address) {
+							console.log(address);
 							if(address){
 								$scope.luogo.cercaPostoNew  = address;
 							}else{
 								$scope.luogo.cercaPostoNew  = $('#autocomplete').val();
 							}
+							console.log($scope.luogo.cercaPostoNew);
+
 							cercami.cerca($scope, $window, $scope.luogo.cercaPostoNew, true, null);
 						};
 						$scope.verificaLogin = function() {

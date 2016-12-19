@@ -56,8 +56,19 @@
 
 <body ng-controller="genericCtrl">
 	<form action="/cerca" method="post">
-
-		<div class="contentPreFooter">
+		<nav class="navbar navbar-inverse coloreGradiente">
+			<div class="container-fluid">
+				<div class="navbar-header">
+					<a class="navbar-brand" href="/">WebSiteName</a>
+				</div>
+				<ul class="nav navbar-nav navbar-right">
+					<li><a href="/login"><span class="glyphicon glyphicon-log-in"></span>
+<!-- 					<li><a onclick="apri()"><span class="glyphicon glyphicon-log-in"></span> -->
+							Login</a></li>
+				</ul>
+			</div>
+		</nav>
+		<div class="contentPreFooter" style="min-height: 91%;">
 			<div style="height: 33px;"></div>
 			<div class="row text-center">
 				<img src="images/cinquetedrre.jpg" class="img-circle logoImg"
