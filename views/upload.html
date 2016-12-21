@@ -97,8 +97,10 @@
 		<div class="row text-center">
 			<div class="col-sm-2"></div>
 			<div class="col-sm-8">
-			<form name="myForm" ng-submit="salva()" novalidate>
-			
+			<form name="myForm" ng-submit="salva()" novalidate style="height: auto">
+			<div>
+				<h2>{{'inserisci' | translate }}</h2>
+		<br />
 				<div class="input-group">
 					<input type="text" placeholder="{{'place' | translate }}"
 						id="autocomplete" ng-model="luogo.cercaPostoNew" ng-required="true"
@@ -126,8 +128,19 @@
 			    </div>
 				<br />
 				<div class="row text-center">
+					<div class="col-sm-3">
+						<div class="text-left">
+							<label for="fisso">{{'fisso' | translate }}</label>
+							<input type="checkbox" id="fisso" ng-model="luogo.fisso" class="" />
+						</div>
+						<div class="text-left">
+							<label for="aperto">{{'aperto' | translate }}</label>
+							<input type="checkbox" id="aperto" ng-model="luogo.aperto" class="" />
+						</div>
+					</div>
 					<div class="col-sm-3" >
-						<input type="text" placeholder="{{'orario' | translate }}" ng-required="true"
+						<input type="text" placeholder="{{'orario' | translate }}" 
+						ng-disabled="luogo.aperto" ng-required="!luogo.aperto"
 						ng-model="luogo.orari" class="form-control"  name="orario"/> 
 						<div ng-show="submitted  && myForm.orario.$invalid" class="erroreLittle" >
 					      <div ng-show="myForm.orario.$invalid">{{'errorOrario' | translate }}</div>
@@ -149,10 +162,6 @@
 					      <div ng-show="myForm.datepickerA.$invalid">{{'errorAl' | translate }}</div>
 					    </div>
 					</div>
-					<div class="col-sm-3">
-						<label for="fisso">{{'fisso' | translate }}</label>
-						<input type="checkbox" id="fisso" ng-model="luogo.fisso" class="" />
-					</div>
 				</div>
 				<br />
 				<input type="text" placeholder="{{'ristoro' | translate }}"  name="ristoro"  ng-required="true"
@@ -172,6 +181,7 @@
 			     <span id="nameFile"></span><br/>
 				<button type="submit"
 					class="btn btn-info">{{ 'salva' | translate }}</button>
+			  </div>
 			</form>
 			</div>
 			<div class="col-sm-2"></div>

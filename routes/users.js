@@ -82,14 +82,16 @@ router.post('/upload', upload.single('file'), function(req, res) {
 		var nomeImmagine;
 		var nuovoEvento = req.body;
 		var momentaneo = true;
+		var sempreAperto = true;
 
 //		conn.db.collection('luogo_evento').count(function(err, count) {
 //			console.dir(count);
 //		});
-		console.log(nuovoEvento);
-console.log("<<<<<<<<<<<<<<<<<<<<<<<");
 		if (nuovoEvento.fisso == 'true') {
 			momentaneo = false;
+		}
+		if (nuovoEvento.aperto == 'true') {
+			sempreAperto = false;
 		}
 		if (fileImmagine) {
 			nomeImmagine = fileImmagine.originalname;
@@ -109,10 +111,11 @@ console.log("<<<<<<<<<<<<<<<<<<<<<<<");
 			"nome" : nuovoEvento.nome,
 			"descrizione" : nuovoEvento.descrizione,
 			"punto_risotro" : nuovoEvento.ristoro,
-			"attrezzature" : nuovoEvento.attrezzatura,
+			"attrezzature" : nuovoEvento.descrizione,
 			"longitudine" : nuovoEvento.longi,
 			"latitudine" : nuovoEvento.lat,
 			"momentaneo" : momentaneo,
+			"sempreAperto" : sempreAperto,
 			"valido_da" : nuovoEvento.dal,
 			"valido_a" : nuovoEvento.al,
 			"utente" : req.user,
@@ -167,7 +170,7 @@ router.get('/success', function(req, res) {
 	if (req.query.id_luogo) {
 		console.log("id_luogo >> " + req.query.id_luogo);
 	}
-	res.render('success.html', {
+	res.render('detail.html', {
 		idLuogo: req.query.id_luogo
 	});
 });

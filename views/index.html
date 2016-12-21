@@ -52,7 +52,7 @@
 				});
 				autocomplete.addListener('citta', fillInAddress);
 			});
-	function apri(){
+	function apri() {
 		$("#myModal").modal('show');
 		$(".modell").modal('show');
 	}
@@ -69,54 +69,58 @@
 					<a class="navbar-brand" href="/">WebSiteName</a>
 				</div>
 				<ul class="nav navbar-nav navbar-right">
-					<li><a href="/login"><span class="glyphicon glyphicon-log-in"></span>
-<!-- 					<li><a onclick="apri()"><span class="glyphicon glyphicon-log-in"></span> -->
+					<li><a href="/login"><span
+							class="glyphicon glyphicon-log-in"></span> <!-- 					<li><a onclick="apri()"><span class="glyphicon glyphicon-log-in"></span> -->
 							Login</a></li>
 				</ul>
 			</div>
 		</nav>
-<!-- 		MAPPA -->
+		<!-- 		MAPPA -->
 		<div id="map_container"></div>
 		<div style="width: 100%;">
 			<div class="col-sm-3" style="padding: 10px;">
 				<input type="text" placeholder="{{'place' | translate }}"
-					id="autocomplete" ng-model="result.cercaPostoNew" class="form-control"
-					name="citta" value="<%= citta %>" my-enter="getLuogoMap()" /><br />
+					id="autocomplete" ng-model="result.cercaPostoNew"
+					class="form-control" name="citta" value="<%= citta %>"
+					my-enter="getLuogoMap()" /><br />
 				<div class="text-center">
-					<input type="radio" ng-model="result.tipo"  name="tipoLuogoEvento" id="mobili" value="2" />
-					<label for="mobili">{{ 'temporanei' | translate }}</label> <br />
-					<input type="radio" ng-model="result.tipo" name="tipoLuogoEvento" id="fissi" value="1" />
+					<input type="radio" ng-model="result.tipo" name="tipoLuogoEvento"
+						id="mobili" value="2" /> <label for="mobili">{{
+						'temporanei' | translate }}</label> <br /> <input type="radio"
+						ng-model="result.tipo" name="tipoLuogoEvento" id="fissi" value="1" />
 					<label for="fissi">{{ 'fissi' | translate }}</label> <br /> <input
-						type="radio" name="tipoLuogoEvento" id="tutti" value="3" ng-model="result.tipo"
-						checked="checked" /> <label for="tutti">{{ 'tutti' |
-						translate }}</label> <br /> <br />
+						type="radio" name="tipoLuogoEvento" id="tutti" value="3"
+						ng-model="result.tipo" checked="checked" /> <label for="tutti">{{
+						'tutti' | translate }}</label> <br /> <br />
 
 					<!-- 					<button type="button" ng-click="getLuogoMap($('#autocomplete').val())" -->
-					<button type="button" ng-click="getLuogoMap()" 
-						class="btn btn-info">{{ 'cerca' | translate }}</button>
+					<button type="button" ng-click="getLuogoMap()" class="btn btn-info">{{
+						'cerca' | translate }}</button>
 				</div>
 			</div>
 			<div class="col-sm-9">
 				<div style="width: 100%; padding-top: 10px;">
-					<!-- 					//lista luoghi --> 
-					<div class="row text-center"  ng-show="!result.luogoCercato.listaLuoghi.length">Nessun luogo trovato</div>
+					<!-- 					//lista luoghi -->
+					<div class="row text-center"
+						ng-show="!result.luogoCercato.listaLuoghi.length">Nessun
+						luogo trovato</div>
 					<div ng-repeat="poste in result.luogoCercato.listaLuoghi"
 						style="border: 1px solid #0fb8ad; border-radius: 10px; padding: 5px; width: 96%; margin: 5px; margin-left: 10px"
 						class="row">
 						<div class="col-sm-3" style="">
 							<div ng-if="poste.foto != null">
-								<img  src="/users/leggi/{{poste.foto}}" class="img-circle"
+								<img src="/users/leggi/{{poste.foto}}" class="img-circle"
 									style="width: 60px; height: 60px;" alt="logo">
 							</div>
 							<div ng-if="poste.foto == null">
-								<img ng-show="{{!poste.foto}}" src="images/logo.png" class="img-circle"
-									style="width: 60px; height: 60px;" alt="logo">
+								<img ng-show="{{!poste.foto}}" src="images/logo.png"
+									class="img-circle" style="width: 60px; height: 60px;"
+									alt="logo">
 							</div>
 						</div>
 						<div class="col-sm-6" style="">
-							 {{poste.nome}} {{poste.via}} {{poste.citta}} <br />
-							{{poste.descrizione}}
-							{{poste.punto_ristoro }}
+							{{poste.nome}} {{poste.via}} {{poste.citta}} <br />
+							{{poste.descrizione}} {{poste.punto_ristoro }}
 							{{poste.attrezzature }}
 						</div>
 						<div class="col-sm-2" style="">

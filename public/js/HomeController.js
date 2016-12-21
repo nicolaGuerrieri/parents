@@ -31,6 +31,7 @@
 			}).service('multipartForm', ['$http','$window', function($http, $window) {
 				this.post = function(uploadUrl, data){
 					var formData = new FormData();
+					
 					for(var key in data){
 						if(key == "luogoCercato"){
 							for(var key in data.luogoCercato){
@@ -42,6 +43,9 @@
 						if(key != "lat"){
 							formData.append(key, data[key]);
 						}
+						
+						console.log(key);
+						console.log(data[key]);
 					}
 					$http.post(uploadUrl, formData, {
 						transformRequest: angular.indentity,
@@ -76,6 +80,8 @@
 					errorAttrezzatura: "Inserire attrezzature",
 					errorRistoro: "Inserire punto ristoro",
 					salva: "Salva",
+					aperto: "Sempre aperto",
+					inserisci: "Inserisci i dati le luogo d'interesse",
 					grazie: "Grazie per il tuo contributo, altri utenti lo troveranno utilissimo"
 				}).translations('en', {
 					cerca : 'Search',
@@ -101,6 +107,8 @@
 					errorAttrezzatura: "Insert equipments",
 					errorRistoro: "Insert snack areas",
 					salva:"Save",
+					aperto: "Ever open",
+					inserisci: "Insert the datas for the point of interest",
 					grazie: "Thank you for your contribution, others will find it useful users"
 
 				});
@@ -121,14 +129,13 @@
 							}else{
 								$scope.result.cercaPostoNew  = $('#autocomplete').val();
 							}
-							$scope.result.cercaPostoNew  = $('#autocomplete').val();
-
-							//$scope.result.cercaPostoNew = address;
 							cercami.cerca($scope, $window, $scope.result.cercaPostoNew, false, $scope.result.tipo);
 						};
 						
 						$scope.lingua = $translate.use();
 					}]).factory('cercami', function() {
+						console.log("HomeController.cercami");
+
 						 var factory = {};
 						factory.cerca = function($scope, $window, address, nuovo, tipo) {
 							console.log(address);
@@ -140,7 +147,10 @@
 							var stampa = "";
 							var cercaComune = false;
 							var locations = [];
-							$scope.luogo = {};
+
+							
+							//$scope.luogo = {};
+							
 							// pulisco oggetto a ogni ricerca
 							localitaFind = {}
 							$.getJSON('https://maps.googleapis.com/maps/api/geocode/json?address=' + address + '&key=AIzaSyATlH8FPWYGZEORYiLPoOSvtgrOzF8-690',
@@ -277,20 +287,27 @@
 						}
 						return factory;
 					}).controller( 'luogoCtrl', ['$scope', '$window', '$translate', 'multipartForm', 'cercami', function($scope, $window,  $translate, multipartForm, cercami) {
+						console.log("Controller istanziato: luogoCtrl");
 						$scope.luogo = {};
+						$scope.luogo.fisso = true;
+						$scope.luogo.aperto = true;
+
 						$scope.changeLanguage = function(langKey) {
 							$translate.use(langKey);
 							$scope.lingua = langKey;
 						};
 						$scope.salva = function() {
-						 if (!$scope.myForm.$valid  && false) {
-							console.log("rotto");
-						    $scope.submitted = true;
-						    return;
-						  }
-							var uploadUrl = "/users/upload";
-							multipartForm.post(uploadUrl, $scope.luogo);
-							$scope.luogo = {};
+							console.log("salva");
+							 if (!$scope.myForm.$valid  && false) {
+								console.log("rotto");
+							    $scope.submitted = true;
+							    return;
+							  }
+							 
+							 console.log($scope.luogo);
+								var uploadUrl = "/users/upload";
+								multipartForm.post(uploadUrl, $scope.luogo);
+								$scope.luogo = {};
 						};
 						$scope.getLuogoById =  function(idLuogo) {
 							if(!idLuogo){
@@ -304,6 +321,7 @@
 							});
 						};
 						$scope.cercaLuogo = function(address) {
+							console.log("HomeController.cercalLuogo");
 							console.log(address);
 							if(address){
 								$scope.luogo.cercaPostoNew  = address;
