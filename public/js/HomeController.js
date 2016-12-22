@@ -62,7 +62,7 @@
 					tutti : "Tutti",
 					fissi : "Fissi",
 					nome : "Nome",
-					descizione : "Descizione",
+					descizione : "Descizione es: sbarre, panche, gradoni... ecc.",
 					temporanei : "Temporanei",
 					inserisci: "Inserisci nuovo luogo d'interesse",
 					orario: "Orario",
@@ -81,7 +81,8 @@
 					errorRistoro: "Inserire punto ristoro",
 					salva: "Salva",
 					aperto: "Sempre aperto",
-					inserisci: "Inserisci i dati le luogo d'interesse",
+					inserisci: "Inserisci i dati del luogo d'interesse",
+					back: "Indietro",
 					grazie: "Grazie per il tuo contributo, altri utenti lo troveranno utilissimo"
 				}).translations('en', {
 					cerca : 'Search',
@@ -108,6 +109,7 @@
 					errorRistoro: "Insert snack areas",
 					salva:"Save",
 					aperto: "Ever open",
+					back: "Back",
 					inserisci: "Insert the datas for the point of interest",
 					grazie: "Thank you for your contribution, others will find it useful users"
 
@@ -119,6 +121,12 @@
 					'genericCtrl', ['$scope', '$window', '$translate', '$http', 'multipartForm', 'cercami',
 					function($scope, $window, $translate, $http, multipartForm, cercami) {
 						$scope.result = {};
+						$scope.dettaglio = function(idLuogoEvento) {
+							if(!idLuogoEvento){
+								return;
+							}
+							$window.location.href = '/detail?id_luogo='+ idLuogoEvento;
+						};
 						$scope.changeLanguage = function(langKey) {
 							$translate.use(langKey);
 							$scope.lingua = langKey;
@@ -342,7 +350,17 @@
 							$scope.cercaLuogo(address);
 							$scope.verificaLogin();
 						}
+						$scope.goBack = function(page) {
+							alert("sim qua")
+							
+							if(page){
+								$window.location.href = page;
+							}else{
+								$window.location.href = '/cerca';
+							}
+						};
 						$scope.lingua = $translate.use();
+						
 					}]);
 
 })();

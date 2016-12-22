@@ -94,18 +94,18 @@
 						<div class="col-sm-3">
 							<div class="text-left">
 								<label for="fisso">{{'fisso' | translate }}</label> <input
-									type="checkbox" ng-disabled="true" id="fisso"
-									ng-model="luogoInserito.luogo.fisso" class="" />
+									type="checkbox" disabled="disabled" id="fisso"
+									ng-model="luogoInserito.luogo.momentaneo" class="" />
 							</div>
 							<div class="text-left">
 								<label for="aperto">{{'aperto' | translate }}</label> <input
-									type="checkbox" id="aperto" ng-disabled="true"
-									ng-model="luogoInserito.luogo.aperto" class="" />
+									type="checkbox" id="aperto"  disabled="disabled"
+									ng-model="luogoInserito.luogo.sempreAperto" class="" />
 							</div>
 						</div>
 						<div class="col-sm-3">
 							<input type="text" placeholder="{{'orario' | translate }}"
-								ng-disabled="true" ng-model="luogoInserito.luogo.orari"
+								ng-disabled="true" ng-model="luogoInserito.luogo.orario"
 								class="form-control" name="orario" />
 						</div>
 						<div class="col-sm-3">
@@ -122,14 +122,17 @@
 					</div>
 					<br /> <input type="text" placeholder="{{'ristoro' | translate }}"
 						name="ristoro" ng-model="luogoInserito.luogo.ristoro"
-						class="form-control" /> <input type="text"
-						placeholder="{{'attrezzature' | translate }}" name="attrezzature"
-						ng-model="luogoInserito.luogo.attrezzatura" class="form-control" /><br />
+						class="form-control" /><br />
 				</form>
 			</div>
 			<div class="col-sm-2"></div>
 
 		</div>
+		{{luogoInserito.luogo.citta}}
+			<div class="row text-center">
+			<button type="button" ng-click="goBack('/cerca?citta='+luogoInserito.luogo.citta')"
+					class="btn btn-info">{{ 'back' | translate }}</button>
+			</div>
 	</div>
 	<div ng-include="'../pagineSoloClient/footer.html'"></div>
 </body>

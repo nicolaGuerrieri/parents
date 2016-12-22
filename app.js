@@ -15,9 +15,9 @@ app.use(bodyParser.json());
 
 app.use(session({secret: 'ssshhhhh'}));
 var multer = require('multer');
-var upload = multer({
-	dest : 'uploads/'
-});
+//var upload = multer({
+//	dest : 'uploads/'
+//});
 app.use(bodyParser.urlencoded({
 	extended : false
 }));

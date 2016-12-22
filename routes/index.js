@@ -68,6 +68,21 @@ router.all('/utente', function(req, res) {
 	});
 });
 
+
+router.get('/detail', function(req, res) {
+	var idLuogo;
+	if (req.query.id_luogo) {
+		console.log("id_luogo >> " + req.query.id_luogo);
+	}else{
+		console.log("id_luogo NON PRESENTE");
+		res.redirect('/');
+		
+	}
+	res.render('detail.html', {
+		idLuogo: req.query.id_luogo
+	});
+});
+
 function ensureAuthenticated(req, res, next) {
 	console.log("Autenticato " + req.isAuthenticated());
 	if (req.isAuthenticated()) {
@@ -87,12 +102,14 @@ router.get('/', function(req, res, next) {
 router.all('/cerca', function(req, res, next) {
 	var city = "";
 	var tipoLuogoEvento = "";
-	console.log();
+	console.log(req.query.citta);
 	if (req.body.citta) {
 		// citta dobbiamo cercare du db
 		city = req.body.citta;
 		tipoLuogoEvento = req.body.tipoLuogoEvento;
-	} else {
+	} else if(req.query.citta) {
+		city = req.query.citta;
+	}else{
 		// passiamo un default
 		city = "Roma";
 		tipoLuogoEvento = 3;

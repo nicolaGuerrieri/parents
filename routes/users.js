@@ -82,16 +82,18 @@ router.post('/upload', upload.single('file'), function(req, res) {
 		var nomeImmagine;
 		var nuovoEvento = req.body;
 		var momentaneo = true;
-		var sempreAperto = true;
+		var sempreAperto = false;
 
 //		conn.db.collection('luogo_evento').count(function(err, count) {
 //			console.dir(count);
 //		});
+		console.log(nuovoEvento);
+
 		if (nuovoEvento.fisso == 'true') {
 			momentaneo = false;
 		}
 		if (nuovoEvento.aperto == 'true') {
-			sempreAperto = false;
+			sempreAperto = true;
 		}
 		if (fileImmagine) {
 			nomeImmagine = fileImmagine.originalname;
