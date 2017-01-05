@@ -8,10 +8,8 @@
 	name="viewport">
 
 <meta name="author" content="Nicola Guerrieri">
-<meta name="description"
-	content="Guerrieri Nicola">
-<meta name="keywords"
-	content=" Nicola Guerrieri">
+<meta name="description" content="Guerrieri Nicola">
+<meta name="keywords" content=" Nicola Guerrieri">
 
 
 <meta HTTP-EQUIV="CONTENT-LANGUAGE" CONTENT="Italian">
@@ -54,21 +52,14 @@
 
 </head>
 
-<body ng-controller="genericCtrl">
+<body ng-controller="genericCtrl" ng-init="verify()">
 	<form action="/cerca" method="post">
-		<nav class="navbar navbar-inverse coloreGradiente">
-			<div class="container-fluid">
-				<div class="navbar-header">
-					<a class="navbar-brand" href="/">WebSiteName</a>
+		<div class="contentPreFooter">
+			<nav class="navbar navbar-inverse coloreGradiente">
+				<div ng-include="'pagineSoloClient/navbar.html'">
 				</div>
-				<ul class="nav navbar-nav navbar-right">
-					<li><a href="/login"><span class="glyphicon glyphicon-log-in"></span>
-<!-- 					<li><a onclick="apri()"><span class="glyphicon glyphicon-log-in"></span> -->
-							Login</a></li>
-				</ul>
-			</div>
-		</nav>
-		<div class="contentPreFooter" style="min-height: 91%;">
+			</nav>
+
 			<div style="height: 33px;"></div>
 			<div class="row text-center">
 				<img src="images/cinquetedrre.jpg" class="img-circle logoImg"
@@ -84,7 +75,7 @@
 					<div class="row">
 						<div class="col-sm-4">
 							<div id="divLabel">
-								<input type="radio" name="tipoLuogoEvento" id="fissi" value="1" 
+								<input type="radio" name="tipoLuogoEvento" id="fissi" value="1"
 									class="radio" /> <label for="fissi">{{ 'fissi' |
 									translate }}</label>
 							</div>
@@ -105,8 +96,10 @@
 						</div>
 					</div>
 					<br /> <br />
-					<button type="submit" class="btn btn-info">{{ 'cerca' |
-						translate }}</button>
+					<!-- 					<button type="button" ng-click="loginHome" class="btn btn-info">{{ 'dove' | -->
+					<!-- 						translate }}</button> -->
+					<button type="submit" class="btn btn-info">{{
+						'allenamento' | translate }}</button>
 				</div>
 				<div class="col-sm-3"></div>
 			</div>

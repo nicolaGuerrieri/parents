@@ -82,7 +82,10 @@
 					salva: "Salva",
 					aperto: "Sempre aperto",
 					inserisci: "Inserisci i dati del luogo d'interesse",
+					allenamento: "Vorrei allenarmi",
+					dove: "So dove allenarmi",
 					back: "Indietro",
+					search: "Cerca",
 					grazie: "Grazie per il tuo contributo, altri utenti lo troveranno utilissimo"
 				}).translations('en', {
 					cerca : 'Search',
@@ -110,6 +113,9 @@
 					salva:"Save",
 					aperto: "Ever open",
 					back: "Back",
+					allenamento: "I would train",
+					dove: "I know where to train",
+					search: "Search",
 					inserisci: "Insert the datas for the point of interest",
 					grazie: "Thank you for your contribution, others will find it useful users"
 
@@ -121,17 +127,32 @@
 					'genericCtrl', ['$scope', '$window', '$translate', '$http', 'multipartForm', 'cercami',
 					function($scope, $window, $translate, $http, multipartForm, cercami) {
 						$scope.result = {};
+						$scope.loggated = {};
 						$scope.dettaglio = function(idLuogoEvento) {
 							if(!idLuogoEvento){
 								return;
 							}
-							$window.location.href = '/detail?id_luogo='+ idLuogoEvento;
+							$window.location.href = '/detail?id_luogo='+ idLuogoEvento + '&dettaglio=true';
+						};
+						$scope.verify =  function(address) {
+							$.getJSON('/verify', function(data) {
+								$scope.loggated.logged= data;
+							});
+						};
+						$scope.loginHome = function() {
+							$window.location.href = "/login";
 						};
 						$scope.changeLanguage = function(langKey) {
 							$translate.use(langKey);
 							$scope.lingua = langKey;
 						};
+						$scope.logout=  function() {
+							alert("passa")
+							$scope.loggated.logged= false;
+							$window.location.href = "/users/logout";
+						};
 						$scope.getLuogoMap=  function(address) {
+							$scope.verify();
 							if(address){
 								$scope.result.cercaPostoNew  = address;
 							}else{
@@ -139,7 +160,6 @@
 							}
 							cercami.cerca($scope, $window, $scope.result.cercaPostoNew, false, $scope.result.tipo);
 						};
-						
 						$scope.lingua = $translate.use();
 					}]).factory('cercami', function() {
 						console.log("HomeController.cercami");
@@ -299,7 +319,7 @@
 						$scope.luogo = {};
 						$scope.luogo.fisso = true;
 						$scope.luogo.aperto = true;
-
+						$scope.loggated = {};
 						$scope.changeLanguage = function(langKey) {
 							$translate.use(langKey);
 							$scope.lingua = langKey;
@@ -330,7 +350,6 @@
 						};
 						$scope.cercaLuogo = function(address) {
 							console.log("HomeController.cercalLuogo");
-							console.log(address);
 							if(address){
 								$scope.luogo.cercaPostoNew  = address;
 							}else{
@@ -341,9 +360,8 @@
 							cercami.cerca($scope, $window, $scope.luogo.cercaPostoNew, true, null);
 						};
 						$scope.verificaLogin = function() {
-							$.getJSON('/users/loggated', function(data) {
-								console.log(data);
-								$scope.loggato = data;
+							$.getJSON('/verify', function(data) {
+								$scope.loggated.logged= data;
 							});
 						};
 						$scope.inizia = function(address){
@@ -351,8 +369,6 @@
 							$scope.verificaLogin();
 						}
 						$scope.goBack = function(page) {
-							alert("sim qua")
-							
 							if(page){
 								$window.location.href = page;
 							}else{

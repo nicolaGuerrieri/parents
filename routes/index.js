@@ -17,6 +17,17 @@ mongo.MongoClient.connect(url, function(err, data) {
 	db = data;
 });
 
+router.all('/verify', function(req, res) {
+	res.writeHead(200, {
+		"Content-Type" : "application/json"
+	});
+	var json = JSON.stringify({
+		loggato : req.isAuthenticated()
+	});
+
+	res.end(json);
+});
+
 router.all('/login', function(req, res) {
 	if (!req.isAuthenticated()) {
 		res.render('login.html', {});
@@ -71,6 +82,11 @@ router.all('/utente', function(req, res) {
 
 router.get('/detail', function(req, res) {
 	var idLuogo;
+	var fromDettaglio = false;
+
+	if (req.query.dettaglio) {
+		fromDettaglio = true;
+	}
 	if (req.query.id_luogo) {
 		console.log("id_luogo >> " + req.query.id_luogo);
 	}else{
@@ -78,7 +94,9 @@ router.get('/detail', function(req, res) {
 		res.redirect('/');
 		
 	}
+	
 	res.render('detail.html', {
+		dettaglio: fromDettaglio,
 		idLuogo: req.query.id_luogo
 	});
 });
@@ -92,8 +110,11 @@ function ensureAuthenticated(req, res, next) {
 }
 
 router.get('/', function(req, res, next) {
+	console.log("/home");
+	var loggato = req.isAuthenticated();
 	res.render('home.html', {
-		title : 'Parents'
+		title : 'Parents',
+		loggato: loggato
 	});
 });
 
@@ -114,8 +135,11 @@ router.all('/cerca', function(req, res, next) {
 		city = "Roma";
 		tipoLuogoEvento = 3;
 	}
+	console.log("/home");
+	var loggato = req.isAuthenticated();
 	res.render('index.html', {
 		citta : city,
+		loggato: loggato,
 		tipoLuogoEvento : tipoLuogoEvento
 	});
 });

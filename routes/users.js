@@ -173,6 +173,7 @@ router.get('/success', function(req, res) {
 		console.log("id_luogo >> " + req.query.id_luogo);
 	}
 	res.render('detail.html', {
+		dettaglio: false,
 		idLuogo: req.query.id_luogo
 	});
 });

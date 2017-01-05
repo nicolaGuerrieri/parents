@@ -42,6 +42,13 @@
 
 <script type="text/javascript">
 	var idLuogo = '<%= idLuogo %>';
+	var dettaglio = '<%= dettaglio %>';
+	$(document).ready(
+		function() {
+			if(dettaglio == 'true'){
+				$('#grazie').hide();
+			}
+		});
 </script>
 </head>
 
@@ -64,6 +71,10 @@
 
 		<div id="map_container"></div>
 		<br />
+		<div id="grazie" class="text-center row">
+			<h2>{{'grazie' | translate }}</h2>
+		</div>
+		<br />
 		<div class="row text-center">
 			<div class="col-sm-2"></div>
 			<div class="col-sm-8">
@@ -75,17 +86,17 @@
 							alt="logo">
 					</div>
 				</div>
-				<form name="myForm" novalidate>
-					<input type="text" placeholder="{{'place' | translate }}"
+				<form name="myForm" novalidate style="height: auto;">
+					<input type="text" placeholder="{{'place' | translate }}"  ng-disabled="true"
 						ng-model="luogoInserito.luogo.ricerca" id="autocomplete"
 						class="form-control" name="citta" /> <br /> <input type="text"
-						placeholder="{{'place' | translate }}"
+						placeholder="{{'place' | translate }}"  ng-disabled="true"
 						ng-model="luogoInserito.luogo.citta" class="form-control"
-						name="citta" /> <br /> <input type="text"
+						name="citta" /> <br /> <input type="text"  ng-disabled="true"
 						placeholder="{{'nome' | translate }}"
 						ng-model="luogoInserito.luogo.nome" name="uName"
 						class="form-control" /> <br />
-					<textarea style="resize: none;" type="text"
+					<textarea style="resize: none;" type="text"  ng-disabled="true"
 						placeholder="{{'descrizione' | translate }}"
 						ng-model="luogoInserito.luogo.descrizione" class="form-control"
 						name="desc"></textarea>
@@ -121,16 +132,15 @@
 						</div>
 					</div>
 					<br /> <input type="text" placeholder="{{'ristoro' | translate }}"
-						name="ristoro" ng-model="luogoInserito.luogo.ristoro"
+						name="ristoro" ng-model="luogoInserito.luogo.ristoro"  ng-disabled="true"
 						class="form-control" /><br />
 				</form>
 			</div>
 			<div class="col-sm-2"></div>
 
 		</div>
-		{{luogoInserito.luogo.citta}}
 			<div class="row text-center">
-			<button type="button" ng-click="goBack('/cerca?citta='+luogoInserito.luogo.citta')"
+			<button type="button" ng-click="goBack('/cerca?citta='+luogoInserito.luogo.citta)"
 					class="btn btn-info">{{ 'back' | translate }}</button>
 			</div>
 	</div>
