@@ -121,7 +121,6 @@ router.get('/getListaForCity', function(req, res) {
 			"citta" : city
 		} ]
 	}, function(err, docs) {
-
 		if (err) {
 			console.log("ERRORE ")
 			res.end(null);
