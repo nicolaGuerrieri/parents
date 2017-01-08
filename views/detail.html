@@ -49,11 +49,31 @@
 				$('#grazie').hide();
 			}
 		});
+
+	function apriImmagine(){
+		$("#dialogImage").dialog({
+      resizable: false,
+      height: "auto",
+      width: 700,
+      height: 700,
+      modal: true,
+      buttons: {
+        Ok: function() {
+          $( this ).dialog( "close" );
+        }
+      }
+    });
+	}
 </script>
 </head>
 
 <body ng-controller="luogoCtrl" ng-init="getLuogoById('<%= idLuogo %>')">
 
+	<div id="dialogImage" style="display: none;" class="text-center">
+		<img src="/users/leggi/{{luogoInserito.luogo.foto}}"
+							class="img-circle" style="width: 500px; height: 500px;"
+							alt="logo">
+	</div>
 	<div class="contentPreFooter">
 		<nav class="navbar navbar-inverse coloreGradiente">
 			<div class="container-fluid">
@@ -81,9 +101,13 @@
 				<div class="row text-center"
 					ng-if="luogoInserito.luogo.foto != null">
 					<div>
-						<img src="/users/leggi/{{luogoInserito.luogo.foto}}"
+						<br />
+						<br />
+						<img  onclick="apriImmagine()" src="/users/leggi/{{luogoInserito.luogo.foto}}"
 							class="img-circle" style="width: 160px; height: 160px;"
 							alt="logo">
+							<br />
+							<br />
 					</div>
 				</div>
 				<form name="myForm" novalidate style="height: auto;">
