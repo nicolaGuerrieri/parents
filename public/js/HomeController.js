@@ -28,9 +28,10 @@
 			            }
 			        });
 			    };
-			}).service('multipartForm', ['$http', function($http) {
+			}).service('multipartForm', ['$http','$window', function($http, $window) {
 				this.post = function(uploadUrl, data){
 					var formData = new FormData();
+					
 					for(var key in data){
 						if(key == "luogoCercato"){
 							for(var key in data.luogoCercato){
@@ -42,10 +43,15 @@
 						if(key != "lat"){
 							formData.append(key, data[key]);
 						}
+						
+						console.log(key);
+						console.log(data[key]);
 					}
 					$http.post(uploadUrl, formData, {
 						transformRequest: angular.indentity,
 						headers: {'Content-Type': undefined}
+					}).success(function (data) {
+						$window.location.href = '/users/success?id_luogo='+ data;
 					});
 				}
 
@@ -56,7 +62,7 @@
 					tutti : "Tutti",
 					fissi : "Fissi",
 					nome : "Nome",
-					descizione : "Descizione",
+					descizione : "Descizione es: sbarre, panche, gradoni... ecc.",
 					temporanei : "Temporanei",
 					inserisci: "Inserisci nuovo luogo d'interesse",
 					orario: "Orario",
@@ -73,8 +79,14 @@
 					errorAl: "Inserire data a",
 					errorAttrezzatura: "Inserire attrezzature",
 					errorRistoro: "Inserire punto ristoro",
-					salva: "Salva"
-
+					salva: "Salva",
+					aperto: "Sempre aperto",
+					inserisci: "Inserisci i dati del luogo d'interesse",
+					allenamento: "Vorrei allenarmi",
+					dove: "So dove allenarmi",
+					back: "Indietro",
+					search: "Cerca",
+					grazie: "Grazie per il tuo contributo, altri utenti lo troveranno utilissimo"
 				}).translations('en', {
 					cerca : 'Search',
 					place : 'Place',
@@ -98,7 +110,15 @@
 					errorAl: "Insert date at",
 					errorAttrezzatura: "Insert equipments",
 					errorRistoro: "Insert snack areas",
-					salva:"Save"
+					salva:"Save",
+					aperto: "Ever open",
+					back: "Back",
+					allenamento: "I would train",
+					dove: "I know where to train",
+					search: "Search",
+					inserisci: "Insert the datas for the point of interest",
+					grazie: "Thank you for your contribution, others will find it useful users"
+
 				});
 				$translateProvider.preferredLanguage('it');
 				$translateProvider.useSanitizeValueStrategy('escape');
@@ -107,28 +127,46 @@
 					'genericCtrl', ['$scope', '$window', '$translate', '$http', 'multipartForm', 'cercami',
 					function($scope, $window, $translate, $http, multipartForm, cercami) {
 						$scope.result = {};
+						$scope.loggated = {};
+						$scope.dettaglio = function(idLuogoEvento) {
+							if(!idLuogoEvento){
+								return;
+							}
+							$window.location.href = '/detail?id_luogo='+ idLuogoEvento + '&dettaglio=true';
+						};
+						$scope.verify =  function(address) {
+							$.getJSON('/verify', function(data) {
+								$scope.loggated.logged= data;
+							});
+						};
+						$scope.loginHome = function() {
+							$window.location.href = "/login";
+						};
 						$scope.changeLanguage = function(langKey) {
 							$translate.use(langKey);
 							$scope.lingua = langKey;
 						};
+						$scope.logout=  function() {
+							alert("passa")
+							$scope.loggated.logged= false;
+							$window.location.href = "/users/logout";
+						};
 						$scope.getLuogoMap=  function(address) {
-							
+							$scope.verify();
 							if(address){
 								$scope.result.cercaPostoNew  = address;
 							}else{
 								$scope.result.cercaPostoNew  = $('#autocomplete').val();
 							}
-							$scope.result.cercaPostoNew  = $('#autocomplete').val();
-
-							//$scope.result.cercaPostoNew = address;
 							cercami.cerca($scope, $window, $scope.result.cercaPostoNew, false, $scope.result.tipo);
 						};
-						
 						$scope.lingua = $translate.use();
 					}]).factory('cercami', function() {
+						console.log("HomeController.cercami");
+
 						 var factory = {};
 						factory.cerca = function($scope, $window, address, nuovo, tipo) {
-							console.log(tipo);
+							console.log(address);
 							if (address == null) {
 								address = $window.cittaMia;
 
@@ -138,11 +176,12 @@
 							var cercaComune = false;
 							var locations = [];
 
+							
+							//$scope.luogo = {};
+							
 							// pulisco oggetto a ogni ricerca
 							localitaFind = {}
-							$.getJSON('https://maps.googleapis.com/maps/api/geocode/json?address='
-											+ address
-											+ '&key=AIzaSyATlH8FPWYGZEORYiLPoOSvtgrOzF8-690',
+							$.getJSON('https://maps.googleapis.com/maps/api/geocode/json?address=' + address + '&key=AIzaSyATlH8FPWYGZEORYiLPoOSvtgrOzF8-690',
 									function(data) {
 										if (data.status == 'OK') {
 											$('#datiResult').html("");
@@ -236,7 +275,7 @@
 												var i;
 												$.getJSON('/getListaForCity?citta='+ $scope.result.luogoCercato.localita, function(data) {
 													$scope.result.luogoCercato.listaLuoghi = data.listaLuoghi;
-													$scope.$apply()
+													$scope.$apply(); 
 													if ($scope.result.luogoCercato.listaLuoghi) {
 														for (i = 0; i < $scope.result.luogoCercato.listaLuoghi.length; i++) {
 															var latiParse = parseFloat($scope.result.luogoCercato.listaLuoghi[i].latitudine);
@@ -276,41 +315,68 @@
 						}
 						return factory;
 					}).controller( 'luogoCtrl', ['$scope', '$window', '$translate', 'multipartForm', 'cercami', function($scope, $window,  $translate, multipartForm, cercami) {
+						console.log("Controller istanziato: luogoCtrl");
 						$scope.luogo = {};
+						$scope.luogo.fisso = true;
+						$scope.luogo.aperto = true;
+						$scope.loggated = {};
 						$scope.changeLanguage = function(langKey) {
 							$translate.use(langKey);
 							$scope.lingua = langKey;
 						};
 						$scope.salva = function() {
-						 if (!$scope.myForm.$valid  && false) {
-							console.log("rotto");
-						    $scope.submitted = true;
-						    return;
-						  }
-							var uploadUrl = "/users/upload";
-							multipartForm.post(uploadUrl, $scope.luogo);
-							$scope.luogo = {};
+							console.log("salva");
+							 if (!$scope.myForm.$valid  && false) {
+								console.log("rotto");
+							    $scope.submitted = true;
+							    return;
+							  }
+							 
+							 console.log($scope.luogo);
+								var uploadUrl = "/users/upload";
+								multipartForm.post(uploadUrl, $scope.luogo);
+								$scope.luogo = {};
 						};
-
+						$scope.getLuogoById =  function(idLuogo) {
+							if(!idLuogo){
+								alert("id luogo non presente");
+								return;
+							}
+							$.getJSON('/getLuogoById?idLuogo='+ idLuogo, function(data) {
+								$scope.luogoInserito = data;
+								$scope.$apply();
+								cercami.cerca($scope, $window, $scope.luogoInserito.luogo.ricerca, true, null);
+							});
+						};
 						$scope.cercaLuogo = function(address) {
+							console.log("HomeController.cercalLuogo");
 							if(address){
 								$scope.luogo.cercaPostoNew  = address;
 							}else{
 								$scope.luogo.cercaPostoNew  = $('#autocomplete').val();
 							}
+							console.log($scope.luogo.cercaPostoNew);
+
 							cercami.cerca($scope, $window, $scope.luogo.cercaPostoNew, true, null);
 						};
 						$scope.verificaLogin = function() {
-							$.getJSON('/users/loggated', function(data) {
-								console.log(data);
-								$scope.loggato = data;
+							$.getJSON('/verify', function(data) {
+								$scope.loggated.logged= data;
 							});
 						};
 						$scope.inizia = function(address){
 							$scope.cercaLuogo(address);
 							$scope.verificaLogin();
 						}
+						$scope.goBack = function(page) {
+							if(page){
+								$window.location.href = page;
+							}else{
+								$window.location.href = '/cerca';
+							}
+						};
 						$scope.lingua = $translate.use();
+						
 					}]);
 
 })();

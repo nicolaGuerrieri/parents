@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-var MongoClient = require('mongodb').MongoClient;
+var mongo = require('mongodb');
 var assert = require('assert');
 var url = require('url');
 var passport = require('passport');
@@ -11,14 +11,29 @@ var db;
 router.use(passport.initialize());
 router.use(passport.session());
 
-MongoClient.connect(url, function(err, data) {
+mongo.MongoClient.connect(url, function(err, data) {
 	if (err)
 		throw err;
 	db = data;
 });
 
+router.all('/verify', function(req, res) {
+	res.writeHead(200, {
+		"Content-Type" : "application/json"
+	});
+	var json = JSON.stringify({
+		loggato : req.isAuthenticated()
+	});
+
+	res.end(json);
+});
+
 router.all('/login', function(req, res) {
-	res.render('login.html', {});
+	if (!req.isAuthenticated()) {
+		res.render('login.html', {});
+	} else {
+		res.redirect('/users');
+	}
 });
 
 /* GET home page. */
@@ -31,7 +46,7 @@ router.get('/auth/google/login', passport.authenticate('google', {
 router.get('/successo', passport.authenticate('facebook', {
 	failureRedirect : '/'
 }), function(req, res) {
-	
+
 	if (req.isAuthenticated()) {
 		req.param.logged = true;
 		req.param.utente = req.user;
@@ -64,6 +79,28 @@ router.all('/utente', function(req, res) {
 	});
 });
 
+
+router.get('/detail', function(req, res) {
+	var idLuogo;
+	var fromDettaglio = false;
+
+	if (req.query.dettaglio) {
+		fromDettaglio = true;
+	}
+	if (req.query.id_luogo) {
+		console.log("id_luogo >> " + req.query.id_luogo);
+	}else{
+		console.log("id_luogo NON PRESENTE");
+		res.redirect('/');
+		
+	}
+	
+	res.render('detail.html', {
+		dettaglio: fromDettaglio,
+		idLuogo: req.query.id_luogo
+	});
+});
+
 function ensureAuthenticated(req, res, next) {
 	console.log("Autenticato " + req.isAuthenticated());
 	if (req.isAuthenticated()) {
@@ -73,8 +110,11 @@ function ensureAuthenticated(req, res, next) {
 }
 
 router.get('/', function(req, res, next) {
+	console.log("/home");
+	var loggato = req.isAuthenticated();
 	res.render('home.html', {
-		title : 'Parents'
+		title : 'Parents',
+		loggato: loggato
 	});
 });
 
@@ -83,27 +123,68 @@ router.get('/', function(req, res, next) {
 router.all('/cerca', function(req, res, next) {
 	var city = "";
 	var tipoLuogoEvento = "";
-	console.log();
+	console.log(req.query.citta);
 	if (req.body.citta) {
 		// citta dobbiamo cercare du db
 		city = req.body.citta;
 		tipoLuogoEvento = req.body.tipoLuogoEvento;
-	} else {
+	} else if(req.query.citta) {
+		city = req.query.citta;
+	}else{
 		// passiamo un default
 		city = "Roma";
 		tipoLuogoEvento = 3;
 	}
+	console.log("/home");
+	var loggato = req.isAuthenticated();
 	res.render('index.html', {
 		citta : city,
+		loggato: loggato,
 		tipoLuogoEvento : tipoLuogoEvento
 	});
+});
+
+router.get('/getLuogoById', function(req, res) {
+	try {
+		console.log("/getLuogoById");
+	
+	var idLuogo;
+	if (req.query.idLuogo) {
+		idLuogo = req.query.idLuogo;
+		console.log("getLuogoById >>>" + idLuogo + "<<<");
+	} else {
+		console.log("Na " + city);
+	}
+	
+	var o_id = new mongo.ObjectID(idLuogo);
+	console.log(o_id);
+	
+	db.collection("luogo_evento").findOne({
+		_id : o_id
+	},
+	function(err, docs) {
+		if (err) {
+			console.log("ERRORE >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>")
+			res.end(null);
+			console.log("ERRORE >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>")
+			}
+			console.log(docs);
+			console.log(docs);
+			var json = JSON.stringify({
+				luogo : docs
+			});
+			res.end(json);
+		});
+	} catch (err) {
+		console.log()
+}
 });
 
 router.get('/getListaForCity', function(req, res) {
 
 	var city = "";
 	if (req.query.citta) {
-		// ce la citta dobbiamo cercare du db
+		// dobbiamo cercare du db
 		city = req.query.citta;
 		console.log("getListaForCity >>>" + city + "<<<");
 	} else {
