@@ -80,18 +80,10 @@
 	<div class="contentPreFooter">
 
 		<nav class="navbar navbar-inverse coloreGradiente">
-			<div class="container-fluid">
-				<div class="navbar-header">
-					<a class="navbar-brand" href="/">WebSiteName</a>
-				</div>
-				<ul class="nav navbar-nav navbar-right">
-					<li ng-show="!loggated.logged.loggato"><a href="/login"><span class="glyphicon glyphicon-log-in"></span>
-							Login</a></li>
-					<li ng-show="loggated.logged.loggato"><a href="/users/logout"><span class="glyphicon glyphicon-log-in"></span>
-							Logout</a></li>
-				</ul>
+			<div ng-include="'pagineSoloClient/navbar.html'">
 			</div>
 		</nav>
+		
 		<div id="map_container"></div>
 		<br />
 		<div class="row text-center">

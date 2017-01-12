@@ -1,12 +1,15 @@
-<div class="container-fluid">
+<div class="container-fluid collapse navbar-collapse" id="navbarNavDropdown"> 
 	<div class="navbar-header">
-		<a class="navbar-brand" href="/">AroundTheWOD</a>
+			<a class="navbar-brand" href="/">AroundTheWOD</a>
 	</div>
 	<ul class="nav navbar-nav navbar-right">
 		<li ng-show="!loggated.logged.loggato"><a href="/login"><span
 				class="glyphicon glyphicon-log-in"></span> Login</a></li>
-		<li ng-show="loggated.logged.loggato"><a title="logout"><span
-				ng-click="logout" class="glyphicon glyphicon-log-in"></span> Logout</a>
+		<li ng-show="loggated.logged.loggato">
+			<a title="inserisci luogo" href="/users"><span  class="glyphicon glyphicon-pencil"></span> Inserisci</a>
+		</li>
+		<li ng-show="loggated.logged.loggato">
+			<a title="logout"><span ng-click="logout" class="glyphicon glyphicon-log-in"></span> Logout</a>
 		</li>
 	</ul>
 </div>
