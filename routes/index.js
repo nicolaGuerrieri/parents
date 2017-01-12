@@ -42,6 +42,9 @@ router.all('/privacy', function(req, res) {
 
 
 /* GET home page. */
+router.all('/auth/twitter/login', passport.authenticate('twitter'));
+router.all('/auth/instagram/login', passport.authenticate('instagram'));
+router.all('/auth/linkedin/login', passport.authenticate('linkedin'));
 router.all('/auth/facebook/login', passport.authenticate('facebook'));
 router.get('/auth/google/login', passport.authenticate('google', {
 	scope : [ 'https://www.googleapis.com/auth/plus.login',
@@ -49,6 +52,43 @@ router.get('/auth/google/login', passport.authenticate('google', {
 }));
 
 router.get('/successo', passport.authenticate('facebook', {
+	failureRedirect : '/'
+}), function(req, res) {
+	
+	if (req.isAuthenticated()) {
+		req.param.logged = true;
+		req.param.utente = req.user;
+	} else {
+		req.param.logged = false;
+	}
+	res.redirect('/users');
+});
+
+router.get('/successoTwitter', passport.authenticate('twitter', {
+	failureRedirect : '/'
+}), function(req, res) {
+	
+	if (req.isAuthenticated()) {
+		req.param.logged = true;
+		req.param.utente = req.user;
+	} else {
+		req.param.logged = false;
+	}
+	res.redirect('/users');
+});
+router.get('/successoLinkedin', passport.authenticate('linkedin', {
+	failureRedirect : '/'
+}), function(req, res) {
+	
+	if (req.isAuthenticated()) {
+		req.param.logged = true;
+		req.param.utente = req.user;
+	} else {
+		req.param.logged = false;
+	}
+	res.redirect('/users');
+});
+router.get('/successoInstagram', passport.authenticate('instagram', {
 	failureRedirect : '/'
 }), function(req, res) {
 
@@ -60,6 +100,7 @@ router.get('/successo', passport.authenticate('facebook', {
 	}
 	res.redirect('/users');
 });
+
 router.get('/successoGoogle', passport.authenticate('google', {
 	failureRedirect : '/'
 }), function(req, res) {
