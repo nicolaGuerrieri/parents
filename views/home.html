@@ -38,23 +38,32 @@
 
 
 <script type="text/javascript">
+document.addEventListener('DOMContentLoaded', function(event) {
+	cookieChoices.showCookieConsentBar('Questo sito Web utilizza i cookie per migliorare il servizio e presentare annunci pubblicitari personalizzati. Usando il sito accetti questo utilizzo. Guarda la nostra ',  'Chiudi', 'politica della Privacy','http://localhost:3000/privacy');
+});
 	var placeSearch, autocomplete;
 
 	$(document).ready(
-			function() {
-				autocomplete = new google.maps.places.Autocomplete((document
-						.getElementById('autocomplete')), {
-					types : [ 'geocode' ]
-				});
-				autocomplete.addListener('citta', fillInAddress);
-			});
+	function() {
+		autocomplete = new google.maps.places.Autocomplete((document
+				.getElementById('autocomplete')), {
+			types : [ 'geocode' ]
+		});
+		autocomplete.addListener('citta', fillInAddress);
+	});
+	function prova(){
+		document.addEventListener('DOMContentLoaded', function(event) {
+			cookieChoices.showCookieConsentBar('Questo sito Web utilizza i cookie per migliorare il servizio e presentare annunci pubblicitari personalizzati. Usando il sito accetti questo utilizzo. Guarda la nostra ','La politica della Privacy',  'Chiudi', 'http://localhost:3000/privacy');
+		});
+	}
+	
 </script>
 
 </head>
 
 <body ng-controller="genericCtrl" ng-init="verify()">
 	<form action="/cerca" method="post">
-		<div class="contentPreFooter">
+		<div class="contentPreFooter" onclick="prova()">
 			<nav class="navbar navbar-inverse coloreGradiente">
 				<div ng-include="'pagineSoloClient/navbar.html'">
 				</div>
@@ -109,5 +118,6 @@
 		<div ng-include="'pagineSoloClient/footer.html'"></div>
 	</form>
 </body>
+<script src="js/cookiechoices.js"></script>
 
 </html>

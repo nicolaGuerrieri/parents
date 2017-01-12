@@ -96,26 +96,25 @@
 						ng-show="!result.luogoCercato.listaLuoghi.length">Nessun
 						luogo trovato</div>
 					<div ng-repeat="poste in result.luogoCercato.listaLuoghi"
-						style="border: 1px solid #0fb8ad; border-radius: 10px; padding: 5px; width: 96%; margin: 5px; margin-left: 10px"
-						class="row">
-						<div class="col-sm-3" style="">
-							<div ng-if="poste.foto != null">
-								<img src="/users/leggi/{{poste.foto}}" class="img-circle"
-									style="width: 60px; height: 60px;" alt="logo">
+						class="row divLuogo ombra">
+						<div ng-click="dettaglio(poste._id)" style="width: 100%; cursor: pointer;" >
+							<div class="col-sm-3" style="">
+								<div ng-if="poste.foto != null">
+									<img src="/users/leggi/{{poste.foto}}" class="img-circle"
+										style="width: 60px; height: 60px;" alt="logo">
+								</div>
+								<div ng-if="poste.foto == null">
+									<img ng-show="{{!poste.foto}}" src="images/logo.png"
+										class="img-circle" style="width: 60px; height: 60px;"
+										alt="logo">
+								</div>
 							</div>
-							<div ng-if="poste.foto == null">
-								<img ng-show="{{!poste.foto}}" src="images/logo.png"
-									class="img-circle" style="width: 60px; height: 60px;"
-									alt="logo">
+							<div class="col-sm-6" style="" style="cursor: pointer;">
+								{{poste.nome}} {{poste.via}} {{poste.citta}} <br />
+								{{poste.descrizione}} {{poste.punto_ristoro }}
 							</div>
-						</div>
-						<div class="col-sm-6" style="" style="cursor: pointer;" ng-click="dettaglio(poste._id)">
-							{{poste.nome}} {{poste.via}} {{poste.citta}} <br />
-							{{poste.descrizione}} {{poste.punto_ristoro }}
-							{{poste._id }} 
-						</div>
-						<div class="col-sm-2" style="">
-							<!-- 							icone -->
+							<div class="col-sm-2" style="">
+							</div>
 						</div>
 					</div>
 				</div>

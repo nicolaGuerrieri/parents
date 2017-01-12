@@ -1,0 +1,274 @@
+<html ng-app="helpParents">
+<head>
+
+<title>Help Parents</title>
+<meta charset="utf-8">
+<meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
+<meta content="width=device-width,initial-scale=1,maximum-scale=1"
+	name="viewport">
+
+<meta name="author" content="Nicola Guerrieri">
+<meta name="description"
+	content="Guerrieri Nicola Sito personale di Nicola Guerrieri heroku java node.js programmatore bologna">
+<meta name="keywords" content=" Nicola Guerrieri">
+
+
+<meta HTTP-EQUIV="CONTENT-LANGUAGE" CONTENT="Italian">
+
+<script src="../bower_components/jquery.min.js"></script>
+
+
+<link href="../css/jquery-ui.min.css" rel="stylesheet">
+<link href="../css/bootstrap.css" rel="stylesheet">
+<link href="../css/style.css" rel="stylesheet">
+
+<link rel="stylesheet"
+	href="../fonts/font-awesome-4.6.3/css/font-awesome.min.css">
+
+<script types="text/javascript"
+	src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script
+	src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script
+	src="https://maps.googleapis.com/maps/api/js?&key=AIzaSyATlH8FPWYGZEORYiLPoOSvtgrOzF8-690&libraries=places" />
+<script src="../js/bootstrap.min.js">
+	
+</script>
+<script src="../js/util.js"></script>
+<script src="../js/HomeController.js"></script>
+<script src="../bower_components/angular-translate/angular-translate.js"></script>
+
+
+</head>
+
+<body ng-controller="luogoCtrl">
+
+	<div class="contentPreFooter">
+		<nav class="navbar navbar-inverse coloreGradiente">
+			<div class="container-fluid">
+				<div class="navbar-header">
+					<a class="navbar-brand" href="/">WebSiteName</a>
+				</div>
+			</div>
+		</nav>
+
+		<div class="row">
+			<div class="col-sm-2"></div>
+			<div class="col-sm-8">
+				<div class="row">
+					<h2>Cosa sono i cookie ?</h2>
+					Il sito web della impresa www.aroundthewod.com utilizza i cookie
+					per rendere i propri servizi semplici e efficienti per l'utenza che
+					ne visiona le pagine. Gli utenti che accedono al Sito, vedranno
+					inserite delle quantità minime di informazioni nei dispositivi in
+					uso, che siano computer o periferiche mobili, in piccoli file di
+					testo denominati "cookie" salvati nelle directory utilizzate dal
+					browser web dell'utente. Vi sono vari tipi di cookie, alcuni per
+					rendere più efficace l'uso del Sito, altri per abilitare
+					determinate funzionalità.
+
+					<h2>Cookie del gestore del Sito</h2>
+					Cookie tecnici<br /> Il Sito utilizza cookie "tecnici", di
+					"profilazione" e di ""navigazione o sessione". <br /> - Cookie di
+					navigazione o sessione <br /> Specificatamente, vengono utilizzati
+					cookie di navigazione o sessione , diretti a garantire la normale
+					navigazione e fruizione del sito web, e quindi finalizzati a
+					rendere funzionale ed ottimizzare la stessa navigazione all'interno
+					del sito. - Cookie di funzionalità <br /> Inoltre, vengono
+					installati cookie di funzionalità, strettamente necessari per
+					fornire servizi esplicitamente richiesti dall'utente. <br /> -
+					Cookie di profilazione (1 e 4) <br /> Il Sito utilizza propri
+					cookie di profilazione , cioè cookie volti a creare profili degli
+					utenti, al fine di inviare messaggi pubblicitari basati sulle
+					preferenze manifestate da singolo utente nella navigazione in rete
+					all'interno del Sito. <br />
+
+					<h2>Cookie di parti terze</h2>
+					- Cookie di analisi di servizi di terze parti <br /> Questi cookie
+					sono utilizzati al fine di raccogliere informazioni sull'uso del
+					Sito da parte degli utenti in forma anonima quali: pagine visitate,
+					tempo di permanenza, origini del traffico di provenienza,
+					provenienza geografica, età, genere e interessi ai fini di campagne
+					di marketing. Questi cookie sono inviati da domini di terze parti
+					esterni al Sito. <br /> - Cookie per integrare prodotti e funzioni
+					di software di terze parti <br /> Questa tipologia di cookie
+					integra funzionalità sviluppate da terzi all'interno delle pagine
+					del Sito come le icone e le preferenze espresse nei social network
+					al fine di condivisione dei contenuti del sito o per l'uso di
+					servizi software di terze parti (come i software per generare le
+					mappe e ulteriori software che offrono servizi aggiuntivi). Questi
+					cookie sono inviati da domini di terze parti e da siti partner che
+					offrono le loro funzionalità tra le pagine del Sito. <br /> -
+					Cookie di profilazione <br /> Sono i cookie inviati da parti
+					terze, per il tramite del Sito, necessari a creare profili utenti
+					al fine di inviare messaggi pubblicitari, da parte delle stesse
+					parti terze, in linea con le preferenze manifestate dall'utente. <br />
+
+					Il sito AroundTheWod può integrare, all'interno di alcune pagine,
+					funzionalità sviluppate da terzi e/o cookie di profilazione di
+					terze parti che potrebbero essere installati durante la
+					navigazione. L'obiettivo di tale integrazione è quello di valutare
+					l'efficacia delle attività di comunicazione istituzionale e
+					conferire conoscenza e visibilità ad attività istituzionali e/o
+					contenuti su temi di interesse pubblico e sociale. Tali parti
+					possono riguardare, a titolo esemplificativo: l'uso di codice java
+					script tramite il quale sono registrate e inviate a Facebook le
+					informazioni inerenti gli utenti che hanno visualizzato una
+					specifica pagina a seguito della pubblicazione di inserzioni su
+					Facebook; uso di servizi che permettono di effettuare interazioni
+					con i social network (es: "social plugin") o con altre piattaforme
+					esterne tramite le pagine del sistema Portale (esempio,
+					visualizzazione di video Youtube e Vimeo, Google Maps). In tali
+					casi ovvero qualora si acceda al sito dopo essersi "loggato"
+					attraverso il proprio account Facebook, Google o Twitter, alcune
+					informazioni personali potrebbero essere acquisite dai gestori
+					delle piattaforme di social network. La gestione delle informazioni
+					raccolte da "terze parti" è disciplinata dalle relative informative
+					cui si prega di fare riferimento. Per garantire una maggiore
+					trasparenza e comodità, si riportano qui di seguito gli indirizzi
+					web delle diverse informative e delle modalità per la gestione dei
+					cookie.
+					<ul>
+						<li>Facebook <a target="blank"
+							href="https://www.facebook.com/policies/cookies/">Cookie
+								policy</a> e <a target="blank"
+							href="https://www.facebook.com/privacy/explanation">Privacy
+								Policy</a></li>
+						<li>Twitter <a target="blank"
+							href="https://support.twitter.com/articles/20170519#">Cookie
+								policy</a> e <a target="blank"
+							href="https://twitter.com/privacy?lang=it">Privacy Policy</a></li>
+						<li>Google/Youtube <a target="blank"
+							href="http://www.google.it/intl/it/policies/technologies/cookies/">Cookie
+								policy</a> e <a target="blank"
+							href="https://www.google.com/intl/it/policies/privacy/">Privacy
+								Policy</a></li>
+						<li>Instagram <a target="blank"
+							href="https://www.instagram.com/legal/cookies/">Cookie policy</a>
+							e <a target="blank"
+							href="https://www.instagram.com/about/legal/privacy/">Privacy
+								Policy</a></li>
+					</ul>
+
+					<br />
+
+					<h2>Installazione /disinstallazione cookie. Opzioni del
+						browser</h2>
+					L'utente può opporsi alla registrazione dei cookies sul proprio
+					dispositivo configurando il browser usato per la navigazione: se
+					utilizza il Sito senza cambiare le impostazioni del browser, si
+					presuppone che intende ricevere tutti i cookies usati dal Sito e
+					fruire di tutte le funzionalità. <br /> Si ricorda che l'utente
+					può impedire l'utilizzo di alcuni o di tutti i cookie sopra
+					descritti, configurando il browser usato per la navigazione, <br />
+					<ul>
+						<li><a target="blank"
+							href="https://support.mozilla.org/it/kb/Attivare%20e%20disattivare%20i%20cookie">Gestione
+								cookie Firefox</a></li>
+						<li><a target="blank"
+							href="https://support.google.com/accounts/answer/61416?hl=it">Gestione
+								cookie Chrome</a></li>
+						<li><a target="blank"
+							href="https://www.google.it/url?sa=t&rct=j&q=&esrc=s&source=web&cd=5&cad=rja&uact=8&ved=0ahUKEwi21IePpbfRAhVFtRoKHVh7CyoQFggyMAQ&url=https%3A%2F%2Fsupport.microsoft.com%2Fit-it%2Fhelp%2F17442%2Fwindows-internet-explorer-delete-manage-cookies&usg=AFQjCNGTy7movm5HbMG3MPVrS70wl-Yfqw&sig2=BzF9uIvhRZD02ClCHFKxIQ">Gestione
+								cookie Explorer</a></li>
+						<li><a target="blank"
+							href="http://www.apple.com/it/privacy/use-of-cookies/ ">Gestione
+								cookie Safari</a></li>
+					</ul>
+					<br />
+					<h2>Eliminare i cookie registrati</h2>
+					Anche se viene revocata l'autorizzazione all'utilizzo di cookie di
+					terze parti, prima di tale revoca i cookie potrebbero essere stati
+					memorizzati sul terminale dell'utente. Per motivi tecnici non è
+					possibile cancellare tali cookie, tuttavia il browser dell'utente
+					consente la loro eliminazione tra le impostazioni sulla privacy. Le
+					opzioni del browser contengono infatti l'opzione "Cancella dati di
+					navigazione" che può essere utilizzata per eliminare i cookies,
+					dati di siti e plug-in. <br />
+					<h2>Dati forniti volontariamente</h2>
+					L'invio facoltativo, esplicito e volontario di posta elettronica,
+					messaggi o qualsiasi tipo di comunicazioni indirizzi recapiti
+					indicati su questo portale comporta la successiva acquisizione
+					dell'indirizzo del mittente o di eventuali altri dati personali che
+					saranno utilizzati per rispondere alle richieste. Si assicura, che
+					tale trattamento sarà improntato ai principi di correttezza,
+					liceità e trasparenza e di tutela della riservatezza come indicato
+					nel decreto legislativo 196/03. Specifiche informative di sintesi
+					verranno progressivamente riportate o visualizzate nelle pagine dei
+					siti predisposte per particolari servizi. <br />
+					<h2>Note</h2>
+					(1) In base al provvedimento generale del Garante dell' 8 maggio
+					2014, qualora siano presenti cookie di profilazione inseriti dal
+					gestore del sito, od anche da parti terze, è necessario predisporre
+					anche una preliminare informativa "breve" contenuta in un banner a
+					comparsa immediata sulla home page (o su altre pagine da cui
+					l'utente può accedere al sito) in cui vengono sinteticamente
+					riportati alcune informazioni fondamentali ed anche una richiesta
+					esplicita di consenso all'uso per fini di profilazione. Le
+					informazioni da riportare nella informativa "breve" sono:<br /> a)
+					l'indicazione dell'uso da parte del gestore del sito di cookie di
+					profilazione;<br /> b) se ricorre, che il sito permette l'uso di
+					tali cookie di profilazione anche da parti terze;<br /> c) il link
+					alla informativa "estesa";<br /> d) l'indicazione che tramite
+					l'informativa estesa è possibile negare l'installazione di
+					qualunque (tutti od alcuni) cookie;<br /> e) l'indicazione che la
+					prosecuzione nella navigazione comporta la prestazione del consenso
+					necessario per la profilazione. Il Garante ha predisposto un
+					modello di informativa "breve".<br /> L'eventuale inserimento di
+					cookie tecnici per il"tracciamento" del consenso già prestato
+					dall'utente mediante la prosecuzione nella navigazione al
+					trattamento mediante cookie di profilazione, permette di evitare
+					che - durante le visite successive del medesimo utente - si debba
+					riproporre la informativa "breve".<br /> Le prescrizioni del
+					provvedimento generale obbligatorio devono essere attuate entro il
+					3 giugno 2015.<br /> (2) Il codice individua questi cookie (non
+					soggetti a consenso o notifica preventivi nei cookie "finalizzati
+					unicamente ad effettuare la trasmissione di una comunicazione su
+					una rete di comunicazione elettronica, o nella misura strettamente
+					necessaria al fornitore di un servizio della società
+					dell'informazione esplicitamente richiesto dal contraente o
+					dall'utente a erogare tale servizio" (art. 122, comma 1° del codice
+					privacy).<br /> (3) Se si utilizza, a seguito dell'accettazione,
+					il servizio specifico, "Google analytics", poiché i cookie non sono
+					utilizzati direttamente dal gestore del Sito, è necessario
+					informare gli utenti che: "i dati acquisiti tramite Google
+					analytics potranno essere utilizzati anche da Google, secondo i
+					termini di servizio predisposti dalla stesso". In ogni caso, per i
+					cookie tecnici ed analitici non è necessario richiedere il consenso
+					all'utente.<br /> (4) Sono cookie di profilazione quelli che
+					determinando "l'archiviazione delle informazioni nell'apparecchio
+					terminale di un contraente o di un utente o l'accesso a
+					informazioni già archiviate sono consentiti unicamente a condizione
+					che il contraente o l'utente abbia espresso il proprio consenso
+					dopo essere stato informato con le modalità semplificate di cui
+					all'articolo 13, comma 3". L'uso di cookie di profilazione da parte
+					del gestore del Sito obbliga, pertanto, oltre alla informativa
+					all'utente (art. 13 del codice privacy, la cui omissione è
+					sanzionata in base all'art. 161 dello stesso) anche l'acquisizione
+					del consenso (art. 23 del codice): in caso di mancata acquisizione
+					del consenso la violazione è sanzionata (art. 162 bis del codice).<br />
+					Inoltre, la presenza di tali cookie di profilazione impone anche
+					l'obbligo, per il gestore stesso, di preventiva notifica al Garante
+					privacy di tale trattamento (art. 37, comma 1, lettera d, del
+					codice privacy; l'omissione è sanzionata in base all'art.163 del
+					codice).<br /> (5) Il provvedimento generale sui cookie (punto
+					4.2) prescrive che, all'interno della informativa "estesa" siano
+					riportati i link alle informative e consensi delle parti terze con
+					cui il gestore del sito ha stipulato accordi, oppure ai siti degli
+					intermediari (quali i concessionari di pubblicità) tra il gestore
+					del sito e le parti terze. Per l'eventuale utilizzo di Google
+					analytics, è necessario linkare alla specifica pagina di
+					informazione di Google: www.google.it/policies/privacy/partners/.<br />
+				<br /> <br />
+				</div>
+			</div>
+			<div class="col-sm-2"></div>
+		</div>
+		</div>
+		<br /> <br />
+		<div ng-include="'../pagineSoloClient/footer.html'"></div>
+</body>
+</body>
+
+</html>

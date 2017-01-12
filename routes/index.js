@@ -36,6 +36,11 @@ router.all('/login', function(req, res) {
 	}
 });
 
+router.all('/privacy', function(req, res) {
+		res.render('privacy.html', {});
+});
+
+
 /* GET home page. */
 router.all('/auth/facebook/login', passport.authenticate('facebook'));
 router.get('/auth/google/login', passport.authenticate('google', {
