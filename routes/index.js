@@ -62,7 +62,7 @@ router.get('/successo', passport.authenticate('facebook', {
 		req.param.logged = false;
 	}
 	res.redirect('/users');
-});
+});	
 
 router.get('/successoTwitter', passport.authenticate('twitter', {
 	failureRedirect : '/'

@@ -5,7 +5,7 @@
 	<ul class="nav navbar-nav navbar-right">
 		<li ng-show="!loggated.logged.loggato"><a href="/login"><span
 				class="glyphicon glyphicon-log-in"></span> Login</a></li>
-		<li ng-show="loggated.logged.loggato">
+		<li ng-show="loggated.logged.loggato  && !paginaInserimento">
 			<a title="inserisci luogo" href="/users"><span  class="glyphicon glyphicon-pencil"></span> Inserisci</a>
 		</li>
 		<li ng-show="loggated.logged.loggato">

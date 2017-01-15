@@ -128,6 +128,7 @@
 					function($scope, $window, $translate, $http, multipartForm, cercami) {
 						$scope.result = {};
 						$scope.loggated = {};
+						$scope.paginaInserimento = false;
 						$scope.dettaglio = function(idLuogoEvento) {
 							if(!idLuogoEvento){
 								return;
@@ -158,7 +159,11 @@
 							}else{
 								$scope.result.cercaPostoNew  = $('#autocomplete').val();
 							}
-							cercami.cerca($scope, $window, $scope.result.cercaPostoNew, false, $scope.result.tipo);
+							var result = cercami.cerca($scope, $window, $scope.result.cercaPostoNew, false, $scope.result.tipo);
+							alert(result)
+							if(result == null){
+								cercami.cerca($scope, $window, "Roma", false, $scope.result.tipo);
+							}
 						};
 						$scope.lingua = $translate.use();
 					}]).factory('cercami', function() {
@@ -308,18 +313,19 @@
 													}));
 											}
 										} else {
-											this.getLuogoMap("Roma");
+											return null;
 										}
 										// 66FFB2 colore verdino
 									});
 						}
 						return factory;
 					}).controller( 'luogoCtrl', ['$scope', '$window', '$translate', 'multipartForm', 'cercami', function($scope, $window,  $translate, multipartForm, cercami) {
-						console.log("Controller istanziato: luogoCtrl");
+						console.log("Controller luogoCtrl istanziato: luogoCtrl");
 						$scope.luogo = {};
 						$scope.luogo.fisso = true;
 						$scope.luogo.aperto = true;
 						$scope.loggated = {};
+						$scope.paginaInserimento = true;
 						$scope.changeLanguage = function(langKey) {
 							$translate.use(langKey);
 							$scope.lingua = langKey;
