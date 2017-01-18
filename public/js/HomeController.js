@@ -159,36 +159,47 @@
 							}else{
 								$scope.result.cercaPostoNew  = $('#autocomplete').val();
 							}
-							var result = cercami.cerca($scope, $window, $scope.result.cercaPostoNew, false, $scope.result.tipo);
-							alert(result)
-							if(result == null){
-								cercami.cerca($scope, $window, "Roma", false, $scope.result.tipo);
+							
+							function vai(){
+								console.log("post chiamata");
 							}
+							cercami.cerca($scope, $window, $scope.result.cercaPostoNew, false, $scope.result.tipo, vai);
+//							setTimeout(function(){
+//								if(!$scope.result.luogoCercato.trovato){
+//									$scope.result.cercaPostoNew = "Roma";
+//									//cercami.cerca($scope, $window, $scope.result.cercaPostoNew, false, $scope.result.tipo);
+//								}
+//							}, 2000);
 						};
 						$scope.lingua = $translate.use();
 					}]).factory('cercami', function() {
 						console.log("HomeController.cercami");
 
 						 var factory = {};
-						factory.cerca = function($scope, $window, address, nuovo, tipo) {
-							console.log(address);
+						factory.cerca = function($scope, $window, address, nuovo, tipo, callback) {
+							if($scope.result){
+								var cerca= $scope.result.cercaPostoNew;
+								$scope.result = {};
+								$scope.result.cercaPostoNew = cerca;
+							}
+
 							if (address == null) {
 								address = $window.cittaMia;
-
 							}
 							$scope.cercaPosto = address;
 							var stampa = "";
 							var cercaComune = false;
 							var locations = [];
 
-							
-							//$scope.luogo = {};
-							
+//							callback();
 							// pulisco oggetto a ogni ricerca
 							localitaFind = {}
 							$.getJSON('https://maps.googleapis.com/maps/api/geocode/json?address=' + address + '&key=AIzaSyATlH8FPWYGZEORYiLPoOSvtgrOzF8-690',
 									function(data) {
 										if (data.status == 'OK') {
+											if(callback != null){
+												$scope.result.trovato = true;
+											}
 											$('#datiResult').html("");
 											$.each(data.results, function(i, v) {
 													var markerIs = [
@@ -276,6 +287,7 @@
 												$scope.result.luogoCercato = localitaFind;
 												$scope.result.luogoCercato.listaLuoghi = [];
 	
+												$scope.result.luogoCercato.trovato = true;
 												
 												var i;
 												$.getJSON('/getListaForCity?citta='+ $scope.result.luogoCercato.localita, function(data) {
@@ -313,9 +325,13 @@
 													}));
 											}
 										} else {
-											return null;
+											if(callback != null){
+												$scope.result.trovato = false;
+												$scope.$apply(); 
+											}
 										}
 										// 66FFB2 colore verdino
+									}).success({
 									});
 						}
 						return factory;
@@ -351,7 +367,7 @@
 							$.getJSON('/getLuogoById?idLuogo='+ idLuogo, function(data) {
 								$scope.luogoInserito = data;
 								$scope.$apply();
-								cercami.cerca($scope, $window, $scope.luogoInserito.luogo.ricerca, true, null);
+								cercami.cerca($scope, $window, $scope.luogoInserito.luogo.ricerca, true, null, null);
 							});
 						};
 						$scope.cercaLuogo = function(address) {
@@ -363,7 +379,7 @@
 							}
 							console.log($scope.luogo.cercaPostoNew);
 
-							cercami.cerca($scope, $window, $scope.luogo.cercaPostoNew, true, null);
+							cercami.cerca($scope, $window, $scope.luogo.cercaPostoNew, true, null, null);
 						};
 						$scope.verificaLogin = function() {
 							$.getJSON('/verify', function(data) {
