@@ -90,7 +90,7 @@
 				</div>
 			</div>
 			<div class="col-sm-9">
-				<div style="width: 100%; padding-top: 10px;">
+				<div ng-show="result.trovato" style="width: 100%; padding-top: 10px;">
 					<!-- 					//lista luoghi -->
 					<div class="row text-center"
 						ng-show="!result.luogoCercato.listaLuoghi.length">Nessun
@@ -117,6 +117,9 @@
 							</div>
 						</div>
 					</div>
+				</div>
+ 				<div ng-show="!result.trovato" style="width: 100%; padding-top: 10px; border: 1px solid #337ab7">
+					<h2>Nessun risultato trovato :-(</h2>
 				</div>
 			</div>
 		</div>
