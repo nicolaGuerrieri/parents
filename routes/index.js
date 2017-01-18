@@ -278,7 +278,6 @@ router.get('/getListaForCity', function(req, res) {
 });
 
 module.exports = router;
-=======
 var express = require('express');
 var router = express.Router();
 var mongo = require('mongodb');
