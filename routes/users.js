@@ -40,6 +40,9 @@ router.all('/', function(req, res) {
 		res.render('upload.html', {});
 	}
 });
+router.all('/mioSalto', function(req, res) {
+		res.render('upload.html', {});
+});
 
 	
 router.all('/loggated', function(req, res, next) {
@@ -166,12 +169,12 @@ router.post('/upload', upload.single('file'), function(req, res) {
 router.get('/success', function(req, res) {
 	var idLuogo;
 	console.log(req.isAuthenticated());
-	if(!req.isAuthenticated()){
-		res.redirect("/");
-	}
-	if (req.query.id_luogo) {
-		console.log("id_luogo >> " + req.query.id_luogo);
-	}
+//	if(!req.isAuthenticated()){
+//		res.redirect("/");
+//	}
+//	if (req.query.id_luogo) {
+//		console.log("id_luogo >> " + req.query.id_luogo);
+//	}
 	res.render('detail.html', {
 		dettaglio: false,
 		idLuogo: req.query.id_luogo

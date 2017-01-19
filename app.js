@@ -11,17 +11,23 @@ var LinkedInStrategy = require('passport-linkedin');
 var TwitterStrategy = require('passport-twitter').Strategy;
 var InstagramStrategy = require('passport-instagram').Strategy;
 
+
+var nomeFileConf = "conf";
+
+var config = require('./'+nomeFileConf+'.js');
+
 var app = express();
 app.engine('html', require('ejs').renderFile);
 
 app.use(bodyParser.json());
 
-
-app.use(session({secret: 'ssshhhhh'}));
+app.use(session({
+	secret : 'ssshhhhh'
+}));
 var multer = require('multer');
-//var upload = multer({
-//	dest : 'uploads/'
-//});
+// var upload = multer({
+// dest : 'uploads/'
+// });
 app.use(bodyParser.urlencoded({
 	extended : false
 }));
@@ -39,44 +45,31 @@ app.use(function(req, res, next) {
 var passport = require('passport');
 var FacebookStrategy = require('passport-facebook').Strategy;
 
-passport.use(new TwitterStrategy(
-		{
-			consumerKey : "HBAOqdMnwLZvqX4FAkLBvAcBI",
-			consumerSecret : "Q5z7tXIFiwK5n3he86HzCT6IPgWM7U5jCbr0F8gU272RkZ9tVy",
-			callbackURL : "http://127.0.0.1:3000/successoTwitter/"
-		}, function(request, accessToken, refreshToken, profile, done) {
-			process.nextTick(function() {
-				return done(null, profile);
-			});
-		}));
-//http://mherman.org/blog/2015/09/26/social-authentication-in-node-dot-js-with-passport/#.WHeeqnopVXo
-passport.use(new InstagramStrategy(
-		{
-			clientID : "634ced226f06464aa82dae2e84216de6",
-			clientSecret : "cd9c9c145736448d8892392d81f4f73a",
-			callbackURL : "http://127.0.0.1:3000/successoInstagram/",
-			passReqToCallback : true
-		}, function(request, accessToken, refreshToken, profile, done) {
-			process.nextTick(function() {
-				return done(null, profile);
-			});
-		}));
-passport.use(new GoogleStrategy(
-		{
-			clientID : "217462498363-s171mghnqot6gt4un4b129gqj0542e3j.apps.googleusercontent.com",
-			clientSecret : "33QSBQbCEy6bC1ZILV8NQ6xm",
-			callbackURL : "http://127.0.0.1:3000/successoGoogle/",
-			passReqToCallback : true
-		}, function(request, accessToken, refreshToken, profile, done) {
-			process.nextTick(function() {
-				return done(null, profile);
-			});
-		}));
-passport.use(new GoogleStrategy(
-{
-	clientID : "217462498363-s171mghnqot6gt4un4b129gqj0542e3j.apps.googleusercontent.com",
-	clientSecret : "33QSBQbCEy6bC1ZILV8NQ6xm",
-	callbackURL : "http://127.0.0.1:3000/successoGoogle/",
+passport.use(new TwitterStrategy({
+	consumerKey : config.twitter.consumerKey,
+	consumerSecret : config.twitter.consumerSecret,
+	callbackURL : config.twitter.callbackURL,
+}, function(request, accessToken, refreshToken, profile, done) {
+	process.nextTick(function() {
+		return done(null, profile);
+	});
+}));
+// http://mherman.org/blog/2015/09/26/social-authentication-in-node-dot-js-with-passport/#.WHeeqnopVXo
+passport.use(new InstagramStrategy({
+	clientID : config.instagram.clientID,
+	clientSecret : config.instagram.clientSecret,
+	callbackURL : config.instagram.callbackURL,
+	passReqToCallback : true
+}, function(request, accessToken, refreshToken, profile, done) {
+	process.nextTick(function() {
+		return done(null, profile);
+	});
+}));
+console.log(config.google.callbackURL);
+passport.use(new GoogleStrategy({
+	clientID : config.google.clientID,
+	clientSecret : config.google.clientSecret,
+	callbackURL : config.google.callbackURL,
 	passReqToCallback : true
 }, function(request, accessToken, refreshToken, profile, done) {
 	process.nextTick(function() {
@@ -84,21 +77,22 @@ passport.use(new GoogleStrategy(
 	});
 }));
 passport.use(new FacebookStrategy({
-	clientID : "199495637151146",
-	clientSecret : "28e97694a33d63ef7937b035d0be8a3d",
-	callbackURL : "http://localhost:3000/successo/",
-	profileFields: ['id', 'email', 'gender', 'link', 'locale', 'name', 'timezone', 'updated_time', 'verified']
+	clientID : config.facebook.clientID,
+	clientSecret : config.facebook.clientSecret,
+	callbackURL : config.facebook.callbackURL,
+	profileFields : [ 'id', 'email', 'gender', 'link', 'locale', 'name',
+			'timezone', 'updated_time', 'verified' ]
 }, function(accessToken, refreshToken, profile, done) {
 	process.nextTick(function() {
 		return done(null, profile);
 	});
-	
+
 }));
 passport.use(new LinkedInStrategy({
-    consumerKey: "77gmpicgy3yaip",
-    consumerSecret: "9CPjAITKB0z3B7t9",
-    callbackURL:  "http://localhost:3000/successoLinkedin/"
-    }, function(accessToken, refreshToken, profile, done) {
+	consumerKey : config.linkedin.clientID,
+	consumerSecret : config.linkedin.clientSecret,
+	callbackURL : config.linkedin.callbackURL,
+}, function(accessToken, refreshToken, profile, done) {
 	process.nextTick(function() {
 		return done(null, profile);
 	});
@@ -132,6 +126,186 @@ app.use(function(err, req, res, next) {
 	});
 });
 
-
-
 module.exports = app;
+
+
+//https://codepen.io/ionic/pen/uzngt
+//angular.module('ionic.example', ['ionic'])
+//
+//.controller('MapCtrl', function($scope, $ionicLoading, $compile) {
+//  function initialize() {
+//    var myLatlng = new google.maps.LatLng(43.07493,-89.381388);
+//    
+//    var mapOptions = {
+//      center: myLatlng,
+//      zoom: 16,
+//      mapTypeId: google.maps.MapTypeId.ROADMAP
+//    };
+//    var map = new google.maps.Map(document.getElementById("map"),
+//        mapOptions);
+//    
+//    //Marker + infowindow + angularjs compiled ng-click
+//    var contentString = "<div><a ng-click='clickTest()'>Click me!</a></div>";
+//    var compiled = $compile(contentString)($scope);
+//
+//    var infowindow = new google.maps.InfoWindow({
+//      content: compiled[0]
+//    });
+//
+//    var marker = new google.maps.Marker({
+//      position: myLatlng,
+//      map: map,
+//      title: 'Uluru (Ayers Rock)'
+//    });
+//
+//    google.maps.event.addListener(marker, 'click', function() {
+//      infowindow.open(map,marker);
+//    });
+//
+//    $scope.map = map;
+//  }
+//  google.maps.event.addDomListener(window, 'load', initialize);
+//  
+//  $scope.centerOnMe = function() {
+//    if(!$scope.map) {
+//      return;
+//    }
+//
+//    $scope.loading = $ionicLoading.show({
+//      content: 'Getting current location...',
+//      showBackdrop: false
+//    });
+//
+//    navigator.geolocation.getCurrentPosition(function(pos) {
+//      $scope.map.setCenter(new google.maps.LatLng(pos.coords.latitude, pos.coords.longitude));
+//      $scope.loading.hide();
+//    }, function(error) {
+//      alert('Unable to get location: ' + error.message);
+//    });
+//  };
+//  
+//  $scope.clickTest = function() {
+//    alert('Example of infowindow with ng-click')
+//  };
+//  
+//});
+
+
+
+
+/*global angular*/
+//
+//angular.module('ionicApp', ['ionic', 'ionic-material'])
+//
+//.config(function($stateProvider, $urlRouterProvider) {
+//
+//  $stateProvider
+//    .state('eventmenu', {
+//      url: '/event',
+//      abstract: true,
+//      templateUrl: 'templates/event-menu.html'
+//    })
+//    .state('eventmenu.home', {
+//      url: '/home',
+//      views: {
+//        'menuContent' :{
+//          templateUrl: 'templates/home.html'
+//        }
+//      }
+//    })
+//    .state('eventmenu.checkin', {
+//      url: '/check-in',
+//      views: {
+//        'menuContent' :{
+//          templateUrl: 'templates/check-in.html',
+//          controller: 'CheckinCtrl'
+//        }
+//      }
+//    })
+//    .state('eventmenu.attendees', {
+//      url: '/attendees',
+//      views: {
+//        'menuContent' :{
+//          templateUrl: 'templates/attendees.html',
+//          controller: 'AttendeesCtrl'
+//        }
+//      }
+//    });
+//
+//  $urlRouterProvider.otherwise('/event/home');
+//})
+//
+//.controller('MainCtrl', function($scope, ionicMaterialInk, ionicMaterialMotion, $ionicSideMenuDelegate, $timeout) {
+//
+//  $timeout(function(){
+//    ionicMaterialInk.displayEffect();
+//      ionicMaterialMotion.ripple();
+//  },0);
+//
+//
+//  $scope.attendees = [
+//    { firstname: 'Nicolas', lastname: 'Cage' },
+//    { firstname: 'Jean-Claude', lastname: 'Van Damme' },
+//    { firstname: 'Keanu', lastname: 'Reeves' },
+//    { firstname: 'Steven', lastname: 'Seagal' }
+//  ];
+//
+//  $scope.toggleLeft = function() {
+//    $ionicSideMenuDelegate.toggleLeft();
+//  };
+//})
+//
+//.controller('CheckinCtrl', function($scope, ionicMaterialInk, ionicMaterialMotion, $timeout) {
+//
+//  $timeout(function(){
+//    ionicMaterialInk.displayEffect();
+//      ionicMaterialMotion.ripple();
+//  },0);
+//
+//
+//  $scope.showForm = true;
+//
+//  $scope.shirtSizes = [
+//    { text: 'Large', value: 'L' },
+//    { text: 'Medium', value: 'M' },
+//    { text: 'Small', value: 'S' }
+//  ];
+//
+//  $scope.attendee = {};
+//  $scope.submit = function() {
+//    if(!$scope.attendee.firstname) {
+//      /*jshint ignore:start*/
+//      alert('Info required');
+//      /*jshint ignore:end*/
+//      return;
+//    }
+//    $scope.showForm = false;
+//    $scope.attendees.push($scope.attendee);
+//  };
+//
+//})
+//
+//.controller('AttendeesCtrl', function($scope, ionicMaterialInk, ionicMaterialMotion, $timeout) {
+//
+//  $timeout(function(){
+//    ionicMaterialInk.displayEffect();
+//      ionicMaterialMotion.ripple();
+//  },0);
+//
+//
+//  $scope.activity = [];
+//  $scope.arrivedChange = function(attendee) {
+//    var msg = attendee.firstname + ' ' + attendee.lastname;
+//    msg += (!attendee.arrived ? ' has arrived, ' : ' just left, ');
+//    msg += new Date().getMilliseconds();
+//    $scope.activity.push(msg);
+//    if($scope.activity.length > 3) {
+//      $scope.activity.splice(0, 1);
+//    }
+//  };
+//
+//});
+///*endglobal angular*/
+//
+
+
