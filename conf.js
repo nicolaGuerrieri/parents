@@ -15,9 +15,9 @@ var ids = {
 		callbackURL : "http://localhost:3000/successoLinkedin/"
 	},
 	google : {
-		clientID : '217462498363-s171mghnqot6gt4un4b129gqj0542e3j.apps.googleusercontent.com',
-		clientSecret : '33QSBQbCEy6bC1ZILV8NQ6xm',
-		callbackURL : 'http://127.0.0.1:3000/successoGoogle/'
+		clientID : '217462498363-bqtudomgjih7e50unkbu84728rll2s50.apps.googleusercontent.com',
+		clientSecret : 'j8Fw7fJVIsJBwBCxiOCkOps5',
+		callbackURL : 'http://app.nicolaguerrieri.it:3000/successoGoogle/'
 	},
 	instagram : {
 		clientID : "634ced226f06464aa82dae2e84216de6",

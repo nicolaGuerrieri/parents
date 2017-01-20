@@ -14,10 +14,13 @@ var InstagramStrategy = require('passport-instagram').Strategy;
 
 var nomeFileConf = "conf";
 
-var config = require('./'+nomeFileConf+'.js');
-
 var app = express();
 app.engine('html', require('ejs').renderFile);
+
+if(app.get('env') == 'development'){
+	nomeFileConf = nomeFileConf +  "-test";
+}
+var config = require('./'+nomeFileConf+'.js');
 
 app.use(bodyParser.json());
 
@@ -65,7 +68,7 @@ passport.use(new InstagramStrategy({
 		return done(null, profile);
 	});
 }));
-console.log(config.google.callbackURL);
+console.log(config.twitter.consumerKey);
 passport.use(new GoogleStrategy({
 	clientID : config.google.clientID,
 	clientSecret : config.google.clientSecret,
