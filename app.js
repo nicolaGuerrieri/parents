@@ -3,6 +3,7 @@ var path = require('path');
 var favicon = require('serve-favicon');
 var bodyParser = require('body-parser');
 var multer = require('multer');
+var fs = require('fs');
 var routes = require('./routes/index');
 var users = require('./routes/users');
 var session = require('express-session')
@@ -13,11 +14,11 @@ var InstagramStrategy = require('passport-instagram').Strategy;
 
 
 var nomeFileConf = "conf";
-
+var configEnv= require('../conf-env.js');
 var app = express();
 app.engine('html', require('ejs').renderFile);
 
-if(app.get('env') == 'development'){
+if(configEnv.ambiente.dev == true){
 	nomeFileConf = nomeFileConf +  "-test";
 }
 var config = require('./'+nomeFileConf+'.js');
@@ -57,6 +58,8 @@ passport.use(new TwitterStrategy({
 		return done(null, profile);
 	});
 }));
+
+console.log(">>>>>>>>>>" + config.google.callbackURL);
 // http://mherman.org/blog/2015/09/26/social-authentication-in-node-dot-js-with-passport/#.WHeeqnopVXo
 passport.use(new InstagramStrategy({
 	clientID : config.instagram.clientID,
@@ -68,7 +71,7 @@ passport.use(new InstagramStrategy({
 		return done(null, profile);
 	});
 }));
-console.log(app.get('env'));
+process.env.prd = false;
 passport.use(new GoogleStrategy({
 	clientID : config.google.clientID,
 	clientSecret : config.google.clientSecret,
