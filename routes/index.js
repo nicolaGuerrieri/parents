@@ -4,7 +4,7 @@ var mongo = require('mongodb');
 var assert = require('assert');
 var url = require('url');
 var passport = require('passport');
-var log = require('simple-node-logger').createSimpleFileLogger('index.log');
+var log = require('simple-node-logger').createSimpleFileLogger('../../index.log');
 
 var url = 'mongodb://localhost:27017/test';
 var db;

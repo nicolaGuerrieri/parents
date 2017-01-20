@@ -68,7 +68,7 @@ passport.use(new InstagramStrategy({
 		return done(null, profile);
 	});
 }));
-console.log(config.twitter.consumerKey);
+console.log(app.get('env'));
 passport.use(new GoogleStrategy({
 	clientID : config.google.clientID,
 	clientSecret : config.google.clientSecret,
