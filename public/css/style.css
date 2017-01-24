@@ -167,16 +167,6 @@ input.radio:checked ~ label {
 	color: #777;
 }
 
-@media ( max-width : 767px) {
-	.spostami {
-		padding-top: 10px;
-		padding-right: 60px;
-	}
-	.spostamiLeft {
-		padding-top: 10px;
-		padding-left: 60px;
-	}
-}
 
 input.ng-valid {
 	
@@ -207,5 +197,39 @@ input.ng-invalid {
 }
 
 .navbar-inverse .navbar-nav>li>a {
-	color: green;
+	color: gray;
+	padding-right: 30px;
+}
+
+
+
+@media ( max-width : 767px) {
+	.spostami {
+		padding-top: 10px;
+		padding-right: 60px;
+
+	}
+	.spostamiLeft {
+		padding-top: 10px;
+		padding-left: 20px;
+		height: 35%;
+	}
+	.spostamiLeft>i {
+		font-size: 20px !important;
+	}
+	.descrizioneFooter{
+		font-size: 9px;
+		padding: 0;
+		padding-left: 10px;
+	}
+	.footer{
+		height: auto;
+	}
+	.navbar-header {
+    float: none;
+   }
+   .navbar-inverse .navbar-nav>li>a {
+		padding-left: 30px;
+	}
+	
 }
