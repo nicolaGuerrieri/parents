@@ -2,3 +2,20 @@ Avviare il servizio sul server forever per avviare l'app
  forever start -a bin/www
  
 in conf-env.js fuori dalla root del progetto abbiamo la configurazione per leggere le chiavi social
+NSLOOKUP nomeSito verifica se il dns raggiunge
+
+cose da fare:
+- lato app
+	login via social per redirect produzione
+	OK | aprire immagine dettaglio 
+	OK | politica dei cookie
+	OK | termini e condizioni
+	| creare pagine facebook linkedin e instagram
+	| delle info da qualche parte o descrizione
+
+
+- logo e mezzo video di presentazione
+- far vedere a Ricc
+
+
+

@@ -47,6 +47,8 @@
 		function() {
 			if(dettaglio == 'true'){
 				$('#grazie').hide();
+				$('#grazieButton').hide();
+				$('#backButton').removeClass("hide").show();
 			}
 		});
 
@@ -157,7 +159,11 @@
 			<div class="col-sm-2"></div>
 
 		</div>
-			<div class="row text-center">
+			<div class="row text-center hide" id="backButton">
+			<button type="button" ng-click="goBack('/cerca?citta='+luogoInserito.luogo.citta)"
+					class="btn btn-info">{{ 'back' | translate }}</button>
+			</div>
+			<div class="row text-center" id="grazieButton">
 			<button type="button" ng-click="goBack('/cerca?citta='+luogoInserito.luogo.citta)"
 					class="btn btn-info">{{ 'search' | translate }}</button>
 			</div>

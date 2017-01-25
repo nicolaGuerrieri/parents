@@ -2,6 +2,7 @@
 	<div class="navbar-header">
 			<a class="navbar-brand" href="/">AroundTheWOD</a>
 	</div>
+
 	<ul class="nav navbar-nav navbar-right">
 		<li ng-show="!loggated.logged.loggato"><a href="/login"><span
 				class="glyphicon glyphicon-log-in"></span> Login</a></li>
@@ -9,7 +10,7 @@
 			<a title="inserisci luogo" href="/users"><span  class="glyphicon glyphicon-pencil"></span> Inserisci</a>
 		</li>
 		<li ng-show="loggated.logged.loggato">
-			<a title="logout"><span ng-click="logout" class="glyphicon glyphicon-log-in"></span> Logout</a>
+			<a title="logout" href="/users/logout"> <span class="glyphicon glyphicon-log-in"></span> Logout</a>
 		</li>
 	</ul>
 </div>

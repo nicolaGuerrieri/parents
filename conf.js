@@ -1,13 +1,13 @@
 var ids = {
 	facebook : {
-		clientID : "199495637151146",
-		clientSecret : "28e97694a33d63ef7937b035d0be8a3d",
-		callbackURL : "http://localhost:3000/successo/",
+		clientID : "1056996021096310",
+		clientSecret : "ae4d5d4d4a0ee1f65743c7c92ca34f69",
+		callbackURL : 'http://app.nicolaguerrieri.it:3000/successoFacebook/",
 	},
 	twitter : {
-		consumerKey : "HBAOqdMnwLZvqX4FAkLBvAcBI",
-		consumerSecret : "Q5z7tXIFiwK5n3he86HzCT6IPgWM7U5jCbr0F8gU272RkZ9tVy",
-		callbackURL : "http://127.0.0.1:3000/successoTwitter/"
+		consumerKey : "Ny00XEBokEVSpWaSkgwZjMF8v",
+		consumerSecret : "U4xJjJ4gmyQMNQJIzXBy5HMEvzqsGjvIdUBE4nNRsrZqzLrfHT",
+		callbackURL : 'http://app.nicolaguerrieri.it:3000/successoTwitter/"
 	},
 	linkedin : {
 		clientID : "77gmpicgy3yaip",
@@ -20,9 +20,9 @@ var ids = {
 		callbackURL : 'http://app.nicolaguerrieri.it:3000/successoGoogle/'
 	},
 	instagram : {
-		clientID : "634ced226f06464aa82dae2e84216de6",
-		clientSecret : "cd9c9c145736448d8892392d81f4f73a",
-		callbackURL : "http://127.0.0.1:3000/successoInstagram/"
+		clientID : "2aa696c1848f480c973e0116d4b5cf53",
+		clientSecret : " f0307a22c1a9477e8609df955a0ba452 ",
+		callbackURL : 'http://app.nicolaguerrieri.it:3000/successoInstagram/"
 	}
 };
 

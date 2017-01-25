@@ -331,7 +331,7 @@ router.get('/auth/google/login', passport.authenticate('google', {
 			'https://www.googleapis.com/auth/plus.profile.emails.read' ]
 }));
 
-router.get('/successo', passport.authenticate('facebook', {
+router.get('/successoFacebook', passport.authenticate('facebook', {
 	failureRedirect : '/'
 }), function(req, res) {
 	
