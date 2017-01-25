@@ -31,7 +31,10 @@ router.all('/verify', function(req, res) {
 });
 
 router.all('/login', function(req, res) {
+	log.info('/login', channel, '', '');
+
 	if (!req.isAuthenticated()) {
+		log.info('/login', channel, 'true', '');
 		res.render('login.html', {});
 	} else {
 		res.redirect('/users');
@@ -149,7 +152,7 @@ router.get('/detail', function(req, res) {
 });
 
 function ensureAuthenticated(req, res, next) {
-	console.log("Autenticato " + req.isAuthenticated());
+	log.info('ensureAuthenticated', channel, 'autenticato? ', req.isAuthenticated());
 	if (req.isAuthenticated()) {
 		return next();
 	}
@@ -159,6 +162,7 @@ function ensureAuthenticated(req, res, next) {
 router.get('/', function(req, res, next) {
 	log.info('/home', channel, '', '');
 	var loggato = req.isAuthenticated();
+	log.info('/home', channel, 'autenticato? ', loggato)
 	res.render('home.html', {
 		title : 'Parents',
 		loggato : loggato
@@ -170,7 +174,7 @@ router.get('/', function(req, res, next) {
 router.all('/cerca', function(req, res, next) {
 	var city = "";
 	var tipoLuogoEvento = "";
-	console.log(req.query.citta);
+	log.info('/cerca', channel, 'citta: ',req.query.citta);
 	if (req.body.citta) {
 		// citta dobbiamo cercare du db
 		city = req.body.citta;
@@ -182,7 +186,6 @@ router.all('/cerca', function(req, res, next) {
 		city = "Roma";
 		tipoLuogoEvento = 3;
 	}
-	console.log("/home");
 	var loggato = req.isAuthenticated();
 	res.render('index.html', {
 		citta : city,
@@ -196,19 +199,18 @@ router
 				'/getLuogoById',
 				function(req, res) {
 					try {
-						console.log("/getLuogoById");
+						log.info('/getLuogoById', channel, 'idLuogo: ',idLuogo);
+
 
 						var idLuogo;
 						if (req.query.idLuogo) {
 							idLuogo = req.query.idLuogo;
-							console.log("getLuogoById >>>" + idLuogo + "<<<");
+							log.info('/getLuogoById', channel, 'idLuogo: ',idLuogo);
 						} else {
 							console.log("Na " + city);
 						}
 
 						var o_id = new mongo.ObjectID(idLuogo);
-						console.log(o_id);
-
 						db
 								.collection("luogo_evento")
 								.findOne(
@@ -217,14 +219,10 @@ router
 										},
 										function(err, docs) {
 											if (err) {
-												console
-														.log("ERRORE >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>")
-												res.end(null);
-												console
-														.log("ERRORE >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>")
+												log.error('/getLuogoById', channel, 'err: ',err);
+												res.end(null);											
 											}
-											console.log(docs);
-											console.log(docs);
+											log.info('/getLuogoById', channel, 'docs: ',docs);
 											var json = JSON.stringify({
 												luogo : docs
 											});
@@ -241,9 +239,9 @@ router.get('/getListaForCity', function(req, res) {
 	if (req.query.citta) {
 		// dobbiamo cercare du db
 		city = req.query.citta;
-		console.log("getListaForCity >>>" + city + "<<<");
+		log.info('/getLuogoById', channel, 'city: ',city);
 	} else {
-		console.log("Na " + city);
+		log.info('/getLuogoById', channel, 'city: ', 'non presente');
 	}
 
 	res.writeHead(200, {
@@ -258,7 +256,7 @@ router.get('/getListaForCity', function(req, res) {
 		} ]
 	}, function(err, docs) {
 		if (err) {
-			console.log("ERRORE ")
+		log.error('/getLuogoById', channel, 'err: ', err);
 			res.end(null);
 		}
 		docs.each(function(err, doc) {
@@ -298,6 +296,7 @@ mongo.MongoClient.connect(url, function(err, data) {
 });
 
 router.all('/verify', function(req, res) {
+		log.info('/verify', channel, '', '');
 	res.writeHead(200, {
 		"Content-Type" : "application/json"
 	});
@@ -309,6 +308,7 @@ router.all('/verify', function(req, res) {
 });
 
 router.all('/login', function(req, res) {
+	log.info('/login', channel, '', '');
 	if (!req.isAuthenticated()) {
 		res.render('login.html', {});
 	} else {
@@ -334,7 +334,7 @@ router.get('/auth/google/login', passport.authenticate('google', {
 router.get('/successoFacebook', passport.authenticate('facebook', {
 	failureRedirect : '/'
 }), function(req, res) {
-	
+	log.info('/successoFacebook', channel, 'login facebook: ', req.isAuthenticated());
 	if (req.isAuthenticated()) {
 		req.param.logged = true;
 		req.param.utente = req.user;
@@ -347,7 +347,7 @@ router.get('/successoFacebook', passport.authenticate('facebook', {
 router.get('/successoTwitter', passport.authenticate('twitter', {
 	failureRedirect : '/'
 }), function(req, res) {
-	
+	log.info('/successoTwitter', channel, 'login successoTwitter: ', req.isAuthenticated());
 	if (req.isAuthenticated()) {
 		req.param.logged = true;
 		req.param.utente = req.user;
@@ -359,7 +359,7 @@ router.get('/successoTwitter', passport.authenticate('twitter', {
 router.get('/successoLinkedin', passport.authenticate('linkedin', {
 	failureRedirect : '/'
 }), function(req, res) {
-	
+	log.info('/successoLinkedin', channel, 'login successoLinkedin: ', req.isAuthenticated());
 	if (req.isAuthenticated()) {
 		req.param.logged = true;
 		req.param.utente = req.user;
@@ -371,7 +371,7 @@ router.get('/successoLinkedin', passport.authenticate('linkedin', {
 router.get('/successoInstagram', passport.authenticate('instagram', {
 	failureRedirect : '/'
 }), function(req, res) {
-
+	log.info('/successoInstagram', channel, 'login successoInstagram: ', req.isAuthenticated());
 	if (req.isAuthenticated()) {
 		req.param.logged = true;
 		req.param.utente = req.user;
@@ -384,8 +384,7 @@ router.get('/successoInstagram', passport.authenticate('instagram', {
 router.get('/successoGoogle', passport.authenticate('google', {
 	failureRedirect : '/'
 }), function(req, res) {
-	console.log(req.session);
-	console.log("Autenticato 1" + req.isAuthenticated());
+	log.info('/successoGoogle', channel, 'login successoGoogle: ', req.isAuthenticated());
 
 	if (req.isAuthenticated()) {
 		req.param.logged = true;
@@ -407,14 +406,17 @@ router.all('/utente', function(req, res) {
 
 
 router.get('/detail', function(req, res) {
+	log.info('/detail', channel, '','');
+
 	var idLuogo;
 	var fromDettaglio = false;
+	log.info('/detail', channel, 'req.query.dettaglio: ',req.query.dettaglio);
 
 	if (req.query.dettaglio) {
 		fromDettaglio = true;
 	}
 	if (req.query.id_luogo) {
-		console.log("id_luogo >> " + req.query.id_luogo);
+		log.info('/detail', channel, 'req.query.id_luogo: ',req.query.id_luogo);
 	}else{
 		console.log("id_luogo NON PRESENTE");
 		res.redirect('/');
