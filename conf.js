@@ -2,7 +2,7 @@ var ids = {
 	facebook : {
 		clientID : "1056996021096310",
 		clientSecret : "ae4d5d4d4a0ee1f65743c7c92ca34f69",
-		callbackURL : 'http://app.nicolaguerrieri.it:3000/successoFacebook/",
+		callbackURL : 'http://app.nicolaguerrieri.it:3000/successoFacebook/',
 	},
 	twitter : {
 		consumerKey : "Ny00XEBokEVSpWaSkgwZjMF8v",
