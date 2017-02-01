@@ -1,13 +1,13 @@
 var express = require('express');
 var router = express.Router();
 var mongoose = require('mongoose');
+var http = require('http');
 var fs = require('fs');
 var multer = require('multer')
 var passport = require('passport');
 var Grid = require('gridfs-stream');
 var passport = require('passport');
-
-
+var headers;
 var upload = multer({
 	dest : 'uploads/'
 })
@@ -226,5 +226,6 @@ router.get('/leggi/:nome', function(req, res) {
 		console.log(err);
 	}
 });
+
 
 module.exports = router;

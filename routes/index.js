@@ -234,7 +234,6 @@ router
 				});
 
 router.get('/getListaForCity', function(req, res) {
-
 	var city = "";
 	if (req.query.citta) {
 		// dobbiamo cercare du db
@@ -245,7 +244,8 @@ router.get('/getListaForCity', function(req, res) {
 	}
 
 	res.writeHead(200, {
-		"Content-Type" : "application/json"
+		"Content-Type" : "application/json",
+		"Access-Control-Allow-Origin": "*"
 	});
 	var lista = [];
 	db.collection("luogo_evento").find({
@@ -267,6 +267,7 @@ router.get('/getListaForCity', function(req, res) {
 				var json = JSON.stringify({
 					listaLuoghi : lista
 				});
+					res.setHeader("Access-Control-Allow-Origin", "*");
 
 				res.end(json);
 			}

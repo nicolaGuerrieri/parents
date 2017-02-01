@@ -49,6 +49,7 @@ app.use(function(req, res, next) {
 var passport = require('passport');
 var FacebookStrategy = require('passport-facebook').Strategy;
 
+
 passport.use(new TwitterStrategy({
 	consumerKey : config.twitter.consumerKey,
 	consumerSecret : config.twitter.consumerSecret,
@@ -132,186 +133,17 @@ app.use(function(err, req, res, next) {
 	});
 });
 
+app.use(function (req, res, next) {
+    // Website you wish to allow to connect
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    // Request methods you wish to allow
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
+    // Request headers you wish to allow
+    res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
+
+    // Set to true if you need the website to include cookies in the requests sent
+    // to the API (e.g. in case you use sessions)
+    res.setHeader('Access-Control-Allow-Credentials', true);
+    next();
+});
 module.exports = app;
-
-
-//https://codepen.io/ionic/pen/uzngt
-//angular.module('ionic.example', ['ionic'])
-//
-//.controller('MapCtrl', function($scope, $ionicLoading, $compile) {
-//  function initialize() {
-//    var myLatlng = new google.maps.LatLng(43.07493,-89.381388);
-//    
-//    var mapOptions = {
-//      center: myLatlng,
-//      zoom: 16,
-//      mapTypeId: google.maps.MapTypeId.ROADMAP
-//    };
-//    var map = new google.maps.Map(document.getElementById("map"),
-//        mapOptions);
-//    
-//    //Marker + infowindow + angularjs compiled ng-click
-//    var contentString = "<div><a ng-click='clickTest()'>Click me!</a></div>";
-//    var compiled = $compile(contentString)($scope);
-//
-//    var infowindow = new google.maps.InfoWindow({
-//      content: compiled[0]
-//    });
-//
-//    var marker = new google.maps.Marker({
-//      position: myLatlng,
-//      map: map,
-//      title: 'Uluru (Ayers Rock)'
-//    });
-//
-//    google.maps.event.addListener(marker, 'click', function() {
-//      infowindow.open(map,marker);
-//    });
-//
-//    $scope.map = map;
-//  }
-//  google.maps.event.addDomListener(window, 'load', initialize);
-//  
-//  $scope.centerOnMe = function() {
-//    if(!$scope.map) {
-//      return;
-//    }
-//
-//    $scope.loading = $ionicLoading.show({
-//      content: 'Getting current location...',
-//      showBackdrop: false
-//    });
-//
-//    navigator.geolocation.getCurrentPosition(function(pos) {
-//      $scope.map.setCenter(new google.maps.LatLng(pos.coords.latitude, pos.coords.longitude));
-//      $scope.loading.hide();
-//    }, function(error) {
-//      alert('Unable to get location: ' + error.message);
-//    });
-//  };
-//  
-//  $scope.clickTest = function() {
-//    alert('Example of infowindow with ng-click')
-//  };
-//  
-//});
-
-
-
-
-/*global angular*/
-//
-//angular.module('ionicApp', ['ionic', 'ionic-material'])
-//
-//.config(function($stateProvider, $urlRouterProvider) {
-//
-//  $stateProvider
-//    .state('eventmenu', {
-//      url: '/event',
-//      abstract: true,
-//      templateUrl: 'templates/event-menu.html'
-//    })
-//    .state('eventmenu.home', {
-//      url: '/home',
-//      views: {
-//        'menuContent' :{
-//          templateUrl: 'templates/home.html'
-//        }
-//      }
-//    })
-//    .state('eventmenu.checkin', {
-//      url: '/check-in',
-//      views: {
-//        'menuContent' :{
-//          templateUrl: 'templates/check-in.html',
-//          controller: 'CheckinCtrl'
-//        }
-//      }
-//    })
-//    .state('eventmenu.attendees', {
-//      url: '/attendees',
-//      views: {
-//        'menuContent' :{
-//          templateUrl: 'templates/attendees.html',
-//          controller: 'AttendeesCtrl'
-//        }
-//      }
-//    });
-//
-//  $urlRouterProvider.otherwise('/event/home');
-//})
-//
-//.controller('MainCtrl', function($scope, ionicMaterialInk, ionicMaterialMotion, $ionicSideMenuDelegate, $timeout) {
-//
-//  $timeout(function(){
-//    ionicMaterialInk.displayEffect();
-//      ionicMaterialMotion.ripple();
-//  },0);
-//
-//
-//  $scope.attendees = [
-//    { firstname: 'Nicolas', lastname: 'Cage' },
-//    { firstname: 'Jean-Claude', lastname: 'Van Damme' },
-//    { firstname: 'Keanu', lastname: 'Reeves' },
-//    { firstname: 'Steven', lastname: 'Seagal' }
-//  ];
-//
-//  $scope.toggleLeft = function() {
-//    $ionicSideMenuDelegate.toggleLeft();
-//  };
-//})
-//
-//.controller('CheckinCtrl', function($scope, ionicMaterialInk, ionicMaterialMotion, $timeout) {
-//
-//  $timeout(function(){
-//    ionicMaterialInk.displayEffect();
-//      ionicMaterialMotion.ripple();
-//  },0);
-//
-//
-//  $scope.showForm = true;
-//
-//  $scope.shirtSizes = [
-//    { text: 'Large', value: 'L' },
-//    { text: 'Medium', value: 'M' },
-//    { text: 'Small', value: 'S' }
-//  ];
-//
-//  $scope.attendee = {};
-//  $scope.submit = function() {
-//    if(!$scope.attendee.firstname) {
-//      /*jshint ignore:start*/
-//      alert('Info required');
-//      /*jshint ignore:end*/
-//      return;
-//    }
-//    $scope.showForm = false;
-//    $scope.attendees.push($scope.attendee);
-//  };
-//
-//})
-//
-//.controller('AttendeesCtrl', function($scope, ionicMaterialInk, ionicMaterialMotion, $timeout) {
-//
-//  $timeout(function(){
-//    ionicMaterialInk.displayEffect();
-//      ionicMaterialMotion.ripple();
-//  },0);
-//
-//
-//  $scope.activity = [];
-//  $scope.arrivedChange = function(attendee) {
-//    var msg = attendee.firstname + ' ' + attendee.lastname;
-//    msg += (!attendee.arrived ? ' has arrived, ' : ' just left, ');
-//    msg += new Date().getMilliseconds();
-//    $scope.activity.push(msg);
-//    if($scope.activity.length > 3) {
-//      $scope.activity.splice(0, 1);
-//    }
-//  };
-//
-//});
-///*endglobal angular*/
-//
-
-
