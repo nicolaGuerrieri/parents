@@ -102,16 +102,20 @@ router.post('/upload', upload.single('file'), function(req, res) {
 			nomeImmagine = fileImmagine.originalname;
 		}
 		if(nuovoEvento.localita == undefined){
-			console.log("problema localita");
-			return;
+			if(nuovoEvento.comune == undefined){
+				console.log("problema localita");
+				return;
+			}else{
+				nuovoEvento.localita = nuovoEvento.comune;
+			}
 		}
 		var luogoEvento = {
 			"ricerca" : nuovoEvento.cercaPostoNew,
 			"nazione" : nuovoEvento.nazione,
 			"provincia" : nuovoEvento.provincia,
 			"citta" : nuovoEvento.localita.toLowerCase(),
-			"via" : nuovoEvento.localita,
-			"cap" : nuovoEvento.localita,
+			"via" : nuovoEvento.via,
+			"cap" : nuovoEvento.cap,
 			"orario" : nuovoEvento.orari,
 			"nome" : nuovoEvento.nome,
 			"descrizione" : nuovoEvento.descrizione,

@@ -38,14 +38,14 @@
 								//non usando application/json per l'immagine
 								//snocciolo l'oggetto
 								formData.append(key, data.luogoCercato[key]);
+								console.log(key);
 							}
 						}
 						if(key != "lat"){
 							formData.append(key, data[key]);
 						}
 						
-						console.log(key);
-						console.log(data[key]);
+						
 					}
 					$http.post(uploadUrl, formData, {
 						transformRequest: angular.indentity,
@@ -233,7 +233,7 @@
 														stampa += " Comune: "
 																+ g.long_name
 																+ " ";
-														var dd = g.long_name;
+														localitaFind.comune = g.long_name;
 													}
 													if (g.types[0] == 'administrative_area_level_2') {
 														stampa += " Provincia: "
@@ -371,7 +371,7 @@
 							});
 						};
 						$scope.cercaLuogo = function(address) {
-							console.log("HomeController.cercalLuogo");
+							$scope.luogo
 							if(address){
 								$scope.luogo.cercaPostoNew  = address;
 							}else{
@@ -380,6 +380,7 @@
 							console.log($scope.luogo.cercaPostoNew);
 
 							cercami.cerca($scope, $window, $scope.luogo.cercaPostoNew, true, null, null);
+							console.log($scope.luogo.cercaPostoNew);
 						};
 						$scope.verificaLogin = function() {
 							$.getJSON('/verify', function(data) {
