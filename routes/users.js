@@ -8,6 +8,8 @@ var passport = require('passport');
 var Grid = require('gridfs-stream');
 var passport = require('passport');
 var headers;
+
+var log = require('simple-node-logger').createSimpleFileLogger('../../index.log');
 var upload = multer({
 	dest : 'uploads/'
 })
@@ -165,7 +167,7 @@ router.post('/upload', upload.single('file'), function(req, res) {
 		 res.end(""+luogoEvento._id);
 
 	} catch (err) {
-		console.log("errore >>> " + err);
+		log.error('/insert', err);
 		throw err;
 	}
 });
