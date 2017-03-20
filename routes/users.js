@@ -77,6 +77,19 @@ var testNameFile = "";
  * console.log(nuovoEvento.ristoro); console.log(nuovoEvento.attrezzatura);
  ******************************************************************************/
 
+ 
+ router.post('/uploadSimple', function(req, res) {
+	log.info('/uploadSimple');
+	try {
+		var nuovoEvento = req.body;
+		log.info('/insert nuovoEvento: ', nuovoEvento);
+		res.end("Tutto bene");
+
+	} catch (err) {
+		log.error('/uploadSimple', err);
+		res.end(""+err);
+	}
+});
 router.post('/upload', upload.single('file'), function(req, res) {
 	log.info('/insert');
 	try {
