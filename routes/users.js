@@ -78,8 +78,7 @@ var testNameFile = "";
  ******************************************************************************/
 
 router.post('/upload', upload.single('file'), function(req, res) {
-	console.log("/upload");
-
+	log.info('/upload', luogoEvento);
 	try {
 
 		
@@ -103,6 +102,18 @@ router.post('/upload', upload.single('file'), function(req, res) {
 		if (fileImmagine) {
 			nomeImmagine = fileImmagine.originalname;
 		}
+		var utente;
+		if (req.user) {
+			utente = req.user;
+		}else{
+			utente = nuovoEvento.utente;
+		}
+		var attrezzature;
+		if (nuovoEvento.attrezzature) {
+			attrezzature = nuovoEvento.attrezzature;
+		}else{
+			attrezzature = nuovoEvento.descrizione;
+		}
 		if(nuovoEvento.localita == undefined){
 			if(nuovoEvento.comune == undefined){
 				console.log("problema localita");
@@ -122,17 +133,17 @@ router.post('/upload', upload.single('file'), function(req, res) {
 			"nome" : nuovoEvento.nome,
 			"descrizione" : nuovoEvento.descrizione,
 			"punto_risotro" : nuovoEvento.ristoro,
-			"attrezzature" : nuovoEvento.descrizione,
+			"attrezzature" : attrezzature,
 			"longitudine" : nuovoEvento.longi,
 			"latitudine" : nuovoEvento.lat,
 			"momentaneo" : momentaneo,
 			"sempreAperto" : sempreAperto,
 			"valido_da" : nuovoEvento.dal,
 			"valido_a" : nuovoEvento.al,
-			"utente" : req.user,
+			"utente" : utente,
 			"foto" : nomeImmagine
 		}
-		console.log(luogoEvento);
+		log.info('/insert', luogoEvento);
 		conn.db.collection('luogo_evento').insertOne(luogoEvento, function(err, result) {
 			if(err){
 				console.log("err " + err);
@@ -164,11 +175,11 @@ router.post('/upload', upload.single('file'), function(req, res) {
 				console.log(file._id + 'Written To DB');
 			});
 		}
-		 res.end(""+luogoEvento._id);
+		res.end(""+luogoEvento._id);
 
 	} catch (err) {
 		log.error('/insert', err);
-		throw err;
+		res.end(""+err);
 	}
 });
 
