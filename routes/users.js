@@ -78,20 +78,19 @@ var testNameFile = "";
  ******************************************************************************/
 
 router.post('/upload', upload.single('file'), function(req, res) {
-	log.info('/upload', luogoEvento);
+	log.info('/insert');
 	try {
 
-		
 		var fileImmagine = req.file;
 		var nomeImmagine;
 		var nuovoEvento = req.body;
 		var momentaneo = true;
 		var sempreAperto = false;
+		log.info('/insert nuovoEvento: ', nuovoEvento);
 
 //		conn.db.collection('luogo_evento').count(function(err, count) {
 //			console.dir(count);
 //		});
-		console.log(nuovoEvento);
 
 		if (nuovoEvento.fisso == 'true') {
 			momentaneo = false;
@@ -116,7 +115,7 @@ router.post('/upload', upload.single('file'), function(req, res) {
 		}
 		if(nuovoEvento.localita == undefined){
 			if(nuovoEvento.comune == undefined){
-				console.log("problema localita");
+				log.error('/insert', 'errore nessun comune');
 				return;
 			}else{
 				nuovoEvento.localita = nuovoEvento.comune;
