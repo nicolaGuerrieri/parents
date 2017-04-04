@@ -7,9 +7,14 @@ var multer = require('multer')
 var passport = require('passport');
 var Grid = require('gridfs-stream');
 var passport = require('passport');
-var headers;
-
-var log = require('simple-node-logger').createSimpleFileLogger('../../index.log');
+var headers; 
+const opts = {
+    logDirectory:'../log',
+    fileNamePattern:'users_<DATE>.log',
+    dateFormat:'YYYY.MM.DD'
+};
+//const log = require('simple-node-logger').createSimpleLogger();
+const log = require('simple-node-logger').createRollingFileLogger( opts )
 var upload = multer({
 	dest : 'uploads/'
 })
@@ -29,13 +34,14 @@ Grid.mongo = mongoose.mongo;
 // });
 // });
 router.all('/logout', function(req, res) {
+	log.info('logout: ',"/ " + req.isAuthenticated());
 	req.session.destroy();
 	res.redirect('/');
 });
 
 
 router.all('/', function(req, res) {
-	console.log("/ " + req.isAuthenticated());
+	log.info('/: ',"/ " + req.isAuthenticated());
 	if (!req.isAuthenticated()) {
 		res.redirect('/');
 	}else{
@@ -43,11 +49,12 @@ router.all('/', function(req, res) {
 	}
 });
 router.all('/mioSalto', function(req, res) {
-		res.render('upload.html', {});
+	res.render('upload.html', {});
 });
 
 	
 router.all('/loggated', function(req, res, next) {
+	log.info('loggated: ',"/ " + req.isAuthenticated());
 	var logged = false;
 	if (req.isAuthenticated()) {
 		logged = true;
@@ -79,7 +86,7 @@ var testNameFile = "";
 
  
  router.post('/uploadSimple', function(req, res) {
-	log.info('/uploadSimple');
+	log.info('/uploadSimple: ');
 	try {
 		var nuovoEvento = req.body;
 		log.info('/insert nuovoEvento: ', nuovoEvento);
@@ -120,6 +127,7 @@ router.post('/upload', upload.single('file'), function(req, res) {
 		}else{
 			utente = nuovoEvento.utente;
 		}
+		log.info('/insert utente: '+ utente);
 		var attrezzature;
 		if (nuovoEvento.attrezzature) {
 			attrezzature = nuovoEvento.attrezzature;
@@ -134,6 +142,7 @@ router.post('/upload', upload.single('file'), function(req, res) {
 				nuovoEvento.localita = nuovoEvento.comune;
 			}
 		}
+		log.info('/insert nuovoEvento.localita: '+ nuovoEvento.localita);
 		var luogoEvento = {
 			"ricerca" : nuovoEvento.cercaPostoNew,
 			"nazione" : nuovoEvento.nazione,
@@ -158,15 +167,13 @@ router.post('/upload', upload.single('file'), function(req, res) {
 		log.info('/insert', luogoEvento);
 		conn.db.collection('luogo_evento').insertOne(luogoEvento, function(err, result) {
 			if(err){
-				console.log("err " + err);
+				log.error('',"err " + err);
 				res.redirect("/");
-			}
-//			var ogget =  luogoEvento.get( "_id" );
-			console.log("result >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
-			console.log(luogoEvento._id);
+			} 
+			log.info('insert result: ',luogoEvento._id);
 		});
 		if(req.file){
-			console.log("presente immagine");
+			log.info('insert immagine: ',"presente immagine");
 
 			var dirname = require('path').dirname(__dirname);
 			var filename = "";
@@ -184,7 +191,7 @@ router.post('/upload', upload.single('file'), function(req, res) {
 			read_stream.pipe(writestream);
 			writestream.on('close', function(file) {
 				id = file._id;
-				console.log(file._id + 'Written To DB');
+				log.info('insert file: ', file._id + 'Written To DB');
 			});
 		}
 		res.end(""+luogoEvento._id);
@@ -197,12 +204,12 @@ router.post('/upload', upload.single('file'), function(req, res) {
 
 router.get('/success', function(req, res) {
 	var idLuogo;
-	console.log(req.isAuthenticated());
+	log.info('success: ',req.isAuthenticated());
 //	if(!req.isAuthenticated()){
 //		res.redirect("/");
 //	}
 //	if (req.query.id_luogo) {
-//		console.log("id_luogo >> " + req.query.id_luogo);
+//		log.info('',"id_luogo >> " + req.query.id_luogo);
 //	}
 	res.render('detail.html', {
 		dettaglio: false,
@@ -212,11 +219,11 @@ router.get('/success', function(req, res) {
 
 
 router.get('/leggi/:nome', function(req, res) {
-	console.log("/leggi/:nome");
+	log.info('leggi/:nome ',"/leggi/:nome");
 	try {
 
 		var nomeFile = req.params.nome;
-		console.log("entro" + nomeFile);
+		log.info('leggi/:nome ', nomeFile);
 		var listaImmagini;
 
 		gfs.files.find({
@@ -233,9 +240,10 @@ router.get('/leggi/:nome', function(req, res) {
 			res.writeHead(200, {
 				'Content-Type' : 'image/png'
 			});
-			// console.log(files[0].contentType)
+			// log.info('',files[0].contentType)
 			var readstream = gfs.createReadStream({
 				filename : files[0].filename
+				
 			});
 
 			readstream.on('data', function(chunk) {
@@ -247,12 +255,12 @@ router.get('/leggi/:nome', function(req, res) {
 			});
 
 			readstream.on('error', function(err) {
-				console.log('An error occurred!', err);
+				log.error('An error occurred!', err);
 				throw err;
 			});
 		});
 	} catch (err) {
-		console.log(err);
+		log.error('',err);
 	}
 });
 

@@ -4,8 +4,13 @@ var mongo = require('mongodb');
 var assert = require('assert');
 var url = require('url');
 var passport = require('passport');
-var log = require('simple-node-logger').createSimpleFileLogger('../../index.log');
-
+const opts = {
+    logDirectory:'../log',
+    fileNamePattern:'index_<DATE>.log',
+    dateFormat:'YYYY.MM.DD'
+};
+//const log = require('simple-node-logger').createSimpleLogger();
+const log = require('simple-node-logger').createRollingFileLogger( opts )
 var url = 'mongodb://localhost:27017/test';
 var db;
 var channel = "/dev";
@@ -109,8 +114,8 @@ router.get('/successoInstagram', passport.authenticate('instagram', {
 router.get('/successoGoogle', passport.authenticate('google', {
 	failureRedirect : '/'
 }), function(req, res) {
-	console.log(req.session);
-	console.log("Autenticato 1" + req.isAuthenticated());
+	log.info('',req.session);
+	log.info('',"Autenticato 1" + req.isAuthenticated());
 
 	if (req.isAuthenticated()) {
 		req.param.logged = true;
@@ -138,9 +143,9 @@ router.get('/detail', function(req, res) {
 		fromDettaglio = true;
 	}
 	if (req.query.id_luogo) {
-		console.log("id_luogo >> " + req.query.id_luogo);
+		log.info('',"id_luogo >> " + req.query.id_luogo);
 	} else {
-		console.log("id_luogo NON PRESENTE");
+		log.info('',"id_luogo NON PRESENTE");
 		res.redirect('/');
 
 	}
@@ -207,7 +212,7 @@ router
 							idLuogo = req.query.idLuogo;
 							log.info('/getLuogoById', channel, 'idLuogo: ',idLuogo);
 						} else {
-							console.log("Na " + city);
+							log.info('',"Na " + city);
 						}
 
 						var o_id = new mongo.ObjectID(idLuogo);
@@ -229,7 +234,7 @@ router
 											res.end(json);
 										});
 					} catch (err) {
-						console.log()
+						log.error(err)
 					}
 				});
 
@@ -262,7 +267,7 @@ router.get('/getListaForCity', function(req, res) {
 		docs.each(function(err, doc) {
 			if (doc) {
 				lista.push(doc);
-				console.log(doc);
+				log.info('',doc);
 			} else {
 				var json = JSON.stringify({
 					listaLuoghi : lista
@@ -318,7 +323,7 @@ router.all('/login', function(req, res) {
 });
 
 router.all('/privacy', function(req, res) {
-		res.render('privacy.html', {});
+	res.render('privacy.html', {});
 });
 
 
@@ -419,7 +424,7 @@ router.get('/detail', function(req, res) {
 	if (req.query.id_luogo) {
 		log.info('/detail', channel, 'req.query.id_luogo: ',req.query.id_luogo);
 	}else{
-		console.log("id_luogo NON PRESENTE");
+		log.info('',"id_luogo NON PRESENTE");
 		res.redirect('/');
 		
 	}
@@ -431,7 +436,7 @@ router.get('/detail', function(req, res) {
 });
 
 function ensureAuthenticated(req, res, next) {
-	console.log("Autenticato " + req.isAuthenticated());
+	log.info('',"Autenticato " + req.isAuthenticated());
 	if (req.isAuthenticated()) {
 		return next();
 	}
@@ -439,7 +444,7 @@ function ensureAuthenticated(req, res, next) {
 }
 
 router.get('/', function(req, res, next) {
-	console.log("/home");
+	log.info('',"/home");
 	var loggato = req.isAuthenticated();
 	res.render('home.html', {
 		title : 'Parents',
@@ -452,7 +457,7 @@ router.get('/', function(req, res, next) {
 router.all('/cerca', function(req, res, next) {
 	var city = "";
 	var tipoLuogoEvento = "";
-	console.log(req.query.citta);
+	log.info('',req.query.citta);
 	if (req.body.citta) {
 		// citta dobbiamo cercare du db
 		city = req.body.citta;
@@ -464,7 +469,7 @@ router.all('/cerca', function(req, res, next) {
 		city = "Roma";
 		tipoLuogoEvento = 3;
 	}
-	console.log("/home");
+	log.info('',"/home");
 	var loggato = req.isAuthenticated();
 	res.render('index.html', {
 		citta : city,
@@ -475,37 +480,37 @@ router.all('/cerca', function(req, res, next) {
 
 router.get('/getLuogoById', function(req, res) {
 	try {
-		console.log("/getLuogoById");
+		log.info('',"/getLuogoById");
 	
 	var idLuogo;
 	if (req.query.idLuogo) {
 		idLuogo = req.query.idLuogo;
-		console.log("getLuogoById >>>" + idLuogo + "<<<");
+		log.info('',"getLuogoById >>>" + idLuogo + "<<<");
 	} else {
-		console.log("Na " + city);
+		log.info('',"Na " + city);
 	}
 	
 	var o_id = new mongo.ObjectID(idLuogo);
-	console.log(o_id);
+	log.info('',o_id);
 	
 	db.collection("luogo_evento").findOne({
 		_id : o_id
 	},
 	function(err, docs) {
 		if (err) {
-			console.log("ERRORE >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>")
+			log.error('',"ERRORE >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>")
 			res.end(null);
-			console.log("ERRORE >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>")
-			}
-			console.log(docs);
-			console.log(docs);
-			var json = JSON.stringify({
-				luogo : docs
-			});
-			res.end(json);
+			log.error('',"ERRORE >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>")
+		}
+		log.info('',docs);
+		log.info('',docs);
+		var json = JSON.stringify({
+			luogo : docs
+		});
+		res.end(json);
 		});
 	} catch (err) {
-		console.log()
+		log.error(err)
 }
 });
 
@@ -515,9 +520,9 @@ router.get('/getListaForCity', function(req, res) {
 	if (req.query.citta) {
 		// dobbiamo cercare du db
 		city = req.query.citta;
-		console.log("getListaForCity >>>" + city + "<<<");
+		log.info('',"getListaForCity >>>" + city + "<<<");
 	} else {
-		console.log("Na " + city);
+		log.info('',"Na " + city);
 	}
 
 	res.writeHead(200, {
@@ -532,13 +537,13 @@ router.get('/getListaForCity', function(req, res) {
 		} ]
 	}, function(err, docs) {
 		if (err) {
-			console.log("ERRORE ")
+			log.error('',"ERRORE ")
 			res.end(null);
 		}
 		docs.each(function(err, doc) {
 			if (doc) {
 				lista.push(doc);
-				console.log(doc);
+				log.info('',doc);
 			} else {
 				var json = JSON.stringify({
 					listaLuoghi : lista
