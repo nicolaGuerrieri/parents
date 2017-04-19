@@ -555,4 +555,46 @@ router.get('/getListaForCity', function(req, res) {
 
 	});
 });
+
+router.get('/getOrganizzazioni', function(req, res) {
+	console.log(req.query.citta);
+	var city = "";
+	if (req.query.citta) {
+		// dobbiamo cercare du db
+		city = req.query.citta;
+		log.info('',"getOrganizzazioni >>>" + city + "<<<");
+	} else {
+		log.info('',"Na " + city);
+	}
+
+	res.writeHead(200, {
+		"Content-Type" : "application/json"
+	});
+	var lista = [];
+	db.collection("organizzazione").find({
+		$or : [ {
+			"citta" : city.toLowerCase()
+		}, {
+			"citta" : city
+		} ]
+	}, function(err, docs) {
+		if (err) {
+			log.error('',"ERRORE ")
+			res.end(null);
+		}
+		docs.each(function(err, doc) {
+			if (doc) {
+				lista.push(doc);
+				log.info('',doc);
+			} else {
+				var json = JSON.stringify({
+					listaLuoghi : lista
+				});
+
+				res.end(json);
+			}
+		});
+
+	});
+});
 module.exports = router;

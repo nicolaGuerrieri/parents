@@ -1,0 +1,11 @@
+db.luogo_evento.drop();
+db.organizzazione.drop();
+db.users.drop();
+db.fs.chunks.drop();
+db.fs.files.drop();
+db.createCollection("users");
+db.createCollection("fs.files");
+db.createCollection("fs.chunks");
+db.createCollection("luogo_evento");
+db.createCollection("organizzazione");
+db.organizzazione.insert({"nome":"Spartan race Mason", "tipo":"spartan", "descrizione":"Spartan race Mason", "dove":"Jordan campus modena, san lazzaro di savena", "telefono":"232322105", "url_social":"www.facebook.it", "citta":"bologna"})
