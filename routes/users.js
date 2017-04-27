@@ -19,7 +19,7 @@ var upload = multer({
 	dest : 'uploads/'
 })
 var Schema = mongoose.Schema;
-mongoose.connect('mongodb://127.0.0.1/test');
+mongoose.connect('mongodb://127.0.0.1/aroundDB');
 var conn = mongoose.connection;
 Grid.mongo = mongoose.mongo;
 

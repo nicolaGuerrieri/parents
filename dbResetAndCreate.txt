@@ -1,3 +1,4 @@
+use aroundDB;
 db.luogo_evento.drop();
 db.organizzazione.drop();
 db.users.drop();
@@ -8,4 +9,7 @@ db.createCollection("fs.files");
 db.createCollection("fs.chunks");
 db.createCollection("luogo_evento");
 db.createCollection("organizzazione");
-db.organizzazione.insert({"nome":"Spartan race Mason", "tipo":"spartan", "descrizione":"Spartan race Mason", "dove":"Jordan campus modena, san lazzaro di savena", "telefono":"232322105", "url_social":"www.facebook.it", "citta":"bologna"})
+
+db.organizzazione.insert({"nome":"Spartan race Mason", "tipo":"spartan", "descrizione":"Spartan race Mason", "dove":"Jordan campus modena, san lazzaro di savena", "telefono":"232322105", "url_social":"www.facebook.it", "citta":"bologna"});
+
+db.organizzazione.insert({"nome":"Mr. Joe", "tipo":"funzionale, crossfit", "descrizione":"Allenamento con Mr. joe", "dove":"Giardini Margherita, Atlas area fit", "telefono":"232322105", "url_social":"www.mr.joewfas.it", "citta":"bologna"})

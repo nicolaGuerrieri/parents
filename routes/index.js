@@ -11,7 +11,7 @@ const opts = {
 };
 //const log = require('simple-node-logger').createSimpleLogger();
 const log = require('simple-node-logger').createRollingFileLogger( opts )
-var url = 'mongodb://localhost:27017/test';
+var url = 'mongodb://localhost:27017/aroundDB';
 var db;
 var channel = "/dev";
 router.use(passport.initialize());
