@@ -11,13 +11,14 @@ const opts = {
 };
 //const log = require('simple-node-logger').createSimpleLogger();
 const log = require('simple-node-logger').createRollingFileLogger( opts )
-var url = 'mongodb://localhost:27017/aroundDB';
+var configEnv= require('../../conf-env.js'); 
+console.log(configEnv.ambiente.urldb);
 var db;
 var channel = "/dev";
 router.use(passport.initialize());
 router.use(passport.session());
 
-mongo.MongoClient.connect(url, function(err, data) {
+mongo.MongoClient.connect(configEnv.ambiente.urldb, function(err, data) {
 	if (err)
 		throw err;
 	db = data;

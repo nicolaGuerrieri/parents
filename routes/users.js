@@ -7,6 +7,8 @@ var multer = require('multer')
 var passport = require('passport');
 var Grid = require('gridfs-stream');
 var passport = require('passport');
+var configEnv= require('../../conf-env.js'); 
+
 var headers; 
 const opts = {
     logDirectory:'../log',
@@ -19,7 +21,8 @@ var upload = multer({
 	dest : 'uploads/'
 })
 var Schema = mongoose.Schema;
-mongoose.connect('mongodb://127.0.0.1/aroundDB');
+console.log(configEnv.ambiente.urldb);
+mongoose.connect(configEnv.ambiente.urldb);
 var conn = mongoose.connection;
 Grid.mongo = mongoose.mongo;
 
