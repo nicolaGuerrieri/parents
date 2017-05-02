@@ -7,8 +7,6 @@ var multer = require('multer')
 var passport = require('passport');
 var Grid = require('gridfs-stream');
 var passport = require('passport');
-var configEnv= require('../../conf-env.js'); 
-
 var headers; 
 const opts = {
     logDirectory:'../log',
@@ -21,6 +19,8 @@ var upload = multer({
 	dest : 'uploads/'
 })
 var Schema = mongoose.Schema;
+
+var configEnv= require('../../conf-env.js'); 
 console.log(configEnv.ambiente.urldb);
 mongoose.connect(configEnv.ambiente.urldb);
 var conn = mongoose.connection;
@@ -165,6 +165,7 @@ router.post('/upload', upload.single('file'), function(req, res) {
 			"valido_da" : nuovoEvento.dal,
 			"valido_a" : nuovoEvento.al,
 			"utente" : utente,
+			"listaAttivita" : nuovoEvento.listaAttivita,
 			"foto" : nomeImmagine
 		}
 		log.info('/insert', luogoEvento);
@@ -266,6 +267,5 @@ router.get('/leggi/:nome', function(req, res) {
 		log.error('',err);
 	}
 });
-
 
 module.exports = router;

@@ -2,21 +2,25 @@ var express = require('express');
 var router = express.Router();
 var mongo = require('mongodb');
 var assert = require('assert');
-var url = require('url');
-var passport = require('passport');
+var urlD = require('url');
+var passport = require('passport'); 
 const opts = {
     logDirectory:'../log',
     fileNamePattern:'index_<DATE>.log',
     dateFormat:'YYYY.MM.DD'
 };
 //const log = require('simple-node-logger').createSimpleLogger();
-const log = require('simple-node-logger').createRollingFileLogger( opts )
+const log = require('simple-node-logger').createRollingFileLogger( opts );
+ 
 var configEnv= require('../../conf-env.js'); 
 console.log(configEnv.ambiente.urldb);
+
 var db;
 var channel = "/dev";
 router.use(passport.initialize());
 router.use(passport.session());
+
+
 
 mongo.MongoClient.connect(configEnv.ambiente.urldb, function(err, data) {
 	if (err)
@@ -597,5 +601,20 @@ router.get('/getOrganizzazioni', function(req, res) {
 		});
 
 	});
+});
+
+
+router.get('/attivita', function(req, res) {
+	res.writeHead(200, {
+		"Content-Type" : "application/json"
+	});
+	var lista = [{'nome': 'cali', 'img': 'cali.png', 'selezionato': false}, {'nome': 'vita', 'img': 'vita.png', 'selezionato': false},{'nome': 'trek', 'img': 'trek.png', 'selezionato': false}, {'nome': 'pesi', 'img': 'pesi.png', 'selezionato': false}, {'nome': 'anelli', 'img': 'anelli.png', 'selezionato': false},{'nome': 'walk', 'selezionato': false}, {'nome': 'american-football', 'selezionato': false}, {'nome': 'basketball', 'selezionato': false}, {'nome': 'bicycle', 'selezionato': false}, {'nome': 'body', 'selezionato': false}, {'nome': 'football', 'selezionato': false}, {'nome': 'tennisball', 'selezionato': false}, {'nome': 'water', 'selezionato': false}, {'nome': 'paw', 'selezionato': false}, {'nome': 'pizza', 'selezionato': false}, {'nome': 'restaurant', 'selezionato': false}, {'nome': 'cafe', 'selezionato': false}];
+ 
+	var attivita = JSON.stringify({
+		listaAttivita : lista
+	});
+	
+	res.end(attivita);
+ 
 });
 module.exports = router;
