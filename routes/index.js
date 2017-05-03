@@ -14,6 +14,7 @@ const log = require('simple-node-logger').createRollingFileLogger( opts );
  
 var configEnv= require('../../conf-env.js'); 
 log.info('urldb', configEnv.ambiente.urldb,'', '');
+console.log(configEnv.ambiente.urldb);
 
 var db;
 var channel = "/prod";
@@ -41,7 +42,7 @@ router.all('/verify', function(req, res) {
 
 router.all('/login', function(req, res) {
 	log.info('/login', channel, '', '');
-
+	console.log(configEnv.ambiente.urldb);
 	if (!req.isAuthenticated()) {
 		log.info('/login', channel, 'true', '');
 		res.render('login.html', {});
@@ -276,6 +277,7 @@ router.get('/getListaForCity', function(req, res) {
 				var json = JSON.stringify({
 					listaLuoghi : lista
 				});
+				
 				//	res.setHeader("Access-Control-Allow-Origin", "*");
 
 				res.end(json);
@@ -475,6 +477,7 @@ router.all('/cerca', function(req, res, next) {
 });
 
 router.get('/getLuogoById', function(req, res) {
+
 	try {
 		log.info('',"/getLuogoById");
 	
