@@ -13,7 +13,7 @@ const opts = {
 const log = require('simple-node-logger').createRollingFileLogger( opts );
  
 var configEnv= require('../../conf-env.js'); 
-console.log(configEnv.ambiente.urldb);
+log.info('urldb', configEnv.ambiente.urldb.'', '');
 
 var db;
 var channel = "/dev";
