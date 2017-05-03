@@ -19,12 +19,7 @@ var db;
 var channel = "/dev";
 router.use(passport.initialize());
 router.use(passport.session());
-
-mongo.MongoClient.connect(url, function(err, data) {
-	if (err)
-		throw err;
-	db = data;
-});
+ 
 
 mongo.MongoClient.connect(configEnv.ambiente.urldb, function(err, data) {
 	if (err)
