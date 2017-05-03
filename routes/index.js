@@ -16,7 +16,7 @@ var configEnv= require('../../conf-env.js');
 log.info('urldb', configEnv.ambiente.urldb,'', '');
 
 var db;
-var channel = "/dev";
+var channel = "/prod";
 router.use(passport.initialize());
 router.use(passport.session());
  
@@ -276,7 +276,7 @@ router.get('/getListaForCity', function(req, res) {
 				var json = JSON.stringify({
 					listaLuoghi : lista
 				});
-					res.setHeader("Access-Control-Allow-Origin", "*");
+				//	res.setHeader("Access-Control-Allow-Origin", "*");
 
 				res.end(json);
 			}
@@ -284,7 +284,19 @@ router.get('/getListaForCity', function(req, res) {
 
 	});
 });
-
+router.get('/attivita', function(req, res) {
+	res.writeHead(200, {
+		"Content-Type" : "application/json"
+	});
+	var lista = [{'nome': 'cali', 'img': 'cali.png', 'selezionato': false}, {'nome': 'vita', 'img': 'vita.png', 'selezionato': false},{'nome': 'trek', 'img': 'trek.png', 'selezionato': false}, {'nome': 'pesi', 'img': 'pesi.png', 'selezionato': false}, {'nome': 'anelli', 'img': 'anelli.png', 'selezionato': false},{'nome': 'walk', 'selezionato': false}, {'nome': 'american-football', 'selezionato': false}, {'nome': 'basketball', 'selezionato': false}, {'nome': 'bicycle', 'selezionato': false}, {'nome': 'body', 'selezionato': false}, {'nome': 'football', 'selezionato': false}, {'nome': 'tennisball', 'selezionato': false}, {'nome': 'water', 'selezionato': false}, {'nome': 'paw', 'selezionato': false}, {'nome': 'pizza', 'selezionato': false}, {'nome': 'restaurant', 'selezionato': false}, {'nome': 'cafe', 'selezionato': false}];
+ 
+	var attivita = JSON.stringify({
+		listaAttivita : lista
+	});
+	
+	res.end(attivita);
+ 
+});
 router.all('/verify', function(req, res) {
 		log.info('/verify', channel, '', '');
 	res.writeHead(200, {
@@ -582,18 +594,4 @@ router.get('/getOrganizzazioni', function(req, res) {
 	});
 });
 
-
-router.get('/attivita', function(req, res) {
-	res.writeHead(200, {
-		"Content-Type" : "application/json"
-	});
-	var lista = [{'nome': 'cali', 'img': 'cali.png', 'selezionato': false}, {'nome': 'vita', 'img': 'vita.png', 'selezionato': false},{'nome': 'trek', 'img': 'trek.png', 'selezionato': false}, {'nome': 'pesi', 'img': 'pesi.png', 'selezionato': false}, {'nome': 'anelli', 'img': 'anelli.png', 'selezionato': false},{'nome': 'walk', 'selezionato': false}, {'nome': 'american-football', 'selezionato': false}, {'nome': 'basketball', 'selezionato': false}, {'nome': 'bicycle', 'selezionato': false}, {'nome': 'body', 'selezionato': false}, {'nome': 'football', 'selezionato': false}, {'nome': 'tennisball', 'selezionato': false}, {'nome': 'water', 'selezionato': false}, {'nome': 'paw', 'selezionato': false}, {'nome': 'pizza', 'selezionato': false}, {'nome': 'restaurant', 'selezionato': false}, {'nome': 'cafe', 'selezionato': false}];
- 
-	var attivita = JSON.stringify({
-		listaAttivita : lista
-	});
-	
-	res.end(attivita);
- 
-});
 module.exports = router;
