@@ -1,5 +1,5 @@
 Avviare il servizio sul server forever per avviare l'app
- forever start -a bin/www
+ forever start --uid around -a bin/www
  
 in conf-env.js fuori dalla root del progetto abbiamo la configurazione per leggere le chiavi social
 NSLOOKUP nomeSito verifica se il dns raggiunge

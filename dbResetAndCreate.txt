@@ -10,6 +10,26 @@ db.createCollection("fs.chunks");
 db.createCollection("luogo_evento");
 db.createCollection("organizzazione");
 
-db.organizzazione.insert({"nome":"Spartan race Mason", "tipo":"spartan", "descrizione":"Spartan race Mason", "dove":"Jordan campus modena, san lazzaro di savena", "telefono":"232322105", "url_social":"www.facebook.it", "citta":"bologna"});
 
-db.organizzazione.insert({"nome":"Mr. Joe", "tipo":"funzionale, crossfit", "descrizione":"Allenamento con Mr. joe", "dove":"Giardini Margherita, Atlas area fit", "telefono":"232322105", "url_social":"www.mr.joewfas.it", "citta":"bologna"})
+db.organizzazione.insert({"nome":"Riccardo Giorgis", "tipo":"functional training, crossfit, spartan race, primitive", "descrizione":"Allenamento con Mr. joe", "dove":"Ovunque sia possibile", "telefono":"","url_social_instagram":"https://www.facebook.com/people/Riccardo-Giorgis/100008704142427?fref=mentions", "url_social":"https://www.facebook.com/people/Riccardo-Giorgis/100008704142427?fref=mentions", "citta":"bologna"})
+
+npm install debug
+npm install ejs
+npm install passport-instagram
+npm install passport-facebook
+npm install passport-twitter
+npm install passport-linkedin
+npm install passport-google-oauth2
+npm install passport
+npm install multer
+npm install body-parser
+npm install express
+npm install nodemon
+npm install express-session
+npm install mongodb
+npm install simple-node-logger
+npm install serve-favicon
+
+
+curl -sL https://deb.nodesource.com/setup_6.10.3 | sudo -E bash -
+sudo apt-get install -y nodejs
