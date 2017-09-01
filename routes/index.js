@@ -3,7 +3,7 @@ var router = express.Router();
 var mongo = require('mongodb');
 var assert = require('assert');
 var urlD = require('url');
-var passport = require('passport'); 
+var passport = require('passport');
 const opts = {
     logDirectory:'../log',
     fileNamePattern:'index_<DATE>.log',
@@ -11,8 +11,8 @@ const opts = {
 };
 //const log = require('simple-node-logger').createSimpleLogger();
 const log = require('simple-node-logger').createRollingFileLogger( opts );
- 
-var configEnv= require('../../conf-env.js'); 
+
+var configEnv= require('../../conf-env.js');
 log.info('urldb', configEnv.ambiente.urldb,'', '');
 console.log(configEnv.ambiente.urldb);
 
@@ -20,7 +20,7 @@ var db;
 var channel = "/prod";
 router.use(passport.initialize());
 router.use(passport.session());
- 
+
 
 mongo.MongoClient.connect(configEnv.ambiente.urldb, function(err, data) {
 	if (err)
@@ -230,7 +230,7 @@ router
 										function(err, docs) {
 											if (err) {
 												log.error('/getLuogoById', channel, 'err: ',err);
-												res.end(null);											
+												res.end(null);
 											}
 											log.info('/getLuogoById', channel, 'docs: ',docs);
 											var json = JSON.stringify({
@@ -277,7 +277,7 @@ router.get('/getListaForCity', function(req, res) {
 				var json = JSON.stringify({
 					listaLuoghi : lista
 				});
-				
+
 				//	res.setHeader("Access-Control-Allow-Origin", "*");
 
 				res.end(json);
@@ -290,14 +290,16 @@ router.get('/attivita', function(req, res) {
 	res.writeHead(200, {
 		"Content-Type" : "application/json"
 	});
-	var lista = [{'nome': 'cali', 'img': 'cali.png', 'selezionato': false}, {'nome': 'vita', 'img': 'vita.png', 'selezionato': false},{'nome': 'trek', 'img': 'trek.png', 'selezionato': false}, {'nome': 'pesi', 'img': 'pesi.png', 'selezionato': false}, {'nome': 'anelli', 'img': 'anelli.png', 'selezionato': false},{'nome': 'walk', 'selezionato': false}, {'nome': 'american-football', 'selezionato': false}, {'nome': 'basketball', 'selezionato': false}, {'nome': 'bicycle', 'selezionato': false}, {'nome': 'body', 'selezionato': false}, {'nome': 'football', 'selezionato': false}, {'nome': 'tennisball', 'selezionato': false}, {'nome': 'water', 'selezionato': false}, {'nome': 'paw', 'selezionato': false}, {'nome': 'pizza', 'selezionato': false}, {'nome': 'restaurant', 'selezionato': false}, {'nome': 'cafe', 'selezionato': false}];
- 
+	var lista = [{"nome":"cali","img":"cali.png","mostra":"Calystenics","selezionato":false},{"nome":"vita","img":"vita.png","mostra":"Percorsi vita","selezionato":false},{"nome":"pesi","img":"pesi.png","mostra":"Palestre outdoor","selezionato":false},{"nome":"anelli","img":"anelli.png","mostra":"Percorso ad ostacoli","selezionato":false},{"nome":"walk","selezionato":false,"mostra":"Corsa"},{"nome":"basketball","selezionato":false,"mostra":"Basket"},{"nome":"bicycle","selezionato":false,"mostra":"Percorsi ciclabili"}];
+
+  //[{'nome': 'cali', 'img': 'cali.png', 'selezionato': false}, {'nome': 'vita', 'img': 'vita.png', 'selezionato': false},{'nome': 'trek', 'img': 'trek.png', 'selezionato': false}, {'nome': 'pesi', 'img': 'pesi.png', 'selezionato': false}, {'nome': 'anelli', 'img': 'anelli.png', 'selezionato': false},{'nome': 'walk', 'selezionato': false}, {'nome': 'american-football', 'selezionato': false}, {'nome': 'basketball', 'selezionato': false}, {'nome': 'bicycle', 'selezionato': false}, {'nome':'body', 'selezionato': false}, {'nome': 'football', 'selezionato': false}, {'nome': 'tennisball', 'selezionato': false}, {'nome': 'water', 'selezionato': false}, {'nome': 'paw', 'selezionato': false}, {'nome': 'pizza', 'selezionato': false}, {'nome': 'restaurant', 'selezionato': false}, {'nome': 'cafe', 'selezionato': false}];
+
 	var attivita = JSON.stringify({
 		listaAttivita : lista
 	});
-	
+
 	res.end(attivita);
- 
+
 });
 router.all('/verify', function(req, res) {
 		log.info('/verify', channel, '', '');
@@ -346,7 +348,7 @@ router.get('/successoFacebook', passport.authenticate('facebook', {
 		req.param.logged = false;
 	}
 	res.redirect('/users');
-});	
+});
 
 router.get('/successoTwitter', passport.authenticate('twitter', {
 	failureRedirect : '/'
@@ -424,9 +426,9 @@ router.get('/detail', function(req, res) {
 	}else{
 		log.info('',"id_luogo NON PRESENTE");
 		res.redirect('/');
-		
+
 	}
-	
+
 	res.render('detail.html', {
 		dettaglio: fromDettaglio,
 		idLuogo: req.query.id_luogo
@@ -480,7 +482,7 @@ router.get('/getLuogoById', function(req, res) {
 
 	try {
 		log.info('',"/getLuogoById");
-	
+
 	var idLuogo;
 	if (req.query.idLuogo) {
 		idLuogo = req.query.idLuogo;
@@ -488,10 +490,10 @@ router.get('/getLuogoById', function(req, res) {
 	} else {
 		log.info('',"Na " + city);
 	}
-	
+
 	var o_id = new mongo.ObjectID(idLuogo);
 	log.info('',o_id);
-	
+
 	db.collection("luogo_evento").findOne({
 		_id : o_id
 	},
