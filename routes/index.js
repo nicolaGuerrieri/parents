@@ -221,8 +221,7 @@ router
 						}
 
 						var o_id = new mongo.ObjectID(idLuogo);
-						db
-								.collection("luogo_evento")
+								db.collection("luogo_evento")
 								.findOne(
 										{
 											_id : o_id
@@ -598,5 +597,82 @@ router.get('/getOrganizzazioni', function(req, res) {
 
 	});
 });
+router.get('/getRaccordo', function(req, res) {
 
+  console.log(req.query.idOrganizzazione);
+
+	var idOrganizzazione = "";
+	if (req.query.idOrganizzazione) {
+		// dobbiamo cercare du db
+		idOrganizzazione = req.query.idOrganizzazione;
+		log.info('',"idOrganizzazione >>>" + idOrganizzazione + "<<<");
+	} else {
+		log.info('',"Na " + idOrganizzazione);
+	}
+  var o_id = new mongo.ObjectID(idOrganizzazione);
+	res.writeHead(200, {
+		"Content-Type" : "application/json"
+	});
+	var lista = [];
+	db.collection("luogo_organizzazione").find({
+			"organizzazione_id" : o_id
+		}, function(err, docs) {
+		if (err) {
+			log.error('',"ERRORE ")
+			res.end(null);
+		}
+		docs.each(function(err, doc) {
+			if (doc) {
+				lista.push(doc);
+				log.info('',doc);
+			} else {
+				var json = JSON.stringify({
+					listaLuoghi : lista
+				});
+
+				res.end(json);
+			}
+		});
+
+	});
+});
+router.get('/getRaccordoByLuogo', function(req, res) {
+
+  console.log(req.query.idLuogo);
+
+	var idLuogo = "";
+	if (req.query.idLuogo) {
+		// dobbiamo cercare du db
+		idLuogo = req.query.idLuogo;
+		log.info('',"idLuogo >>>" + idLuogo + "<<<");
+	} else {
+		log.info('',"Na " + idLuogo);
+	}
+  var o_id = new mongo.ObjectID(idLuogo);
+	res.writeHead(200, {
+		"Content-Type" : "application/json"
+	});
+	var lista = [];
+	db.collection("luogo_organizzazione").find({
+			"luogo_id" : o_id
+		}, function(err, docs) {
+		if (err) {
+			log.error('',"ERRORE ")
+			res.end(null);
+		}
+		docs.each(function(err, doc) {
+			if (doc) {
+				lista.push(doc);
+				log.info('',doc);
+			} else {
+				var json = JSON.stringify({
+					listaLuoghi : lista
+				});
+
+				res.end(json);
+			}
+		});
+
+	});
+});
 module.exports = router;

@@ -1,6 +1,7 @@
 use aroundDB;
 db.luogo_evento.drop();
 db.organizzazione.drop();
+db.luogo_organizzazione.drop();
 db.users.drop();
 db.fs.chunks.drop();
 db.fs.files.drop();
@@ -9,9 +10,15 @@ db.createCollection("fs.files");
 db.createCollection("fs.chunks");
 db.createCollection("luogo_evento");
 db.createCollection("organizzazione");
+db.createCollection("luogo_organizzazione");
 
 
-db.organizzazione.insert({"nome":"Riccardo Giorgis", "tipo":"functional training, crossfit, spartan race, primitive", "descrizione":"Allenamento con Mr. joe", "dove":"Ovunque sia possibile", "telefono":"","url_social_instagram":"https://www.facebook.com/people/Riccardo-Giorgis/100008704142427?fref=mentions", "url_social":"https://www.facebook.com/people/Riccardo-Giorgis/100008704142427?fref=mentions", "citta":"bologna"})
+db.organizzazione.insert({"nome":"Riccardo Giorgis", "tipo":"functional training, crossfit, spartan race, primitive", "descrizione":"Allenamento con Mr. joe", "dove":"Ovunque sia possibile", "telefono":"","url_social_instagram":"https://www.facebook.com/people/Riccardo-Giorgis/100008704142427?fref=mentions", "url_social":"https://www.facebook.com/people/Riccardo-Giorgis/100008704142427?fref=mentions", "citta":"bologna"});
+
+
+db.luogo_organizzazione.insert({"organizzazione_id": ObjectId("59aec0c6dbb697c24a16af97"), "luogo_id":  ObjectId("59aec1b28ecc8c3ffc1e6483")});
+db.luogo_organizzazione.insert({"organizzazione_id": ObjectId("59aec0c6dbb697c24a16af97"), "luogo_id":  ObjectId("5909d5b973b7bec81f250cd2")});
+
 
 npm install debug
 npm install ejs
