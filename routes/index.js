@@ -242,6 +242,46 @@ router
 		}
 	});
 
+
+	router
+	.get(
+	'/elimina',
+	function (req, res) {
+		try {
+			log.info('/elimina', channel, 'idLuogo: ', idLuogo);
+
+
+			var idLuogo;
+			if (req.query.idLuogo) {
+				idLuogo = req.query.idLuogo;
+				log.info('/elimina', channel, 'idLuogo: ', idLuogo);
+			} else {
+				log.info('', "Na " + city);
+			}
+
+			var o_id = new mongo.ObjectID(idLuogo);
+			db.collection("luogo_evento")
+				.remove(
+				{
+					_id: o_id
+				},
+				function (err, docs) {
+					if (err) {
+						log.error('/elimina', channel, 'err: ', err);
+						res.end(null);
+					}
+					log.info('/elimina', channel, 'docs: ', docs);
+					var json = JSON.stringify({
+						luogo: docs
+					});
+					res.end(json);
+				});
+		} catch (err) {
+			log.error(err)
+		}
+	});
+
+
 router.get('/getListaForCity', function (req, res) {
 	var city = "";
 	if (req.query.citta) {
