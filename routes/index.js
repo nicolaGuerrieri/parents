@@ -1,5 +1,7 @@
 var express = require('express');
 var router = express.Router();
+var mongoose = require('mongoose');
+
 var mongo = require('mongodb');
 var assert = require('assert');
 var urlD = require('url');
@@ -56,22 +58,7 @@ router.all('/privacy', function (req, res) {
 	res.render('privacy.html', {});
 });
 
-router.post('/salvaUtente', function (req, res) {
-	log.info('/insert');
-	try {
-		var utente = req.body;
-		conn.db.collection('utente').insertOne(utente, function (err, result) {
-			if (err) {
-				log.error('', "err " + err);
-				res.end("" + utente._id);
-			}
-			log.info('insert result: ', utente._id);
-		});
-	} catch (err) {
-		log.error('/insert', err);
-		res.end("" + err);
-	}
-});
+
 router.all('/utenti', function (req, res, next) {
 	res.writeHead(200, {
 		"Content-Type": "application/json"
