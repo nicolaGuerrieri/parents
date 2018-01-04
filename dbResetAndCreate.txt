@@ -11,6 +11,8 @@ db.createCollection("fs.chunks");
 db.createCollection("luogo_evento");
 db.createCollection("organizzazione");
 db.createCollection("luogo_organizzazione");
+db.utente.drop();
+db.createCollection("utente");
 
 
 db.organizzazione.insert({"nome":"Riccardo Giorgis", "tipo":"functional training, crossfit, spartan race, primitive", "descrizione":"Allenamento con Mr. joe", "dove":"Ovunque sia possibile", "telefono":"","url_social_instagram":"https://www.facebook.com/people/Riccardo-Giorgis/100008704142427?fref=mentions", "url_social":"https://www.facebook.com/people/Riccardo-Giorgis/100008704142427?fref=mentions", "citta":"bologna"});
@@ -19,7 +21,7 @@ db.organizzazione.insert({"nome":"Riccardo Giorgis", "tipo":"functional training
 db.luogo_organizzazione.insert({"organizzazione_id": ObjectId("59aec0c6dbb697c24a16af97"), "luogo_id":  ObjectId("59aec1b28ecc8c3ffc1e6483")});
 db.luogo_organizzazione.insert({"organizzazione_id": ObjectId("59aec0c6dbb697c24a16af97"), "luogo_id":  ObjectId("5909d5b973b7bec81f250cd2")});
 
-
+sudo apt-get install npm
 npm install debug
 npm install ejs
 npm install passport-instagram
@@ -33,10 +35,16 @@ npm install body-parser
 npm install express
 npm install nodemon
 npm install express-session
-npm install mongodb
+
 npm install simple-node-logger
 npm install serve-favicon
 
+curl -sL https://deb.nodesource.com/setup_5.x | sudo -E bash -  
+sudo apt-get install -y nodejs  
+sudo ln -s /usr/bin/nodejs /usr/bin/node  
 
-curl -sL https://deb.nodesource.com/setup_6.10.3 | sudo -E bash -
-sudo apt-get install -y nodejs
+
+Avviare il servizio sul server forever per avviare l'app
+ forever start -a bin/www
+ 
+in conf-env.js fuori dalla root del progetto abbiamo la configurazione per leggere le chiavi social

@@ -56,6 +56,47 @@ router.all('/privacy', function (req, res) {
 	res.render('privacy.html', {});
 });
 
+router.post('/salvaUtente', function (req, res) {
+	log.info('/insert');
+	try {
+		var utente = req.body;
+		conn.db.collection('utente').insertOne(utente, function (err, result) {
+			if (err) {
+				log.error('', "err " + err);
+				res.end("" + utente._id);
+			}
+			log.info('insert result: ', utente._id);
+		});
+	} catch (err) {
+		log.error('/insert', err);
+		res.end("" + err);
+	}
+});
+router.all('/utenti', function (req, res, next) {
+	res.writeHead(200, {
+		"Content-Type": "application/json"
+	});
+	var lista = [];
+	db.collection("utente").find({}, function (err, docs) {
+		if (err) {
+			log.error('', "ERRORE ")
+			res.end(null);
+		}
+		docs.each(function (err, doc) {
+			if (doc) {
+				lista.push(doc);
+				log.info('', doc);
+			} else {
+				var json = JSON.stringify({
+					utenti: lista
+				});
+
+				res.end(json);
+			}
+		});
+
+	});
+});
 /* GET home page. */
 router.all('/auth/twitter/login', passport.authenticate('twitter'));
 router.all('/auth/instagram/login', passport.authenticate('instagram'));
@@ -243,7 +284,7 @@ router
 	});
 
 
-	router
+router
 	.get(
 	'/elimina',
 	function (req, res) {
