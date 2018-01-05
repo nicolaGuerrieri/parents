@@ -46,17 +46,23 @@ router.all('/salvaUtente', function (req, res) {
 	log.info('/salvaUtente');
 	
 	try {
+		log.info('utente: ', req.body);
+
 		var utente = req.body;
 		
-		log.info('utente: ', utente);
-		conn.db.collection('utente').insertOne(utente, function (err, result) {
-			if (err) {
-				log.error('', "err " + err);
-				res.end("" + err);
-			}
-			log.info('insert result: ', utente._id);
-			res.end(""+utente._id);
-		});
+		if(utente){
+			log.info('utente: ', utente);
+			conn.db.collection('utente').insertOne(utente, function (err, result) {
+				if (err) {
+					log.error('', "err " + err);
+					res.end("" + err);
+				}
+				log.info('insert result: ', utente._id);
+				res.end(""+utente._id);
+			});
+		}else{
+			res.end("no utente");
+		}
 	} catch (err) {
 		log.error('/insert', err);
 		console.error('arriva');
