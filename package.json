@@ -12,6 +12,7 @@
     "express": "~4.13.4",
     "helmet": "^2.1.1",
     "jade": "~1.11.0",
+    "mongoose": "^5.0.14",
     "morgan": "~1.7.0",
     "multer": "^1.1.0",
     "passport": "^0.3.2",
