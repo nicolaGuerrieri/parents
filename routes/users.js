@@ -20,7 +20,7 @@ var upload = multer({
 })
 var Schema = mongoose.Schema;
 
-var configEnv= require('../../conf-env.js'); 
+var configEnv= require('../conf-env.js'); 
 console.log(configEnv.ambiente.urldb);
 mongoose.connect(configEnv.ambiente.urldb);
 var conn = mongoose.connection;
