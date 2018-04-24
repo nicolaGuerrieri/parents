@@ -135,6 +135,13 @@
 							}
 							$window.location.href = '/detail?id_luogo='+ idLuogoEvento + '&dettaglio=true';
 						};
+						$scope.delete = function(idLuogoEvento) {
+							if(!idLuogoEvento){
+								return;
+							}
+							alert(idLuogoEvento)
+							$window.location.href = '/delete?id_luogo='+ idLuogoEvento + '&dettaglio=true';
+						};
 						$scope.verify =  function(address) {
 							$.getJSON('/verify', function(data) {
 								$scope.loggated.logged= data;

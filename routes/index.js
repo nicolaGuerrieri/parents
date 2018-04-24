@@ -225,11 +225,43 @@ router.all('/cerca', function (req, res, next) {
 		tipoLuogoEvento = 3;
 	}
 	var loggato = req.isAuthenticated();
+
+	if(city == 'frichifrichi'){
+		res.render('allAdmin.html', {
+			citta: city,
+			loggato: loggato,
+			tipoLuogoEvento: tipoLuogoEvento
+		});
+	}
 	res.render('index.html', {
 		citta: city,
 		loggato: loggato,
 		tipoLuogoEvento: tipoLuogoEvento
 	});
+});
+router.all('/admin', function (req, res, next) {
+	var city = "";
+	var tipoLuogoEvento = "";
+	log.info('/cerca', channel, 'citta: ', req.query.citta);
+	if (req.body.citta) {
+		// citta dobbiamo cercare du db
+		city = req.body.citta;
+		tipoLuogoEvento = req.body.tipoLuogoEvento;
+	} else if (req.query.citta) {
+		city = req.query.citta;
+	} else {
+		// passiamo un default
+		city = "Roma";
+		tipoLuogoEvento = 3;
+	}
+	var loggato = req.isAuthenticated();
+
+	 	res.render('allAdmin.html', {
+			citta: city,
+			loggato: loggato,
+			tipoLuogoEvento: tipoLuogoEvento
+		});
+ 
 });
 
 router
@@ -502,6 +534,28 @@ router.get('/detail', function (req, res) {
 	});
 });
 
+router.get('/delete', function (req, res) {
+	log.info('/detail', channel, '', '');
+
+	var idLuogo;
+	var fromDettaglio = false;
+
+
+	db.collection("luogo_evento").findByIdAndRemove(req.params.todoId, (err, todo) => {  
+		// As always, handle any potential errors:
+		if (err) return res.status(500).send(err);
+		// We'll create a simple object to send back with a message and the id of the document that was removed
+		// You can really do this however you want, though.
+		const response = {
+			message: "Todo successfully deleted",
+			id: todo._id
+		}; 
+	});
+		res.render('allAdmin.html', {
+			dettaglio: fromDettaglio,
+			idLuogo: req.query.id_luogo
+		});
+});
 function ensureAuthenticated(req, res, next) {
 	log.info('', "Autenticato " + req.isAuthenticated());
 	if (req.isAuthenticated()) {

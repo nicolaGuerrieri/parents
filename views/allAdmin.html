@@ -1,0 +1,134 @@
+<html ng-app="helpParents">
+<head>
+
+<title>AroundTheWOD admin page</title>
+<meta charset="utf-8">
+<meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
+<meta content="width=device-width,initial-scale=1,maximum-scale=1"
+	name="viewport">
+
+<meta name="author" content="Nicola Guerrieri">
+<meta name="description" 
+	content="Guerrieri Nicola Sito personale di Nicola Guerrieri heroku java node.js programmatore bologna">
+<meta name="keywords" content=" Nicola Guerrieri">
+
+
+<meta HTTP-EQUIV="CONTENT-LANGUAGE" CONTENT="Italian">
+
+<!-- <script src="bower_components/jquery.min.js"></script> -->
+
+<link href="css/bootstrap.css" rel="stylesheet">
+<link href="css/style.css" rel="stylesheet">
+
+<link rel="stylesheet"
+	href="fonts/font-awesome-4.6.3/css/font-awesome.min.css">
+
+<script types="text/javascript"
+	src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script
+	src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+<script
+	src="https://maps.googleapis.com/maps/api/js?&key=AIzaSyCmuhOq1fek6HJd6tvkyo2waH1vdv6a6H8&libraries=places">
+<script src="js/bootstrap.min.js">
+	
+</script>
+<script src="js/util.js"></script>
+<script src="js/HomeController.js"></script>
+<script src="bower_components/angular-translate/angular-translate.js"></script>
+
+
+
+<script type="text/javascript">
+	var cittaMia = '<%= citta %>';
+	var tipoLuogoEvento = '<%= tipoLuogoEvento %>';
+
+	$(document).ready(
+			function() {
+				var placeSearch, autocomplete;
+
+				autocomplete = new google.maps.places.Autocomplete((document
+						.getElementById('autocomplete')), {
+					types : [ 'geocode' ]
+				});
+				autocomplete.addListener('citta', fillInAddress);
+			});
+	function apri() {
+		$("#myModal").modal('show');
+		$(".modell").modal('show');
+	}
+</script>
+</head>
+
+<body ng-controller="genericCtrl" ng-init="getLuogoMap(null)">
+	ad
+	<div class="contentPreFooter">
+		<nav class="navbar navbar-inverse coloreGradiente">
+			<div ng-include="'pagineSoloClient/navbar.html'">
+			</div>
+		</nav>
+		<!-- 		MAPPA -->
+		<div id="map_container"></div>
+		<div style="width: 100%;">
+			<div class="col-sm-3" style="padding: 10px;">
+				<input type="text" placeholder="{{'place' | translate }}"
+					id="autocomplete" ng-model="result.cercaPostoNew"
+					class="form-control" name="citta" value="<%= citta %>"
+					my-enter="getLuogoMap()" /><br />
+				<div class="text-center">
+					<input type="radio" ng-model="result.tipo" name="tipoLuogoEvento"
+						id="mobili" value="2" /> <label for="mobili">{{
+						'temporanei' | translate }}</label> <br /> <input type="radio"
+						ng-model="result.tipo" name="tipoLuogoEvento" id="fissi" value="1" />
+					<label for="fissi">{{ 'fissi' | translate }}</label> <br /> <input
+						type="radio" name="tipoLuogoEvento" id="tutti" value="3"
+						ng-model="result.tipo" checked="checked" /> <label for="tutti">{{
+						'tutti' | translate }}</label> <br /> <br />
+
+					<!-- 					<button type="button" ng-click="getLuogoMap($('#autocomplete').val())" -->
+					<button type="button" ng-click="getLuogoMap()" class="btn btn-info">{{
+						'cerca' | translate }}</button>
+				</div>
+			</div>
+			<div class="col-sm-9">
+				<div ng-show="result.trovato" style="width: 100%; padding-top: 10px;">
+					<!-- 					//lista luoghi -->
+					<div class="row text-center"
+						ng-show="!result.luogoCercato.listaLuoghi.length">Nessun
+						luogo trovato</div>
+					<div ng-repeat="poste in result.luogoCercato.listaLuoghi"
+						class="row divLuogo ombra">
+						<div ng-click="dettaglio(poste._id)" style="width: 100%; cursor: pointer;" >
+							<div class="col-sm-3" style="">
+								<div ng-if="poste.foto != null">
+									<img src="/users/leggi/{{poste.foto}}" class="img-circle"
+										style="width: 60px; height: 60px;" alt="logo">
+								</div>
+								<div ng-if="poste.foto == null">
+									<img ng-show="{{!poste.foto}}" src="images/logo.png"
+										class="img-circle" style="width: 60px; height: 60px;"
+										alt="logo">
+								</div>
+							</div>
+							<div class="col-sm-6" style="" style="cursor: pointer;">
+								 {{poste.ricerca}} {{poste.nome}} {{poste.via}} {{poste.citta}} <br />
+								{{poste.descrizione}} {{poste.punto_ristoro }} <br />
+								Aggiunto da: {{poste.mail }}
+							</div>
+							<div class="col-sm-2" style="">
+
+								<button type="button" ng-click="delete(poste._id)"
+									class="btn btn-info">Cancella</button>
+							</div>
+						</div>
+					</div>
+				</div>
+ 				<div ng-show="!result.trovato" style="width: 100%; padding-top: 10px; border: 1px solid #337ab7">
+					<h2>Nessun risultato trovato :-(</h2>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div ng-include="'pagineSoloClient/footer.html'"></div>
+</body>
+
+</html>
