@@ -128,6 +128,7 @@
 					function($scope, $window, $translate, $http, multipartForm, cercami) {
 						$scope.result = {};
 						$scope.loggated = {};
+						$scope.lagga=false;
 						$scope.paginaInserimento = false;
 						$scope.dettaglio = function(idLuogoEvento) {
 							if(!idLuogoEvento){
@@ -145,6 +146,9 @@
 							$.getJSON('/verify', function(data) {
 								$scope.loggated.logged= data;
 							});
+						};
+						$scope.laggas = function() {
+							$scope.lagga=true;
 						};
 						$scope.loginHome = function() {
 							$window.location.href = "/login";

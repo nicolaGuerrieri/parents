@@ -242,7 +242,12 @@ router.all('/cerca', function (req, res, next) {
 router.all('/admin', function (req, res, next) {
 	var city = "";
 	var tipoLuogoEvento = "";
-	log.info('/cerca', channel, 'citta: ', req.query.citta);
+	log.info('/admin', channel, 'citta: ', req.query.citta);
+
+	var lagga = false;
+	if(req.query.ricc == '16piediminimo'){
+		lagga = true
+	}
 	if (req.body.citta) {
 		// citta dobbiamo cercare du db
 		city = req.body.citta;
@@ -257,6 +262,7 @@ router.all('/admin', function (req, res, next) {
 	var loggato = req.isAuthenticated();
 
 	 	res.render('allAdmin.html', {
+			lagga: lagga,
 			citta: city,
 			loggato: loggato,
 			tipoLuogoEvento: tipoLuogoEvento

@@ -40,6 +40,7 @@
 
 <script type="text/javascript">
 	var cittaMia = '<%= citta %>';
+	var lagga = '<%= lagga %>';
 	var tipoLuogoEvento = '<%= tipoLuogoEvento %>';
 
 	$(document).ready(
@@ -60,7 +61,7 @@
 </head>
 
 <body ng-controller="genericCtrl" ng-init="getLuogoMap(null)">
-	
+	<span ng-click="laggas()">admin page</span>
 	<div class="contentPreFooter">
 		<nav class="navbar navbar-inverse coloreGradiente">
 			<div ng-include="'pagineSoloClient/navbar.html'">
@@ -114,10 +115,11 @@
 								{{poste.descrizione}} {{poste.punto_ristoro }} <br />
 								Aggiunto da: {{poste.mail }}
 							</div>
-							<div class="col-sm-2" style="">
+							{{lagga}}
+ 							<div class="col-sm-2" ng-if="lagga">
 
-								<button type="button" ng-click="delete(poste._id, poste.citta)"
-									class="btn btn-info">Cancella</button> <br />
+								<button type="button" ng-click="delete(poste._id)"
+									class="btn btn-info">Cancella</button><br />
 									<button type="button" ng-click="dettaglio(poste._id)"
 									class="btn btn-info">Dettaglio</button>
 							</div>
