@@ -60,7 +60,7 @@
 </head>
 
 <body ng-controller="genericCtrl" ng-init="getLuogoMap(null)">
-	ad
+	
 	<div class="contentPreFooter">
 		<nav class="navbar navbar-inverse coloreGradiente">
 			<div ng-include="'pagineSoloClient/navbar.html'">
@@ -97,7 +97,7 @@
 						luogo trovato</div>
 					<div ng-repeat="poste in result.luogoCercato.listaLuoghi"
 						class="row divLuogo ombra">
-						<div ng-click="dettaglio(poste._id)" style="width: 100%; cursor: pointer;" >
+						<div style="width: 100%; cursor: pointer;" >
 							<div class="col-sm-3" style="">
 								<div ng-if="poste.foto != null">
 									<img src="/users/leggi/{{poste.foto}}" class="img-circle"
@@ -109,15 +109,17 @@
 										alt="logo">
 								</div>
 							</div>
-							<div class="col-sm-6" style="" style="cursor: pointer;">
+							<div class="col-sm-6"  style="cursor: pointer;">
 								 {{poste.ricerca}} {{poste.nome}} {{poste.via}} {{poste.citta}} <br />
 								{{poste.descrizione}} {{poste.punto_ristoro }} <br />
 								Aggiunto da: {{poste.mail }}
 							</div>
 							<div class="col-sm-2" style="">
 
-								<button type="button" ng-click="delete(poste._id)"
-									class="btn btn-info">Cancella</button>
+								<button type="button" ng-click="delete(poste._id, poste.citta)"
+									class="btn btn-info">Cancella</button> <br />
+									<button type="button" ng-click="dettaglio(poste._id)"
+									class="btn btn-info">Dettaglio</button>
 							</div>
 						</div>
 					</div>

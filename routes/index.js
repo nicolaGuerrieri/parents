@@ -535,26 +535,33 @@ router.get('/detail', function (req, res) {
 });
 
 router.get('/delete', function (req, res) {
-	log.info('/detail', channel, '', '');
-
+	log.info('/delete', channel, '', '');
+	console.log("  >>>>>>>>>>>  " + req.query.id_luogo);
 	var idLuogo;
 	var fromDettaglio = false;
+	var o_id = new mongo.ObjectID(req.query.id_luogo);
 
-
-	db.collection("luogo_evento").findByIdAndRemove(req.params.todoId, (err, todo) => {  
-		// As always, handle any potential errors:
-		if (err) return res.status(500).send(err);
-		// We'll create a simple object to send back with a message and the id of the document that was removed
-		// You can really do this however you want, though.
-		const response = {
-			message: "Todo successfully deleted",
-			id: todo._id
-		}; 
-	});
+ 	db.collection("luogo_evento")
+	.remove(
+	{
+		_id: o_id
+	},
+	function (err, docs) {
+		if (err) {
+			log.error('/delete', channel, 'err: ', err);
+			res.render('/', {
+			 
+			});
+		}
+		log.info('/elimina', channel, 'docs: ', docs);
 		res.render('allAdmin.html', {
-			dettaglio: fromDettaglio,
-			idLuogo: req.query.id_luogo
+			citta: req.query.city,
+			loggato: false,
+			tipoLuogoEvento: ""
 		});
+	});
+	 
+	
 });
 function ensureAuthenticated(req, res, next) {
 	log.info('', "Autenticato " + req.isAuthenticated());
