@@ -193,6 +193,7 @@ router.post('/upload', upload.single('file'), function(req, res) {
 			"utente" : utente,
 			"listaAttivita" : nuovoEvento.listaAttivita,
 			"mail": nuovoEvento.mail,
+			"imageUrl": nuovoEvento.imageUrl,
 			"foto" : nomeImmagine
 		}
 		log.info('/insert', luogoEvento);
