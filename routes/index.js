@@ -225,11 +225,49 @@ router.all('/cerca', function (req, res, next) {
 		tipoLuogoEvento = 3;
 	}
 	var loggato = req.isAuthenticated();
+
+	if(city == 'frichifrichi'){
+		res.render('allAdmin.html', {
+			citta: city,
+			loggato: loggato,
+			tipoLuogoEvento: tipoLuogoEvento
+		});
+	}
 	res.render('index.html', {
 		citta: city,
 		loggato: loggato,
 		tipoLuogoEvento: tipoLuogoEvento
 	});
+});
+router.all('/admin', function (req, res, next) {
+	var city = "";
+	var tipoLuogoEvento = "";
+	log.info('/admin', channel, 'citta: ', req.query.citta);
+
+	var lagga = false;
+	if(req.query.ricc == '16piediminimo'){
+		lagga = true
+	}
+	if (req.body.citta) {
+		// citta dobbiamo cercare du db
+		city = req.body.citta;
+		tipoLuogoEvento = req.body.tipoLuogoEvento;
+	} else if (req.query.citta) {
+		city = req.query.citta;
+	} else {
+		// passiamo un default
+		city = "Roma";
+		tipoLuogoEvento = 3;
+	}
+	var loggato = req.isAuthenticated();
+
+	 	res.render('allAdmin.html', {
+			lagga: lagga,
+			citta: city,
+			loggato: loggato,
+			tipoLuogoEvento: tipoLuogoEvento
+		});
+ 
 });
 
 router
@@ -502,6 +540,35 @@ router.get('/detail', function (req, res) {
 	});
 });
 
+router.get('/delete', function (req, res) {
+	log.info('/delete', channel, '', '');
+	console.log("  >>>>>>>>>>>  " + req.query.id_luogo);
+	var idLuogo;
+	var fromDettaglio = false;
+	var o_id = new mongo.ObjectID(req.query.id_luogo);
+
+ 	db.collection("luogo_evento")
+	.remove(
+	{
+		_id: o_id
+	},
+	function (err, docs) {
+		if (err) {
+			log.error('/delete', channel, 'err: ', err);
+			res.render('/', {
+			 
+			});
+		}
+		log.info('/elimina', channel, 'docs: ', docs);
+		res.render('allAdmin.html', {
+			citta: req.query.city,
+			loggato: false,
+			tipoLuogoEvento: ""
+		});
+	});
+	 
+	
+});
 function ensureAuthenticated(req, res, next) {
 	log.info('', "Autenticato " + req.isAuthenticated());
 	if (req.isAuthenticated()) {
