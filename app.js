@@ -14,7 +14,7 @@ var InstagramStrategy = require('passport-instagram').Strategy;
 
 
 var nomeFileConf = "conf";
-var configEnv= require('./conf-env.js');
+var configEnv= require('../conf-env.js');
 var app = express();
 app.engine('html', require('ejs').renderFile);
 

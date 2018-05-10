@@ -14,7 +14,7 @@ const opts = {
 //const log = require('simple-node-logger').createSimpleLogger();
 const log = require('simple-node-logger').createRollingFileLogger(opts);
 
-var configEnv = require('../conf-env.js');
+var configEnv = require('../../conf-env.js');
 log.info('urldb', configEnv.ambiente.urldb, '', '');
 console.log(configEnv.ambiente.urldb);
 
