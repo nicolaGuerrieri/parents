@@ -542,7 +542,7 @@ router.get('/detail', function (req, res) {
 
 router.get('/delete', function (req, res) {
 	log.info('/delete', channel, '', '');
-	console.log("  >>>>>>>>>>>  " + req.query.id_luogo);
+	console.log("delete  >>>>>>>>>>>  " + req.query.city);
 	var idLuogo;
 	var fromDettaglio = false;
 	var o_id = new mongo.ObjectID(req.query.id_luogo);
@@ -562,6 +562,7 @@ router.get('/delete', function (req, res) {
 		log.info('/elimina', channel, 'docs: ', docs);
 		res.render('allAdmin.html', {
 			citta: req.query.city,
+			lagga: true,
 			loggato: false,
 			tipoLuogoEvento: ""
 		});
